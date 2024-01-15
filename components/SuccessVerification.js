@@ -5,30 +5,30 @@ import { useNavigation } from '@react-navigation/native';
 const SuccessVerification = () => {
     const navigation = useNavigation();
 
-  return (
-    <View style={{flex:1,margin: 24 }}>
-    <View style={{alignItems:'center', marginHorizontal: 107, marginTop:209 }}>
-      <Image source={require ('../assets/Icons/success.png')}/>
-      </View>
+    return (
+        <View style={{ flex: 1, margin: 24 }}>
+            <View style={{ alignItems: 'center', marginHorizontal: 107, marginTop: 209 }}>
+                <Image source={require('../assets/Icons/success.png')} />
+            </View>
 
-<View style={{marginTop:40}}>
-    <Text style={{textAlign:'center', fontSize:25, color:'black', fontWeight:'700'}}>Congratulations!</Text>
-</View>
+            <View style={{ marginTop: 40 }}>
+                <Text style={{ textAlign: 'center', fontSize: 25, color: 'black', fontWeight: '700' }}>Congratulations!</Text>
+            </View>
 
-<View style={{marginTop:12,}}>
-    <Text style={{textAlign:'center', fontSize:17, color:'grey'}}>
-        your account is complete, please enjoy the best menu from us.
-    </Text>
-</View>
+            <View style={{ marginTop: 12, }}>
+                <Text style={{ textAlign: 'center', fontSize: 17, color: 'grey' }}>
+                    Your Account is Complete, Please LOGIN and Enjoy the best menu from us.
+                </Text>
+            </View>
 
 
-<View style={{ marginTop: 40 }}>
-                <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
+            <View style={{ marginTop: 40 }}>
+                <TouchableOpacity onPress={() => navigation.navigate("SignIn1")}>
                     <Text style={styles.btnstarted}>Get Started</Text>
                 </TouchableOpacity>
             </View>
-    </View>
-  )
+        </View>
+    )
 }
 
 export default SuccessVerification

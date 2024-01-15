@@ -14,12 +14,8 @@ const SignIn1 = () => {
   //remember me switch
   const [isEnabled, setIsEnabled] = useState(true);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  //show / hide password
-  const [showPassword, setShowPassword] = useState(false);
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
+  
+  
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
@@ -27,40 +23,63 @@ const SignIn1 = () => {
     { !email ? setEmailError(true) : setEmailError(false) }
     { !password ? setPasswordError(true) : setPasswordError(false) }
     if (!email || !password) { return; }
-    setVisible(true)
-    //firebase
-    firestore().collection('Authors').where('Email', '==', email).get()
-      .then(
-        res => {
-          // console.log(JSON.stringify(res.docs[0].data()));
-          if (res.docs[0].data().Password == password) {
-            loginData(res.docs[0].data().Name, res.docs[0].data().email, res.docs[0].data().userId);
-            navigation.navigate("Home")
-          } else {
-            setVisible(false)
-            Alert.alert('Login Fail', 'Password not match with entered Email. Try Again', [
-              { text: 'OK', onPress: () => { } },
-            ]);
-          }
-        })
-      .catch(err => {
-        setVisible(false)
-        Alert.alert('404 Not Found', 'Sorry! User not found. Try Again', [
-          { text: 'OK', onPress: () => { } },
-        ]);
+    // setVisible(true)
+
+    auth().signInWithEmailAndPassword(email, password)
+      .then((res) => {
+        console.log(res)
+        // Alert.alert('Congratulations', [
+        //   { text: 'OK', onPress: () => { } },
+        // ]);
+        navigation.navigate("Home")
       })
+      .catch(err => {
+        console.log(err)
+        // Alert.alert('404 Not Found', 'Sorry! User not found. Try Again', [
+        //   { text: 'OK', onPress: () => { } },
+        // ]);
+      })
+
+
+
+
+
+
+
+
+    //firebase
+    // firestore().collection('Authors').where('Email', '==', email).get()
+    //   .then(
+    //     res => {
+    //       // console.log(JSON.stringify(res.docs[0].data()));
+    //       if (res.docs[0].data().Password == password) {
+    //         loginData(res.docs[0].data().Name, res.docs[0].data().email, res.docs[0].data().userId);
+    //         navigation.navigate("Home")
+    //       } else {
+    //         setVisible(false)
+    //         Alert.alert('Login Fail', 'Password not match with entered Email. Try Again', [
+    //           { text: 'OK', onPress: () => { } },
+    //         ]);
+    //       }
+    //     })
+    //   .catch(err => {
+    //     setVisible(false)
+    //     Alert.alert('404 Not Found', 'Sorry! User not found. Try Again', [
+    //       { text: 'OK', onPress: () => { } },
+    //     ]);
+    //   })
   }
 
   //save login data in Async storage
-  const loginData = async (name, email, userId) => {
-    await AsyncStorage.setItem('NAME', name);
-    await AsyncStorage.setItem('EMAIL', email);
-    await AsyncStorage.setItem('USERID', userId);
-    setVisible(false)
-    setEmail('')
-    setPassword('')
-    navigation.navigate("Home")
-  }
+  // const loginData = async (name, email, userId) => {
+  //   await AsyncStorage.setItem('NAME', name);
+  //   await AsyncStorage.setItem('EMAIL', email);
+  //   await AsyncStorage.setItem('USERID', userId);
+  //   setVisible(false)
+  //   setEmail('')
+  //   setPassword('')
+  //   navigation.navigate("Home")
+  // }
 
 
 
@@ -69,29 +88,26 @@ const SignIn1 = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const loginFn = () => {
-    auth().signInWithEmailAndPassword(email, password)
-      .then(() => {
-        if (email === '' && password === '') {
-          Alert.alert("Please Enter Email and Password")
-        }
-        // console.log(res)
-        Alert.alert("Logged In")
-        navigation.navigate("Home")
-      })
-      .catch((err) => {
-        console.log(err)
-        Alert.alert(err.code)
-      })
-  }
+  // const loginFn = () => {
+  //   auth().signInWithEmailAndPassword(email, password)
+  //     .then(() => {
+  //       if (email === '' && password === '') {
+  //         Alert.alert("Please Enter Email and Password")
+  //       }
+  //       // console.log(res)
+  //       Alert.alert("Logged In")
+  //       navigation.navigate("Home")
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //       Alert.alert(err.code)
+  //     })
+  // }
 
   const navigation = useNavigation();
   const [isSecureEntry, setIsSecureEntry] = useState(true)
 
-  const OnLoginHandler = () => {
-
-    navigation.navigate("Home")
-  }
+  
 
   return (
     <View style={{ flex: 1, margin: 20, padding: 10, }}>
@@ -168,22 +184,8 @@ const SignIn1 = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       {/* remember me button */}
-      <View style={styles.optionsContainer}>
+      {/* <View style={styles.optionsContainer}>
         <View style={styles.switchContainer}>
           <Switch
             value={isEnabled}
@@ -196,7 +198,10 @@ const SignIn1 = () => {
             switchLeftPx={3} switchRightPx={3}
           />
           <Text style={styles.switchText}>Remember Me</Text>
-        </View>
+        </View> */}
+
+
+
         {/* <View>
           <TouchableHighlight
             // onPress={() => props.navigation.navigate("ResetPassword")}
@@ -204,7 +209,7 @@ const SignIn1 = () => {
             <Text style={styles.forgotText}>Forgot Password?</Text>
           </TouchableHighlight>
         </View> */}
-      </View>
+      {/* </View> */}
 
       {/* <View style={styles.signinContainer}>
         <TouchableOpacity
@@ -214,12 +219,12 @@ const SignIn1 = () => {
           <View style={styles.signinContent}>
             <Text style={styles.signinText}>Sign in</Text>
             <View style={styles.signinIcon}> */}
-              {/* <Image
+      {/* <Image
                 style={styles.arrowIcon}
                 source={require("../Assets/Icons/RightArrow.png")}
               /> */}
-              {/* <Icon name="arrow-right" size={20} color="#900" /> */}
-            {/* </View>
+      {/* <Icon name="arrow-right" size={20} color="#900" /> */}
+      {/* </View>
           </View>
         </TouchableOpacity>
       </View> */}

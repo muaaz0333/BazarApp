@@ -612,13 +612,17 @@ const Home = () => {
 
     const [modalVisible, setModalVisible] = useState(false);
 
+
+    const [like, setLike]=useState(false)
+
+
     return (
         <View style={{ flex: 1 }}>
 
 
             {/* home app bar */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 16, marginHorizontal: 24, paddingBottom: 10 }}>
-                <TouchableOpacity onPress={() => navigation.navigate("HomeSearch")}>
+                <TouchableOpacity onPress={() => navigation.navigate("Books")}>
                     <Image source={require("../assets/Icons/Search.png")} style={{ tintColor: 'black' }} />
                 </TouchableOpacity>
 
@@ -642,7 +646,7 @@ const Home = () => {
                             setCurrentIndex((x / width).toFixed(0));
                         }}
                         renderItem={({ item }) => (
-                            <View style={{ marginBottom:5,width: width / 1.2, backgroundColor: '#FAF9FD', elevation: 5, borderRadius: 8, flexDirection: 'row', marginTop: 16, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 6 }}>
+                            <View style={{ marginBottom: 5, width: width / 1.2, backgroundColor: '#FAF9FD', elevation: 5, borderRadius: 8, flexDirection: 'row', marginTop: 16, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 6 }}>
                                 <View style={{ flex: 1, }}>
                                     <Text style={{ fontSize: 20, color: 'black', fontWeight: 'bold', paddingLeft: 23 }}>{item.Title}</Text>
                                     <Text style={{ fontSize: 18, color: 'black', paddingLeft: 23 }}>{item.Subtitle}</Text>
@@ -708,7 +712,7 @@ const Home = () => {
                     <Text style={{ fontSize: 18, color: 'black', fontWeight: 'bold' }}>
                         Top of Week
                     </Text>
-                    <TouchableOpacity >
+                    <TouchableOpacity onPress={() => navigation.navigate("Books")}>
                         <Text style={{ color: '#54408C', fontSize: 16, fontWeight: '800' }}>
                             See all
                         </Text>
@@ -841,13 +845,6 @@ const Home = () => {
                     /> */}
                 </View>
 
-
-
-
-
-
-
-
             </ScrollView>
             <View style={{ position: 'absolute', width: '100%', backgroundColor: 'white', bottom: 0, paddingVertical: 6 }}>
                 <BottomTab />
@@ -882,8 +879,15 @@ const Home = () => {
                                         {title}
                                     </Text>
                                     {/* Favourites */}
-                                    <TouchableOpacity>
-                                        <Image style={{width:24, height:24}} source={require('../assets/Icons/unfavorite.png')} />
+                                    <TouchableOpacity onPress={()=>{
+                                        setLike(!like)
+                                    }}>
+                                        {/* <Image style={{ width: 24, height: 24 }} source={require('../assets/Icons/unfavorite.png')} /> */}
+                                        {
+                                            like ? <Image style={{ width: 24, height: 24 }} source={require('../assets/Icons/favourite.png')} /> 
+                                            :
+                                            <Image style={{ width: 24, height: 24 }} source={require('../assets/Icons/unfavorite.png')} /> 
+                                        }
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -996,7 +1000,7 @@ const Home = () => {
                             </View>
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', alignContent: 'center', alignSelf: 'center' }}>
-                                <View style={{ marginTop: 10 }}>
+                                <View style={{ marginTop: 20 }}>
                                     <TouchableOpacity>
                                         <Text style={styles.btncontinue}>
                                             Continue Shopping
@@ -1004,7 +1008,7 @@ const Home = () => {
                                     </TouchableOpacity>
                                 </View>
 
-                                <View style={{ marginLeft: 8, marginTop: 10, }}>
+                                <View style={{ marginLeft: 8, marginTop: 20, }}>
                                     <TouchableOpacity onPress={() => navigation.navigate("CartConfirmOrder")}>
                                         <Text style={styles.btnviewcart}>View Cart</Text>
                                     </TouchableOpacity>

@@ -38,6 +38,7 @@ import OrderHistory from './components/OrderHistory';
 import HelpCenter from './components/HelpCenter';
 import Offers from './components/Offers';
 import DetailNewsPromos from './components/DetailNewsPromos';
+import Books from './components/Books';
 // import SplashScreen from 'react-native-splash-screen'
 
 
@@ -300,6 +301,14 @@ const App = () => {
         <Stack.Screen
           name="Offers"
           component={Offers}
+          options={{ headerShown: false }}
+        >
+        </Stack.Screen>
+
+
+        <Stack.Screen
+          name="Books"
+          component={Books}
           options={{ headerShown: false }}
         >
         </Stack.Screen>

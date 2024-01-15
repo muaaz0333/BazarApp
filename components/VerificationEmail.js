@@ -3,7 +3,10 @@ import React, { useRef } from 'react'
 import { useNavigation } from '@react-navigation/native';
 
 
-const VerificationEmail = () => {
+const VerificationEmail = ({route}) => {
+
+    const {email}=route.params;
+
     const navigation = useNavigation();
     const firstInput = useRef()
     const secondInput = useRef()
@@ -22,7 +25,7 @@ const VerificationEmail = () => {
             <View style={{ alignItems: 'center' }}>
                 <Text style={{ fontSize: 23, color: "#121212", fontWeight: 'bold', marginTop: 29, lineHeight: 27, }}>Verification Email</Text>
                 <Text style={{ marginVertical: 8, fontSize: 15, color: 'grey' }}>Please Enter the code we just sent to email</Text>
-                <Text style={{ color: 'black', fontWeight: '500', fontSize: 14 }}>muaazahmad001@gmail.com</Text>
+                <Text style={{ color: 'black', fontWeight: '700', fontSize: 15 }}>{email}</Text>
             </View>
 
             <View style={{ flexDirection: 'row', marginTop: 40, alignSelf: 'center' }}>

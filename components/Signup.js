@@ -7,65 +7,91 @@ import auth from '@react-native-firebase/auth';
 
 
 const Signup = () => {
+    const [visible, setVisible] = useState(false);
+
+    const [nameError, setNameError] = useState(false);
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
 
     const [email, setEmail] = useState("")
-    const [fPassword, setFPassword] = useState("")
+    const [password, setPassword] = useState("")
     const [name, setName] = useState("")
 
-    const signupTestFn = () => {
-        auth().createUserWithEmailAndPassword(email, fPassword).then(() => {
-            Alert.alert("User Created with credentials\n" + email, fPassword + "\n\n Please Login")
-            navigation.navigate("SignIn1")
+
+
+
+    const validDataLogin = async () => {
+        // { !name ? setNameError(true) : setNameError(false) }
+        { !email ? setEmailError(true) : setEmailError(false) }
+        { !password ? setPasswordError(true) : setPasswordError(false) }
+        if ( !email || !password ) { return; }
+        setVisible(true)
+
+        auth().createUserWithEmailAndPassword(email, password).then(() => {
+            // Alert.alert("User Created with credentials\n" + email, fPassword + "\n\n Please Login")
+            navigation.navigate("VerificationEmail", {email: email})
         })
             .catch((err) => {
                 console.log(err.code)
                 Alert.alert(err.code)
             })
+
+      }
+
+
+
+
+
+
+    
+
+    const signupTestFn = () => {
+       
     }
 
 
 
     const navigation = useNavigation();
     const [isSecureEntry, setIsSecureEntry] = useState(true)
-    const [password, setPassword] = useState('');
-    const [suggestions, setSuggestions] = useState([]);
-    const [strength, setStrength] = useState('');
-    const validatePassword = (input) => {
-        let newSuggestions = [];
-        if (input.length < 8) {
-            newSuggestions.push('Minimum 8 Characters')
-        }
-        if (!/\d/.test(input)) {
-            newSuggestions.push('Atleast 1 number (1-9)')
-        }
+    // const [password, setPassword] = useState('');
+    // const [suggestions, setSuggestions] = useState([]);
+    // const [strength, setStrength] = useState('');
+    // const validatePassword = (input) => {
+    //     let newSuggestions = [];
+    //     if (input.length < 8) {
+    //         newSuggestions.push('Minimum 8 Characters')
+    //     }
+    //     if (!/\d/.test(input)) {
+    //         newSuggestions.push('Atleast 1 number (1-9)')
+    //     }
 
-        if (!/[A-Z]/.test(input) || !/[a-z]/.test(input)) {
-            newSuggestions.push('Atleast lowercase or uppercase letters')
-        }
+    //     if (!/[A-Z]/.test(input) || !/[a-z]/.test(input)) {
+    //         newSuggestions.push('Atleast lowercase or uppercase letters')
+    //     }
 
-        // if (!/[^A-Za-z0-9]/.test(input)) {
-        //     newSuggestions.push('Include at least one special character')
+    //     // if (!/[^A-Za-z0-9]/.test(input)) {
+    //     //     newSuggestions.push('Include at least one special character')
 
 
-        setSuggestions(newSuggestions);
+    //     setSuggestions(newSuggestions);
 
-        // Determine password strength based on suggestions 
-        if (newSuggestions.length === 0) {
-            setStrength('Very Strong');
-        }
-        else if (newSuggestions.length <= 1) {
-            setStrength('Strong')
-        }
-        else if (newSuggestions.length <= 2) {
-            setStrength('Moderate')
-        }
-        else if (newSuggestions.length <= 3) {
-            setStrength('Weak')
-        }
-        else {
-            setStrength('Too Weak')
-        }
-    }
+    //     // Determine password strength based on suggestions 
+    //     if (newSuggestions.length === 0) {
+    //         setStrength('Very Strong');
+    //     }
+    //     else if (newSuggestions.length <= 1) {
+    //         setStrength('Strong')
+    //     }
+    //     else if (newSuggestions.length <= 2) {
+    //         setStrength('Moderate')
+    //     }
+    //     else if (newSuggestions.length <= 3) {
+    //         setStrength('Weak')
+    //     }
+    //     else {
+    //         setStrength('Too Weak')
+    //     }
+    // }
 
     return (
         <View style={{ flex: 1, margin: 20, padding: 10, }}>
@@ -97,6 +123,7 @@ const Signup = () => {
                     style={{ color: 'black', borderRadius: 10, marginTop: 6, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
                 />
             </View>
+            {/* {nameError ? <Text style={styles.error}>Please enter name.</Text> : null} */}
 
             <View>
                 <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 16 }}>
@@ -114,6 +141,7 @@ const Signup = () => {
                     style={{ color: 'black', borderRadius: 10, marginTop: 6, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
                 />
             </View>
+            {emailError ? <Text style={styles.error}>Please enter email.</Text> : null}
 
             <View>
                 <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 16 }}>
@@ -127,11 +155,11 @@ const Signup = () => {
                     placeholderTextColor={"grey"}
                     secureTextEntry={isSecureEntry}
                     style={{ flex: 1, color: 'black', }}
-                    value={fPassword}
+                    value={password}
                     onChangeText={(text) => {
                         setPassword(text);
-                        validatePassword(text)
-                        setFPassword(text)
+                        // validatePassword(text)
+                        setPassword(text)
                     }}
 
 
@@ -142,16 +170,18 @@ const Signup = () => {
                     }
                 </TouchableOpacity>
             </View>
-            <View style={{ marginTop: 12 }}>
+            {passwordError ? <Text style={styles.error}>Please enter password.</Text> : null}
+
+            {/* <View style={{ marginTop: 12 }}> */}
                 {/* <Text style={styles.strengthText}>
                     Password Strength: {strength}
                 </Text> */}
-                <Text style={styles.suggestionsText}>
+                {/* <Text style={styles.suggestionsText}>
                     {suggestions.map((suggestion, index) => (
                         <Text key={index}>
                             {suggestion}{'\n'}
                         </Text>))}
-                </Text>
+                </Text> */}
                 {/* <View style={styles.strengthMeter}> */}
                 {/* <View style={{
                         width: `${(strength === 'Very Strong' ? 100 :
@@ -166,11 +196,11 @@ const Signup = () => {
                     }}>
                     </View> */}
                 {/* </View> */}
-            </View>
+            {/* </View> */}
 
 
-            <View style={{ marginTop: 15 }}>
-                <TouchableOpacity onPress={() => signupTestFn()}><Text style={styles.btncontinue} >Register</Text></TouchableOpacity>
+            <View style={{ marginTop: 12 }}>
+                <TouchableOpacity onPress={validDataLogin}><Text style={styles.btncontinue} >Register</Text></TouchableOpacity>
             </View>
 
             <View style={{ marginTop: 22 }}>
@@ -180,7 +210,7 @@ const Signup = () => {
                 </View>
             </View>
 
-            <View style={{ marginTop: 55 }}>
+            <View style={{ marginTop: 35 }}>
                 <Text style={{ textAlign: 'center', color: 'grey', fontSize: 14, fontWeight: '500' }}>
                     By clicking Register, you agree to our
                 </Text>
@@ -221,7 +251,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 85,
         borderWidth: 2.5
     },
-
+    error: {
+        color: 'red',
+        marginHorizontal: 0,
+        marginTop: 1,
+        fontFamily: 'AirbnbCereal_M',
+      },
 
 
 

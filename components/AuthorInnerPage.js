@@ -1,7 +1,7 @@
 import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
-
+import firestore from '@react-native-firebase/firestore';
 
 // const authorObjects = [
 //     {
@@ -303,12 +303,12 @@ const AuthorInnerPage = ({ route }) => {
             </View>
 
             <View style={{ alignItems: 'center', marginTop: 25 }}>
-                <Image style={{ width: 124, height: 124, borderRadius: 62 }} source={(item.image)} />
-                <Text style={{ fontSize: 16, color: 'black', marginTop: 7 }}>{item.designation}</Text>
+                <Image style={{ width: 124, height: 124, borderRadius: 62 }} source={({uri:item.Image})} />
+                <Text style={{ fontSize: 16, color: 'black', marginTop: 7 }}>{item.Designation}</Text>
             </View>
 
             <View style={{ alignItems: 'center', marginTop: 7 }}>
-                <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold' }}>{item.name}</Text>
+                <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold' }}>{item.Name}</Text>
             </View>
 
             <View style={{ flexDirection: 'row', marginRight: 0, alignSelf: 'center', marginTop: 0, alignItems: 'center' }}>
@@ -316,7 +316,7 @@ const AuthorInnerPage = ({ route }) => {
 
                 <View style={{ flexDirection: 'row', marginTop: 8, alignItems: 'center' }}>
                     {
-                        item.ratingStars == 1 ?
+                        item.Rating == 1 ?
                             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                                 <Image style={{ width: 27, height: 27, marginRight: 3 }} source={require('../assets/Icons/StarYellow.png')} />
                                 <Image style={{ width: 27, height: 27, marginRight: 3 }} source={require('../assets/Icons/Star.png')} />
@@ -328,7 +328,7 @@ const AuthorInnerPage = ({ route }) => {
                             null
                     }
                     {
-                        item.ratingStars == 2 ?
+                        item.Rating == 2 ?
                             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                                 <Image style={{ width: 27, height: 27, marginRight: 3 }} source={require('../assets/Icons/StarYellow.png')} />
                                 <Image style={{ width: 27, height: 27, marginRight: 3 }} source={require('../assets/Icons/StarYellow.png')} />
@@ -340,7 +340,7 @@ const AuthorInnerPage = ({ route }) => {
                             null
                     }
                     {
-                        item.ratingStars == 3 ?
+                        item.Rating == 3 ?
                             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                                 <Image style={{ width: 27, height: 27, marginRight: 3 }} source={require('../assets/Icons/StarYellow.png')} />
                                 <Image style={{ width: 27, height: 27, marginRight: 3 }} source={require('../assets/Icons/StarYellow.png')} />
@@ -352,7 +352,7 @@ const AuthorInnerPage = ({ route }) => {
                             null
                     }
                     {
-                        item.ratingStars == 4 ?
+                        item.Rating == 4 ?
                             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                                 <Image style={{ width: 27, height: 27, marginRight: 3 }} source={require('../assets/Icons/StarYellow.png')} />
                                 <Image style={{ width: 27, height: 27, marginRight: 3 }} source={require('../assets/Icons/StarYellow.png')} />
@@ -364,7 +364,7 @@ const AuthorInnerPage = ({ route }) => {
                             null
                     }
                     {
-                        item.ratingStars == 5 ?
+                        item.Rating == 5 ?
                             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                                 <Image style={{ width: 27, height: 27, marginRight: 3 }} source={require('../assets/Icons/StarYellow.png')} />
                                 <Image style={{ width: 27, height: 27, marginRight: 3 }} source={require('../assets/Icons/StarYellow.png')} />
@@ -397,11 +397,11 @@ const AuthorInnerPage = ({ route }) => {
 
             <View style={{ marginTop: 8, }}>
                 <Text style={{ fontSize: 15, textAlign: 'justify', color:'grey' }}>
-                    {item.about}
+                    {item.About}
                 </Text>
             </View>
 
-            <View style={{  marginTop: 22 }}>
+            <View style={{  marginTop: 10 }}>
                 <Text style={{ fontSize: 18, color: 'black', fontWeight: '800' }}>
                     Products
                 </Text>

@@ -291,7 +291,7 @@ const CartConfirmOrder = () => {
                                             <Image style={{ width: 36, height: 36, borderRadius: 30, resizeMode: 'contain', }} source={require('../assets/Icons/K.png')} />
                                         </View>
                                         <View style={{ marginLeft: 16 }}>
-                                            <Text style={{ fontSize: 18, color: 'black', fontWeight: '700' }}>KNET</Text>
+                                            <Text style={{ fontSize: 18, color: 'black', fontWeight: '700' }}>Cash</Text>
                                         </View>
                                     </View>
 

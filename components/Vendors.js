@@ -1,7 +1,8 @@
-import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
-import React from 'react'
+import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import firestore from '@react-native-firebase/firestore';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -68,7 +69,7 @@ const Vendors = () => {
     return (
         <View style={{ flex: 1 }}>
             {/* home app bar */}
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 23, marginHorizontal:24 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 23, marginHorizontal: 24 }}>
                 <TouchableOpacity onPress={() => navigation.navigate("Home")}>
                     <Image source={require("../assets/Icons/Arrow_Left.png")} style={{ tintColor: 'black' }} />
                 </TouchableOpacity>
@@ -80,13 +81,13 @@ const Vendors = () => {
             </View>
 
 
-            <View style={{ marginTop: 20, marginHorizontal:24 }}>
-                <Text style={{ fontSize: 16, color:'grey'}}>
+            <View style={{ marginTop: 20, marginHorizontal: 24 }}>
+                <Text style={{ fontSize: 16, color: 'grey' }}>
                     Our Vendors
                 </Text>
             </View>
 
-            <View style={{  marginBottom: 10 , marginHorizontal:24}}>
+            <View style={{ marginBottom: 10, marginHorizontal: 24 }}>
                 <Text style={{ fontSize: 20, color: '#54408C', fontWeight: '700' }}>
                     Vendors
                 </Text>
@@ -106,7 +107,7 @@ const Vendors = () => {
                     },
                     // tabBarItemStyle: {width: 140,},
                 }}>
-                <Tab.Screen name="All" component={All} options={{ tabBarStyle: { backgroundColor: 'white', }, tabBarItemStyle: {  }, }} />
+                <Tab.Screen name="All" component={All} options={{ tabBarStyle: { backgroundColor: 'white', }, tabBarItemStyle: {}, }} />
                 <Tab.Screen name="Books" component={Books} />
                 <Tab.Screen name="Poems" component={Poems} />
                 <Tab.Screen name="Special for you" component={SpecialForYou} />
@@ -119,11 +120,116 @@ const Vendors = () => {
 }
 
 const All = () => {
+
+    // Vendors
+    const [vendor, setVendor] = useState([]); // Initial empty array of users
+    useEffect(() => {
+        const subscriber = firestore()
+            .collection('Vendors')
+            .onSnapshot(querySnapshot => {
+                const vendor = [];
+
+                querySnapshot.forEach(documentSnapshot => {
+                    vendor.push({
+                        ...documentSnapshot.data(),
+                        key: documentSnapshot.id,
+                    });
+                });
+
+                setVendor(vendor);
+                // setLoading(false);
+            });
+
+        // Unsubscribe from events when no longer in use
+        return () => subscriber();
+    }, []);
+
+
+
     return (
-        <View style={{ flex: 1, marginHorizontal:24 }}>
+        <View style={{ flex: 1, marginHorizontal: 24 }}>
 
             <View style={{ marginTop: 0, }}>
                 <FlatList
+                    data={vendor}
+                    showsHorizontalScrollIndicator={false}
+                    numColumns={3}
+                    renderItem={({ item }) => (
+                        <View style={{ marginRight: 8, marginBottom: 10, marginVertical: 15,  }}>
+                            <View style={{ backgroundColor: '#fff' ,}}>
+                                <Image
+                                    style={{ width: 99, height: 100, resizeMode: 'contain' }}
+                                    source={{uri:item.Image}} />
+                            </View>
+                            <View style={{ marginTop: 5, marginBottom: 3 }}>
+                                <Text style={{ fontSize: 17, fontWeight: '600', color: 'black' }}>{item.Name}</Text>
+                            </View>
+                            <View style={{ marginTop: 5 }}>
+                                {
+                                    item.Rating == 1 ?
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                                            <Image source={require('../assets/Icons/StarYellow.png')} />
+                                            <Image source={require('../assets/Icons/Star.png')} />
+                                            <Image source={require('../assets/Icons/Star.png')} />
+                                            <Image source={require('../assets/Icons/Star.png')} />
+                                            <Image source={require('../assets/Icons/Star.png')} />
+                                        </View>
+                                        :
+                                        null
+                                }
+                                {
+                                    item.Rating == 2 ?
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                                            <Image source={require('../assets/Icons/StarYellow.png')} />
+                                            <Image source={require('../assets/Icons/StarYellow.png')} />
+                                            <Image source={require('../assets/Icons/Star.png')} />
+                                            <Image source={require('../assets/Icons/Star.png')} />
+                                            <Image source={require('../assets/Icons/Star.png')} />
+                                        </View>
+                                        :
+                                        null
+                                }
+                                {
+                                    item.Rating == 3 ?
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                                            <Image source={require('../assets/Icons/StarYellow.png')} />
+                                            <Image source={require('../assets/Icons/StarYellow.png')} />
+                                            <Image source={require('../assets/Icons/StarYellow.png')} />
+                                            <Image source={require('../assets/Icons/Star.png')} />
+                                            <Image source={require('../assets/Icons/Star.png')} />
+                                        </View>
+                                        :
+                                        null
+                                }
+                                {
+                                    item.Rating == 4 ?
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                                            <Image source={require('../assets/Icons/StarYellow.png')} />
+                                            <Image source={require('../assets/Icons/StarYellow.png')} />
+                                            <Image source={require('../assets/Icons/StarYellow.png')} />
+                                            <Image source={require('../assets/Icons/StarYellow.png')} />
+                                            <Image source={require('../assets/Icons/Star.png')} />
+                                        </View>
+                                        :
+                                        null
+                                }
+                                {
+                                    item.Rating == 5 ?
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                                            <Image source={require('../assets/Icons/StarYellow.png')} />
+                                            <Image source={require('../assets/Icons/StarYellow.png')} />
+                                            <Image source={require('../assets/Icons/StarYellow.png')} />
+                                            <Image source={require('../assets/Icons/StarYellow.png')} />
+                                            <Image source={require('../assets/Icons/StarYellow.png')} />
+                                        </View>
+                                        :
+                                        null
+                                }
+                            </View>
+                        </View>
+                    )}
+                />
+                {/* <FlatList
                     data={vendorObjects}
                     numColumns={3}
                     showsHorizontalScrollIndicator={false}
@@ -205,7 +311,7 @@ const All = () => {
                             </View>
                         )
                     }}
-                />
+                /> */}
             </View>
 
 

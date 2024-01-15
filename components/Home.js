@@ -469,6 +469,36 @@ const authorDetails = [
 
 const Home = () => {
 
+
+
+
+    // TopSliders
+    const [slider, setSlider] = useState([]); // Initial empty array of users
+    useEffect(() => {
+        const subscriber = firestore()
+            .collection('TopSliders')
+            .onSnapshot(querySnapshot => {
+                const slider = [];
+
+                querySnapshot.forEach(documentSnapshot => {
+                    slider.push({
+                        ...documentSnapshot.data(),
+                        key: documentSnapshot.id,
+                    });
+                });
+
+                setSlider(slider);
+                // setLoading(false);
+            });
+
+        // Unsubscribe from events when no longer in use
+        return () => subscriber();
+    }, []);
+
+
+
+
+
     // Vendors
     const [vendors, setVendors] = useState([]); // Initial empty array of users
     useEffect(() => {
@@ -566,9 +596,9 @@ const Home = () => {
     const [star, setStar] = useState();
 
     const openModal = (pic, title, vendor, about, rating, price, ratingStars) => {
-        setImg({uri:pic});
+        setImg({ uri: pic });
         setTitle(title)
-        setVendor({uri: vendor})
+        setVendor({ uri: vendor })
         setAbout(about)
         setRating(rating)
         setPrice(price)
@@ -603,6 +633,33 @@ const Home = () => {
                 {/* Slider with flatlist */}
                 <View style={{ marginTop: 1, marginHorizontal: 24 }}>
                     <FlatList
+                        data={slider}
+                        showsHorizontalScrollIndicator={false}
+                        horizontal
+                        pagingEnabled
+                        onScroll={e => {
+                            const x = e.nativeEvent.contentOffset.x;
+                            setCurrentIndex((x / width).toFixed(0));
+                        }}
+                        renderItem={({ item }) => (
+                            <View style={{ marginBottom:5,width: width / 1.2, backgroundColor: '#FAF9FD', elevation: 5, borderRadius: 8, flexDirection: 'row', marginTop: 16, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 6 }}>
+                                <View style={{ flex: 1, }}>
+                                    <Text style={{ fontSize: 20, color: 'black', fontWeight: 'bold', paddingLeft: 23 }}>{item.Title}</Text>
+                                    <Text style={{ fontSize: 18, color: 'black', paddingLeft: 23 }}>{item.Subtitle}</Text>
+                                    <TouchableOpacity onPress={() => navigation.navigate("OrderStatus")} style={{ paddingLeft: 23, alignSelf: 'flex-start', marginTop: 14, }}>
+                                        <Text style={[styles.btnordernow, { alignItems: 'center' }]}>Order Now</Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View>
+                                    <Image
+                                        style={styles.image}
+                                        source={{ uri: item.Image }} />
+                                </View>
+                            </View>
+                        )}
+                    />
+                    {/* <FlatList
                         data={itemss}
                         keyExtractor={item => item.id}
                         horizontal
@@ -631,7 +688,7 @@ const Home = () => {
                                 </View>
                             )
                         }}
-                    />
+                    /> */}
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
                         {
                             data.map((item, index) => {
@@ -647,7 +704,7 @@ const Home = () => {
 
 
                 {/*  books flatlist */}
-                <View style={{ marginTop: 27, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 24 }}>
+                <View style={{ marginTop: 10, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 24 }}>
                     <Text style={{ fontSize: 18, color: 'black', fontWeight: 'bold' }}>
                         Top of Week
                     </Text>
@@ -666,13 +723,13 @@ const Home = () => {
                         horizontal
                         renderItem={({ item }) => (
                             <TouchableOpacity style={{ marginRight: 10, marginTop: 12 }}
-                            onPress={() => openModal(item.Image, item.Name, item.VendorImg, item.About, item.Rating, item.Price,item.RatingStars)}
+                                onPress={() => openModal(item.Image, item.Name, item.VendorImg, item.About, item.Rating, item.Price, item.RatingStars)}
                             >
-                            <View>
-                                <Image style={styles.image2} source={{ uri: item.Image }} />
-                                <Text style={{ marginTop: 6, fontSize: 15, color: 'black', fontWeight: '700' }}>{item.Name}</Text>
-                                <Text style={{ color: '#54408C', fontWeight: '700' }}>${item.Price}</Text>
-                            </View>
+                                <View>
+                                    <Image style={styles.image2} source={{ uri: item.Image }} />
+                                    <Text style={{ marginTop: 6, fontSize: 15, color: 'black', fontWeight: '700' }}>{item.Name}</Text>
+                                    <Text style={{ color: '#54408C', fontWeight: '700' }}>${item.Price}</Text>
+                                </View>
                             </TouchableOpacity>
                         )}
                     />
@@ -713,7 +770,7 @@ const Home = () => {
                         showsHorizontalScrollIndicator={false}
                         horizontal
                         renderItem={({ item }) => (
-                            <View style={{backgroundColor: 'white', height: 80, width: 80, marginRight: 7, alignContent: 'center', justifyContent: 'center', alignItems: 'center', elevation: 5  }}>
+                            <View style={{ backgroundColor: 'white', height: 80, width: 80, marginRight: 7, alignContent: 'center', justifyContent: 'center', alignItems: 'center', elevation: 5 }}>
                                 <Image
                                     style={{ width: 67, height: 50, resizeMode: 'contain' }}
                                     source={{ uri: item.Image }} />
@@ -756,11 +813,13 @@ const Home = () => {
                         showsHorizontalScrollIndicator={false}
                         horizontal
                         renderItem={({ item }) => (
-                            <View style={{ marginRight: 13, marginBottom: 90 }}>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate("AuthorInnerPage", { item: item })}
+                                style={{ marginRight: 13, marginBottom: 90 }}>
                                 <Image style={{ height: 102, width: 102, borderRadius: 50, resizeMode: 'contain' }} source={{ uri: item.Image }} />
                                 <Text style={{ marginTop: 1, fontSize: 16, color: 'black', fontWeight: '700', marginLeft: 3 }}>{item.Name}</Text>
                                 <Text style={{ color: 'gray', fontWeight: '700', marginLeft: 3, fontSize: 14 }}>{item.Designation}</Text>
-                            </View>
+                            </TouchableOpacity>
                         )}
                     />
                     {/* <FlatList
@@ -800,11 +859,8 @@ const Home = () => {
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
-
-
             >
                 <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.6)' }}>
-
 
                     <View style={{ flex: 1, backgroundColor: 'white', marginTop: 35, elevation: 10, borderTopLeftRadius: 60, borderTopRightRadius: 60 }}>
 
@@ -825,7 +881,10 @@ const Home = () => {
                                     <Text style={{ fontSize: 19, color: 'black', fontWeight: '800' }}>
                                         {title}
                                     </Text>
-                                    <Image source={require('../assets/Icons/favourite.png')} />
+                                    {/* Favourites */}
+                                    <TouchableOpacity>
+                                        <Image style={{width:24, height:24}} source={require('../assets/Icons/unfavorite.png')} />
+                                    </TouchableOpacity>
                                 </View>
                             </View>
 

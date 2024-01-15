@@ -9,7 +9,7 @@ const NewsPromosNotification = () => {
         <View style={{ flex: 1, marginHorizontal: 24 }}>
             {/* Appbar */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 25 }}>
-                <TouchableOpacity onPress={() => { }}>
+                <TouchableOpacity onPress={() => { navigation.navigate("DeliveryNotification")}}>
                     <Image source={require("../assets/Icons/Arrow_Left.png")} style={{ tintColor: 'black' }} />
                 </TouchableOpacity>
                 <View style={{ marginHorizontal: 90 }}>
@@ -28,9 +28,13 @@ const NewsPromosNotification = () => {
                 <View style={{ marginTop: 16, }}>
                     <View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ color: '#54408C', fontSize: 18, fontWeight: '700' }}>
-                                Promotion
-                            </Text>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate("DetailNewsPromos")}>
+                                <Text style={{ color: '#54408C', fontSize: 18, fontWeight: '700' }}>
+                                    Promotion
+                                </Text>
+
+                            </TouchableOpacity>
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ fontWeight: '400', fontSize: 15, color: 'grey' }}>
                                     Oct 21
@@ -80,11 +84,11 @@ const NewsPromosNotification = () => {
                     </Text>
                 </View>
                 <View style={{ marginTop: 16, flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TouchableOpacity onPress={() => navigation.navigate("DetailNewsPromos")}>
+                   
                         <Text style={{ fontSize: 17, color: '#3784FB', fontWeight: '700' }}>
                             Information
                         </Text>
-                    </TouchableOpacity>
+              
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ fontSize: 15, fontWeight: '400', color: 'grey' }}>
                             Sept 16

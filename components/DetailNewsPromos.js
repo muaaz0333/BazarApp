@@ -1,6 +1,7 @@
 import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
+import NewsPromosNotification from './NewsPromosNotification';
 
 const { height, width } = Dimensions.get('window')
 
@@ -11,7 +12,7 @@ const DetailNewsPromos = () => {
 
             {/* Appbar */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 25 , marginHorizontal: 24}}>
-                <TouchableOpacity onPress={() => { }}>
+                <TouchableOpacity onPress={() => {navigation.navigate('NewsPromosNotification') }}>
                     <Image source={require("../assets/Icons/Arrow_Left.png")} style={{ tintColor: 'black' }} />
                 </TouchableOpacity>
                 <View style={{ marginHorizontal: 88 }}>
@@ -22,9 +23,9 @@ const DetailNewsPromos = () => {
             {/* UI */}
             <View style={{ padding: 15, width: width / 1.1, backgroundColor: '#FAF9FD', elevation: 5, borderRadius: 8, flexDirection: 'row', marginTop: 19, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 17 }}>
                 <View style={{ flex: 1, }}>
-                    <Text style={{ fontSize: 22, color: '#54408C', fontWeight: 'bold', paddingLeft: 23, }}>50% Discount On All Desert</Text>
-                    <Text style={{ fontSize: 18, color: '#54408C', paddingLeft: 23, fontWeight: '500' }}>Grab itu now!</Text>
-                    <TouchableOpacity style={{ paddingLeft: 23, alignSelf: 'flex-start', marginTop: 14, }}>
+                    <Text style={{ fontSize: 22, color: '#54408C', fontWeight: 'bold', paddingLeft: 5, }}>50% Discount On All Desert</Text>
+                    <Text style={{ fontSize: 18, color: '#54408C', paddingLeft: 5, fontWeight: '500' }}>Grab itu now!</Text>
+                    <TouchableOpacity style={{ paddingLeft: 5, alignSelf: 'flex-start', marginTop: 14, }}>
                         <Text style={[styles.btnordernow, { alignItems: 'center' }]}>Order Now</Text>
                     </TouchableOpacity>
                 </View>

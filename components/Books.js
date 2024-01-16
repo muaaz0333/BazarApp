@@ -12,7 +12,7 @@ const Books = () => {
     const navigation = useNavigation();
 
 
-    // Categories
+    // Books
     // const [loading, setLoading] = useState(true); // Set loading to true on component mount
     const [books, setBooks] = useState([]); // Initial empty array of users
     useEffect(() => {
@@ -156,7 +156,7 @@ const Books = () => {
 
             </View>
 
-            <ScrollView style={{ marginTop: 20, marginHorizontal: 24, marginBottom: 20 }}
+            <View style={{ marginTop: 20, marginHorizontal: 24, marginBottom: 20, flex:1 }}
                 showsVerticalScrollIndicator={false}>
                 <FlatList
                     data={books}
@@ -187,7 +187,7 @@ const Books = () => {
 
                     )}
                 />
-            </ScrollView>
+            </View>
 
 
             <Modal

@@ -8,7 +8,7 @@ import firestore from '@react-native-firebase/firestore';
 
 const Tab = createMaterialTopTabNavigator();
 
-const categoryBooks = [
+const novels = [
   {
     id: '1',
     pic: require('../assets/Images/categoryBook1.png'),
@@ -31,6 +31,30 @@ const categoryBooks = [
   },
   {
     id: '3',
+    pic: require('../assets/Images/HarryPotter.png'),
+    title: 'Harry Potter',
+    price: '64.99',
+    vendor: require('../assets/Images/VFrame6.png'),
+    about: 'One of the reasons we love React so much is how easy it is to reuse the same component wherever it makes sense.',
+    rating: '(4.0)',
+    ratingStars: 4,
+  },
+  {
+    id: '4',
+    pic: require('../assets/Images/RohintonMistry.png'),
+    title: 'Rohinton Mistry',
+    price: '10.99',
+    vendor: require('../assets/Images/VFrame6.png'),
+    about: 'One of the reasons we love React so much is how easy it is to reuse the same component wherever it makes sense.',
+    rating: '(4.0)',
+    ratingStars: 4,
+  },
+]
+
+
+const romantic = [
+  {
+    id: '1',
     pic: require('../assets/Images/categoryBook3.png'),
     title: 'The Good Sister',
     price: '27.12',
@@ -40,9 +64,9 @@ const categoryBooks = [
     ratingStars: 2,
   },
   {
-    id: '4',
+    id: '2',
     pic: require('../assets/Images/categoryBook4.png'),
-    title: 'Where are you',
+    title: 'The WAITING',
     price: '27.12',
     vendor: require('../assets/Images/VFrame4.png'),
     about: 'One of the reasons we love React so much is how easy it is to reuse the same component wherever it makes sense.',
@@ -50,9 +74,9 @@ const categoryBooks = [
     ratingStars: 4,
   },
   {
-    id: '5',
+    id: '3',
     pic: require('../assets/Images/categoryBook5.png'),
-    title: 'Bright',
+    title: 'Where are You',
     price: '18',
     vendor: require('../assets/Images/VFrame5.png'),
     about: 'One of the reasons we love React so much is how easy it is to reuse the same component wherever it makes sense.',
@@ -60,10 +84,30 @@ const categoryBooks = [
     ratingStars: 3,
   },
   {
-    id: '6',
+    id: '4',
     pic: require('../assets/Images/categoryBook6.png'),
-    title: 'Zombie Spacesuit',
+    title: 'Young Women',
     price: '14.99',
+    vendor: require('../assets/Images/VFrame6.png'),
+    about: 'One of the reasons we love React so much is how easy it is to reuse the same component wherever it makes sense.',
+    rating: '(4.0)',
+    ratingStars: 4,
+  },
+  {
+    id: '5',
+    pic: require('../assets/Images/Soul.jpg'),
+    title: 'SOUL',
+    price: '24.99',
+    vendor: require('../assets/Images/VFrame6.png'),
+    about: 'One of the reasons we love React so much is how easy it is to reuse the same component wherever it makes sense.',
+    rating: '(4.0)',
+    ratingStars: 4,
+  },
+  {
+    id: '6',
+    pic: require('../assets/Images/Thecovenantofwater.jpg'),
+    title: 'Covenant Water',
+    price: '90.99',
     vendor: require('../assets/Images/VFrame6.png'),
     about: 'One of the reasons we love React so much is how easy it is to reuse the same component wherever it makes sense.',
     rating: '(4.0)',
@@ -104,12 +148,10 @@ const Category = () => {
           tabBarStyle: {
             backgroundColor: '#FFFFFF',
           },
-          // tabBarItemStyle: {width: 140,},
+          tabBarItemStyle: { width: 120, },
         }}>
-        <Tab.Screen name="All" component={All} options={{ tabBarStyle: {}, tabBarItemStyle: {}, }} />
+        <Tab.Screen name="All" component={All} options={{ tabBarStyle: {}, tabBarItemStyle: { width: 120, }, }} />
         <Tab.Screen name="Novels" component={Novels} />
-        <Tab.Screen name="Self Love" component={SelfLove} />
-        <Tab.Screen name="Science" component={Science} />
         <Tab.Screen name="Romantic" component={Romantic} />
       </Tab.Navigator>
 
@@ -155,34 +197,34 @@ const All = () => {
 
 
   return (
-    <View style={{ flex: 1, marginHorizontal: 24 }}>
+    // <View style={{ flex: 1 }}>
 
-      <View style={{ marginTop: 0, marginBottom: 70, alignItems: 'center' }}>
-        <FlatList
-          data={category}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          numColumns={2}
-          renderItem={({ item }) => (
-            <View style={{ marginRight: 9, marginTop: 40, }}>
-              <View>
-                <Image style={{ width: 150, height: 160, resizeMode: 'contain', borderRadius: 10 }} source={{uri:item.Image}} />
-              </View>
-              <View>
-                <Text style={{ color: 'black', fontSize: 17, fontWeight: '700', marginTop: 8 }}>
-                  {item.Name}
-                </Text>
-              </View>
-              <View>
-                <Text style={{ color: '#54408C', fontSize: 16, fontWeight: '700', marginTop: 4 }}>
-                  ${item.Price}
-                </Text>
-              </View>
+    <View style={{ marginTop: 10, marginBottom: 60, marginHorizontal: 24, alignItems: 'center', flex: 1 }}>
+      <FlatList
+        data={category}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        numColumns={2}
+        renderItem={({ item }) => (
+          <View style={{ marginHorizontal: 5, marginTop: 10 }}>
+            <View>
+              <Image style={{ width: 150, height: 160, resizeMode: 'contain', borderRadius: 10 }} source={{ uri: item.Image }} />
             </View>
+            <View>
+              <Text style={{ color: 'black', fontSize: 17, fontWeight: '700', marginTop: 3 }}>
+                {item.Name}
+              </Text>
+            </View>
+            <View>
+              <Text style={{ color: '#54408C', fontSize: 16, fontWeight: '700', marginTop: 2 }}>
+                ${item.Price}
+              </Text>
+            </View>
+          </View>
 
-          )}
-        />
-        {/* <FlatList
+        )}
+      />
+      {/* <FlatList
           data={categoryBooks}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
@@ -210,7 +252,7 @@ const All = () => {
             )
           }}
         /> */}
-      </View>
+
 
 
 
@@ -230,42 +272,69 @@ const All = () => {
         </View>
       </View> */}
 
+      {/*  </View> */}
     </View>
   )
 }
+
 const Novels = () => {
   return (
-    <View>
-      <Text>
-        Novels
-      </Text>
+    <View style={{ marginTop: 10, marginBottom: 60, marginHorizontal: 24, alignItems: 'center', flex: 1 }}>
+      <FlatList
+        data={novels}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        numColumns={2}
+        renderItem={({ item }) => (
+          <View style={{ marginHorizontal: 5, marginTop: 10 }}>
+            <View>
+              <Image style={{ width: 150, height: 160, resizeMode: 'contain', borderRadius: 10 }} source={item.pic} />
+            </View>
+            <View>
+              <Text style={{ color: 'black', fontSize: 17, fontWeight: '700', marginTop: 3 }}>
+                {item.title}
+              </Text>
+            </View>
+            <View>
+              <Text style={{ color: '#54408C', fontSize: 16, fontWeight: '700', marginTop: 2 }}>
+                ${item.price}
+              </Text>
+            </View>
+          </View>
+
+        )}
+      />
     </View>
   )
 }
-const SelfLove = () => {
-  return (
-    <View>
-      <Text>
-        Self Love
-      </Text>
-    </View>
-  )
-}
-const Science = () => {
-  return (
-    <View>
-      <Text>
-        Science
-      </Text>
-    </View>
-  )
-}
+
 const Romantic = () => {
   return (
-    <View>
-      <Text>
-        Romantic
-      </Text>
+    <View style={{ marginTop: 10, marginBottom: 60, marginHorizontal: 24, alignItems: 'center', flex: 1 }}>
+      <FlatList
+        data={romantic}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        numColumns={2}
+        renderItem={({ item }) => (
+          <View style={{ marginHorizontal: 5, marginTop: 10 }}>
+            <View>
+              <Image style={{ width: 150, height: 160, resizeMode: 'contain', borderRadius: 10 }} source={item.pic} />
+            </View>
+            <View>
+              <Text style={{ color: 'black', fontSize: 17, fontWeight: '700', marginTop: 3 }}>
+                {item.title}
+              </Text>
+            </View>
+            <View>
+              <Text style={{ color: '#54408C', fontSize: 16, fontWeight: '700', marginTop: 2 }}>
+                ${item.price}
+              </Text>
+            </View>
+          </View>
+
+        )}
+      />
     </View>
   )
 }

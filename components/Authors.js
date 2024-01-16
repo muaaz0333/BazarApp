@@ -329,13 +329,11 @@ const Authors = () => {
           tabBarStyle: {
             backgroundColor: '#FFFFFF',
           },
-          // tabBarItemStyle: {width: 140,},
+          tabBarItemStyle: { width: 120, },
         }}>
-        <Tab.Screen name="All" component={All} options={{ tabBarStyle: {}, tabBarItemStyle: {}, }} />
+        <Tab.Screen name="All" component={All} options={{ tabBarStyle: {}, tabBarItemStyle: { width: 120, }, }} />
         <Tab.Screen name="Poets" component={Poets} />
-        <Tab.Screen name="Playwrights" component={Playwrights} />
         <Tab.Screen name="Novelists" component={Novelists} />
-        <Tab.Screen name="Journalists" component={Journalists} />
       </Tab.Navigator>
     </View>
   )
@@ -382,7 +380,7 @@ const All = () => {
             >
               <View style={{ flexDirection: 'row' }}>
                 <View>
-                  <Image style={{ width: 72, height: 72, borderRadius: 36 }} source={{uri:item.Image}} />
+                  <Image style={{ width: 72, height: 72, borderRadius: 36 }} source={{ uri: item.Image }} />
                 </View>
                 <View style={{ marginLeft: 10, flex: 1 }}>
                   <Text style={{ fontSize: 19, fontWeight: '800', color: 'black' }}>
@@ -441,35 +439,72 @@ const All = () => {
 
 const Poets = () => {
   return (
-    <View>
-      <Text>Poets</Text>
+    <View style={{ flex: 1 }}>
+
+      <View style={{ marginTop: 16, marginRight: 10 }}>
+        <FlatList
+          data={authorObjects}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <View style={{ marginHorizontal: 24, marginTop: 10, marginBottom: 10 }}
+
+            >
+              <View style={{ flexDirection: 'row' }}>
+                <View>
+                  <Image style={{ width: 72, height: 72, borderRadius: 36 }} source={item.image} />
+                </View>
+                <View style={{ marginLeft: 10, flex: 1 }}>
+                  <Text style={{ fontSize: 19, fontWeight: '800', color: 'black' }}>
+                    {item.name}
+                  </Text>
+                  <Text style={{ fontSize: 16, fontWeight: '500', textAlign: 'justify', color: 'grey' }} >{item.designation}</Text>
+                </View>
+              </View>
+            </View>
+          )}
+        />
+      </View>
+
     </View>
   )
 }
 
-const Playwrights = () => {
-  return (
-    <View>
-      <Text>Playwrights</Text>
-    </View>
-  )
-}
 
 const Novelists = () => {
   return (
-    <View>
-      <Text>Novelists</Text>
+    <View style={{ flex: 1 }}>
+
+      <View style={{ marginTop: 16, marginRight: 10 }}>
+        <FlatList
+          data={authorObjects}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <View style={{ marginHorizontal: 24, marginTop: 10, marginBottom: 10 }}
+
+            >
+              <View style={{ flexDirection: 'row' , alignItems:'center'}}>
+                <View>
+                  <Image style={{ width: 72, height: 72, borderRadius: 36 }} source={item.image} />
+                </View>
+                <View style={{ marginLeft: 10, flex: 1 }}>
+                  <Text style={{ fontSize: 19, fontWeight: '800', color: 'black' }}>
+                    {item.name}
+                  </Text>
+                  {/* <Text style={{ fontSize: 16, fontWeight: '500', textAlign: 'justify', color: 'grey' }} >{item.designation}</Text> */}
+                </View>
+              </View>
+            </View>
+          )}
+        />
+      </View>
+
     </View>
   )
 }
 
-const Journalists = () => {
-  return (
-    <View>
-      <Text>Journalists</Text>
-    </View>
-  )
-}
+
 export default Authors
 
 const styles = StyleSheet.create({})

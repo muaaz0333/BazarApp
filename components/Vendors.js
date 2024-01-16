@@ -101,17 +101,16 @@ const Vendors = () => {
                 screenOptions={{
                     tabBarScrollEnabled: true,
                     tabBarActiveTintColor: 'black',
-                    tabBarLabelStyle: { fontSize: 12, fontWeight: 'bold' },
+                    tabBarLabelStyle: { fontSize: 13, fontWeight: 'bold' },
                     tabBarStyle: {
                         backgroundColor: '#FFFFFF',
+
                     },
-                    // tabBarItemStyle: {width: 140,},
+                    tabBarItemStyle: { width: 120, }
                 }}>
-                <Tab.Screen name="All" component={All} options={{ tabBarStyle: { backgroundColor: 'white', }, tabBarItemStyle: {}, }} />
+                <Tab.Screen name="All" component={All} options={{ tabBarStyle: { backgroundColor: 'white', }, tabBarItemStyle: { width: 120, } }} />
                 <Tab.Screen name="Books" component={Books} />
                 <Tab.Screen name="Poems" component={Poems} />
-                <Tab.Screen name="Special for you" component={SpecialForYou} />
-                <Tab.Screen name="Stationary" component={Stationary} />
             </Tab.Navigator>
 
 
@@ -155,11 +154,11 @@ const All = () => {
                     showsHorizontalScrollIndicator={false}
                     numColumns={3}
                     renderItem={({ item }) => (
-                        <View style={{ marginRight: 8, marginBottom: 10, marginVertical: 15,  }}>
-                            <View style={{ backgroundColor: '#fff' ,}}>
+                        <View style={{ marginRight: 8, marginBottom: 10, marginVertical: 15, }}>
+                            <View style={{ backgroundColor: '#fff', }}>
                                 <Image
                                     style={{ width: 99, height: 100, resizeMode: 'contain' }}
-                                    source={{uri:item.Image}} />
+                                    source={{ uri: item.Image }} />
                             </View>
                             <View style={{ marginTop: 5, marginBottom: 3 }}>
                                 <Text style={{ fontSize: 17, fontWeight: '600', color: 'black' }}>{item.Name}</Text>
@@ -394,47 +393,145 @@ const All = () => {
 }
 
 const Books = () => {
+
+    // Books
+    // const [loading, setLoading] = useState(true); // Set loading to true on component mount
+    const [books, setBooks] = useState([]); // Initial empty array of users
+    useEffect(() => {
+        const subscriber = firestore()
+            .collection('Books')
+            .onSnapshot(querySnapshot => {
+                const books = [];
+
+                querySnapshot.forEach(documentSnapshot => {
+                    books.push({
+                        ...documentSnapshot.data(),
+                        key: documentSnapshot.id,
+                    });
+                });
+
+                setBooks(books);
+                // setLoading(false);
+            });
+
+        // Unsubscribe from events when no longer in use
+        return () => subscriber();
+    }, []);
+
+    // if (loading) {
+    //       return <ActivityIndicator />;
+    //   }
+
     return (
-        <View>
-            <Text>
-                Books
-            </Text>
+        <View style={{ flex: 1 }}>
+
+            <View style={{ marginTop: 20, marginHorizontal: 24, marginBottom: 20 }}
+                showsVerticalScrollIndicator={false}>
+                <FlatList
+                    data={books}
+                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
+                    numColumns={2}
+                    renderItem={({ item }) => (
+                        <View
+                            style={{ marginHorizontal: 5 }}
+                        // onPress={() => openModal(item.Image, item.Name, item.VendorImg, item.About, item.Rating, item.Price, item.RatingStars)}
+                        >
+                            <View style={{ marginRight: 9, marginTop: 10, }}>
+                                <View>
+                                    <Image style={styles.image2} source={{ uri: item.Image }} />
+                                </View>
+                                <View>
+                                    <Text style={{ color: 'black', fontSize: 17, fontWeight: '700', marginTop: 4 }}>
+                                        {item.Name}
+                                    </Text>
+                                </View>
+                                <View>
+                                    <Text style={{ color: '#54408C', fontSize: 16, fontWeight: '700', marginTop: 2 }}>
+                                        ${item.Price}
+                                    </Text>
+                                </View>
+                            </View>
+                        </View>
+
+                    )}
+                />
+            </View>
+
         </View>
     )
 }
 
 const Poems = () => {
+    // Poems
+    // const [loading, setLoading] = useState(true); // Set loading to true on component mount
+    const [poems, setPoems] = useState([]); // Initial empty array of users
+    useEffect(() => {
+        const subscriber = firestore()
+            .collection('Categories')
+            .onSnapshot(querySnapshot => {
+                const poems = [];
+
+                querySnapshot.forEach(documentSnapshot => {
+                    poems.push({
+                        ...documentSnapshot.data(),
+                        key: documentSnapshot.id,
+                    });
+                });
+
+                setPoems(poems);
+                // setLoading(false);
+            });
+
+        // Unsubscribe from events when no longer in use
+        return () => subscriber();
+    }, []);
+
+    // if (loading) {
+    //       return <ActivityIndicator />;
+    //   }
     return (
-        <View>
-            <Text>
-                Poems
-            </Text>
+        <View style={{ flex: 1 }}>
+            <View style={{ marginTop: 20, marginBottom: 20, alignItems: 'center', marginHorizontal: 24, }}>
+                <FlatList
+                    data={poems}
+                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
+                    numColumns={2}
+                    renderItem={({ item }) => (
+                        <View style={{ marginHorizontal: 5, marginTop: 10 }}>
+                            <View>
+                                <Image style={{ width: 150, height: 160, resizeMode: 'contain', borderRadius: 10 }} source={{ uri: item.Image }} />
+                            </View>
+                            <View>
+                                <Text style={{ color: 'black', fontSize: 17, fontWeight: '700', marginTop: 3 }}>
+                                    {item.Name}
+                                </Text>
+                            </View>
+                            <View>
+                                <Text style={{ color: '#54408C', fontSize: 16, fontWeight: '700', marginTop: 2 }}>
+                                    ${item.Price}
+                                </Text>
+                            </View>
+                        </View>
+
+                    )}
+                />
+            </View>
         </View>
     )
 }
 
-const SpecialForYou = () => {
-    return (
-        <View>
-            <Text>
-                Special For you
-            </Text>
-        </View>
-    )
-}
-
-const Stationary = () => {
-    return (
-        <View>
-            <Text>
-                Stationary
-            </Text>
-        </View>
-    )
-}
 
 
 
 export default Vendors
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    image2: {
+        width: 140,
+        height: 195,
+        borderRadius: 10,
+        resizeMode: 'contain'
+    },
+})

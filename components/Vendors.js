@@ -74,10 +74,10 @@ const Vendors = () => {
                     <Image source={require("../assets/Icons/Arrow_Left.png")} style={{ tintColor: 'black' }} />
                 </TouchableOpacity>
 
-                <Text style={{ fontSize: 20, color: 'black', fontWeight: '800' }}>Vendors</Text>
-                <TouchableOpacity>
+                <Text style={{ fontSize: 20, color: 'black', fontWeight: '800', marginRight:115 }}>Vendors</Text>
+                {/* <TouchableOpacity>
                     <Image source={require("../assets/Icons/Search.png")} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
 
 

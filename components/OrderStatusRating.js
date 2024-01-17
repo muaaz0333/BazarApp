@@ -58,7 +58,7 @@ const OrderStatusRating = () => {
 
              {/* Button */}
              <View style={{ marginTop: 40 }}>
-                <TouchableOpacity onPress={() => { navigation.navigate("OrderStatusRating")}}>
+                <TouchableOpacity onPress={() => { navigation.navigate("Home")}}>
                     <Text style={styles.donebtn}>
                         Done
                     </Text>

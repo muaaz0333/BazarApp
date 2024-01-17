@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput,Alert } from 'react-native'
 import React, { useRef } from 'react'
 import { useNavigation } from '@react-navigation/native';
 
@@ -7,7 +7,7 @@ const VerificationEmail = ({route}) => {
 
     const {email}=route.params;
 
-    const navigation = useNavigation();
+    const navigation = useNavigation()
     const firstInput = useRef()
     const secondInput = useRef()
     const thirdInput = useRef()
@@ -69,7 +69,9 @@ const VerificationEmail = ({route}) => {
 
             <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 24 }}>
                 <Text style={{ color: 'grey', fontWeight: '600' }}>If you didn't receive a code?</Text>
+                <TouchableOpacity onPress={()=>{Alert.alert("Your code is", "7864")}}>
                 <Text style={{ color: '#54408C', fontWeight: "700" }}> Resend</Text>
+                </TouchableOpacity>
             </View>
 
             <View style={{ marginTop: 43 }}>

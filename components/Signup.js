@@ -2,11 +2,41 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Alert } fro
 import React, { useState, useEffect } from 'react'
 import { Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
-import auth from '@react-native-firebase/auth';
+import auth, { firebase } from '@react-native-firebase/auth';
 // import { Validator } from 'react';
-
+import uuid from 'react-native-uuid'
+import firestore from '@react-native-firebase/firestore';
+import { doc, setDoc } from "@react-native-firebase/firestore"
 
 const Signup = () => {
+
+
+
+    const saveUser = () => {
+        const userId = uuid.v4()
+        firestore()
+            .collection('users')
+            .doc(userId)
+            .set({
+                name: name,
+                email: email,
+                password: password,
+                userId: userId,
+                cart: [],
+            })
+            .then(res => {
+                // navigation.goBack();
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+
+
+
+
+
     const [visible, setVisible] = useState(false);
 
     const [nameError, setNameError] = useState(false);
@@ -15,39 +45,79 @@ const Signup = () => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [phone, setPhone] = useState("")
     const [name, setName] = useState("")
 
-
+    async function dataStore() {
+        firestore()
+            .collection('Users_Profile')
+            .add({
+                name,email,phone,password
+            })
+            .then(() => {
+                console.log('User added!');
+            });
+        // const UserRef = doc(db, "User_Profile", auth.currentUser.userId)
+        // await setDoc(UserRef, {
+        //     name,
+        //     phone,
+        //     email,
+        //     password
+        // });
+    }
 
 
     const validDataLogin = async () => {
         // { !name ? setNameError(true) : setNameError(false) }
         { !email ? setEmailError(true) : setEmailError(false) }
         { !password ? setPasswordError(true) : setPasswordError(false) }
-        if ( !email || !password ) { return; }
+        if (!email || !password) { return; }
         setVisible(true)
 
-        auth().createUserWithEmailAndPassword(email, password).then(() => {
+        auth().createUserWithEmailAndPassword(email, password).then((userCredential) => {
+            const user = userCredential.user
+            if (user) {
+                navigation.navigate("VerificationEmail", { email: email })
+            }
+            dataStore()
+
             // Alert.alert("User Created with credentials\n" + email, fPassword + "\n\n Please Login")
-            navigation.navigate("VerificationEmail", {email: email})
+            firebase.auth().currentUser.sendEmailVerification()
+                .then(() => {
+                    Alert.alert("Code sent Successfully")
+                    // navigation.navigate("VerificationEmail", { email: email })
+                })
+                .catch((error) => {
+                    Alert.alert(error)
+                })
+
         })
-            .catch((err) => {
-                console.log(err.code)
-                Alert.alert(err.code)
+            .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                    // console.log('That email address is already in use!');
+                    Alert.alert('That email address is already in use!')
+                }
+
+                if (error.code === 'auth/invalid-email') {
+                    // console.log('That email address is invalid!');
+                    Alert.alert('That email address is invalid!')
+                }
+
+                console.error(error);
             })
 
-      }
+        // var user = firebase.auth().currentUser;
+        // user.sendEmailVerification()
+        //     .then(function () {
+        //         Alert.alert("Code Sent Successfully", "Check your Mail Box")
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error)
+        //     })
 
-
-
-
-
-
-    
-
-    const signupTestFn = () => {
-       
     }
+
+
 
 
 
@@ -112,13 +182,15 @@ const Signup = () => {
 
             <View>
                 <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 26 }}>
-                    Name
+                    Name:
                 </Text>
             </View>
             <View>
                 <TextInput
                     placeholder='Your Name'
                     inputMode='text'
+                    value={name}
+                    onChangeText={(text) => setName(text)}
                     placeholderTextColor={"grey"}
                     style={{ color: 'black', borderRadius: 10, marginTop: 6, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
                 />
@@ -127,12 +199,30 @@ const Signup = () => {
 
             <View>
                 <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 16 }}>
-                    Email
+                    Phone No:
+                </Text>
+            </View>
+            <View>
+                <TextInput
+                    placeholder='923334246144'
+                    inputMode='numeric'
+                    value={phone}
+                    onChangeText={(text) => setPhone(text)}
+                    placeholderTextColor={"grey"}
+                    style={{ color: 'black', borderRadius: 10, marginTop: 6, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
+                />
+            </View>
+
+
+            <View>
+                <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 16 }}>
+                    Email:
                 </Text>
             </View>
 
             <View>
                 <TextInput
+                    autoCapitalize='none'
                     inputMode='email'
                     placeholder='Your Email'
                     value={email}
@@ -145,12 +235,13 @@ const Signup = () => {
 
             <View>
                 <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 16 }}>
-                    Password
+                    Password:
                 </Text>
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', borderRadius: 10, marginTop: 6, backgroundColor: '#FAFAFA', paddingVertical: 3, paddingHorizontal: 16 }}>
                 <TextInput
+                    autoCapitalize='none'
                     placeholder='Your Password'
                     placeholderTextColor={"grey"}
                     secureTextEntry={isSecureEntry}
@@ -173,17 +264,17 @@ const Signup = () => {
             {passwordError ? <Text style={styles.error}>Please enter password.</Text> : null}
 
             {/* <View style={{ marginTop: 12 }}> */}
-                {/* <Text style={styles.strengthText}>
+            {/* <Text style={styles.strengthText}>
                     Password Strength: {strength}
                 </Text> */}
-                {/* <Text style={styles.suggestionsText}>
+            {/* <Text style={styles.suggestionsText}>
                     {suggestions.map((suggestion, index) => (
                         <Text key={index}>
                             {suggestion}{'\n'}
                         </Text>))}
                 </Text> */}
-                {/* <View style={styles.strengthMeter}> */}
-                {/* <View style={{
+            {/* <View style={styles.strengthMeter}> */}
+            {/* <View style={{
                         width: `${(strength === 'Very Strong' ? 100 :
                             (strength === 'Strong' ? 75 :
                                 (strength === 'Moderate' ? 50 :
@@ -195,7 +286,7 @@ const Signup = () => {
                                     (strength === 'Strong' ? 'green' : 'limegreen')))
                     }}>
                     </View> */}
-                {/* </View> */}
+            {/* </View> */}
             {/* </View> */}
 
 
@@ -256,7 +347,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 0,
         marginTop: 1,
         fontFamily: 'AirbnbCereal_M',
-      },
+    },
 
 
 

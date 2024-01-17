@@ -105,6 +105,10 @@ android {
 }
 
 dependencies {
+
+
+    implementation project(':react-native-vector-icons')
+
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
 
@@ -147,8 +151,13 @@ dependencies {
 
   implementation "com.google.firebase:firebase-auth"
   implementation "com.google.firebase:firebase-firestore"
-
+ implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
 
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+
+project.ext.vectoricons = [
+    iconFontNames: [ 'MaterialIcons.ttf', 'FontAwesome.ttf' ] // Specify font files
+]
+apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")

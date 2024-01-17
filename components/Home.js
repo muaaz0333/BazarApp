@@ -465,12 +465,7 @@ const authorDetails = [
     },
 ]
 
-
-
 const Home = () => {
-
-
-
 
     // TopSliders
     const [slider, setSlider] = useState([]); // Initial empty array of users
@@ -613,8 +608,12 @@ const Home = () => {
     const [modalVisible, setModalVisible] = useState(false);
 
 
-    const [like, setLike]=useState(false)
+    const [like, setLike] = useState(false)
 
+    const [cartItems, setCartItems] = useState([])
+    const addToCart = (item) => {
+        setCartItems([...cartItems, item])
+    }
 
     return (
         <View style={{ flex: 1 }}>
@@ -878,17 +877,34 @@ const Home = () => {
                                     <Text style={{ fontSize: 19, color: 'black', fontWeight: '800' }}>
                                         {title}
                                     </Text>
-                                    {/* Favourites */}
-                                    <TouchableOpacity onPress={()=>{
-                                        setLike(!like)
-                                    }}>
-                                        {/* <Image style={{ width: 24, height: 24 }} source={require('../assets/Icons/unfavorite.png')} /> */}
-                                        {
-                                            like ? <Image style={{ width: 24, height: 24 }} source={require('../assets/Icons/favourite.png')} /> 
-                                            :
-                                            <Image style={{ width: 24, height: 24 }} source={require('../assets/Icons/unfavorite.png')} /> 
-                                        }
-                                    </TouchableOpacity>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        {/* Favourites */}
+                                        <TouchableOpacity
+                                            style={{ marginRight: 5 }}
+                                            onPress={() => {
+                                                setLike(!like)
+                                            }}
+                                        >
+                                            {/* <Image style={{ width: 24, height: 24 }} source={require('../assets/Icons/unfavorite.png')} /> */}
+                                            {
+                                                like ?
+                                                    <Image style={{ width: 24, height: 24 }} source={require('../assets/Icons/favourite.png')} />
+                                                    :
+                                                    <Image style={{ width: 26, height: 26 }} source={require('../assets/Icons/unfavorite.png')} />
+                                            }
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={{ marginLeft: 9 }}
+                                            onPress={() => setCartItems(!cartItems)}>
+                                            {/* <Image style={{ height: 25, width: 24, marginLeft: 5 }} source={require('../assets/Icons/cartIcon.png')} /> */}
+                                            {
+                                                cartItems ?
+                                                    <Image style={{ width: 24, height: 24, tintColor: '#54408C' }} source={require('../assets/Icons/cartIconFill.png')} />
+                                                    :
+                                                    <Image style={{ width: 24, height: 24 }} source={require('../assets/Icons/cartIcon.png')} />
+                                            }
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                             </View>
 
@@ -1001,7 +1017,7 @@ const Home = () => {
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', alignContent: 'center', alignSelf: 'center' }}>
                                 <View style={{ marginTop: 20 }}>
-                                    <TouchableOpacity>
+                                    <TouchableOpacity onPress={() => { setModalVisible(false) }}>
                                         <Text style={styles.btncontinue}>
                                             Continue Shopping
                                         </Text>

@@ -1,13 +1,30 @@
-import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal } from 'react-native'
+import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import BottomTab from './BottomTab';
 import { NavigationContainer } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+
 
 const Profile = () => {
   const navigation = useNavigation();
   const [logout, setLogout] = useState(false);
+
+  const validDataLogin = async () => {
+  auth().signOut()
+  .then(()=>{
+    Alert.alert("User Signed Out")
+  })
+  .catch((error)=>{
+    Alert.alert(error)
+  })
+  navigation.navigate("SignIn1")
+}
+
+
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -28,7 +45,7 @@ const Profile = () => {
             <Text style={{ fontSize: 16, color: 'grey' }}>(+92) 333 4246144</Text>
           </View>
         </View>
-        <View style={{}}>
+        <View>
           <TouchableOpacity onPress={() => { setLogout(!logout) }}>
             <Text style={{ color: '#EF5A56', fontSize: 16, fontWeight: '700' }}>
               Logout
@@ -201,7 +218,7 @@ const Profile = () => {
                   </Text>
                 </View>
                 <View style={{ marginTop: 24 }}>
-                  <TouchableOpacity onPress={() => navigation.navigate("SignIn1")}>
+                  <TouchableOpacity onPress={() => validDataLogin()}>
                     <Text style={styles.btnlogout}>
                       Logout
                     </Text>

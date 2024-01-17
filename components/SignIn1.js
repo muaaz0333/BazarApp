@@ -1,14 +1,17 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Alert, TouchableHighlight } from 'react-native'
 import React, { useState } from 'react'
-import { Icon } from 'react-native-elements'
+// import { Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Switch } from 'react-native-switch'
+// import { Icon } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
+// import Icon from 'react-native-vector-icons/MaterialIcons'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 
-const SignIn1 = () => {
+const SignIn1 = ({route}) => {
 
   const [visible, setVisible] = useState(false);
   //remember me switch
@@ -31,6 +34,7 @@ const SignIn1 = () => {
         // Alert.alert('Congratulations', [
         //   { text: 'OK', onPress: () => { } },
         // ]);
+        Alert.alert("Login Successful")
         navigation.navigate("Home")
       })
       .catch(err => {
@@ -114,12 +118,14 @@ const SignIn1 = () => {
       <View style={{ alignSelf: 'flex-start', marginTop: 13 }}>
         <TouchableOpacity style={styles.skiptxt} onPress={() => { }}>
           <Image source={require('../assets/Icons/Arrow_Left.png')} />
+          {/* <Icon name="arrow_back" size={28} color={'black'}/> */}
         </TouchableOpacity>
       </View>
 
       <View>
         <Text style={{ fontSize: 23, color: "#121212", fontWeight: 'bold', marginTop: 25, lineHeight: 27 }}>
-          Welcome Back <Image source={require('../assets/Icons/hand.png')} />
+          Welcome Back 👋
+          {/* <Image source={require('../assets/Icons/hand.png')} /> */}
         </Text>
       </View>
       <View>
@@ -138,6 +144,7 @@ const SignIn1 = () => {
           onChangeText={(text) => setEmail(text)}
           placeholder='Your Email'
           inputMode='email'
+          autoCapitalize='none'
           placeholderTextColor={"grey"}
           style={{ color: 'black', borderRadius: 10, marginTop: 6, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
         />
@@ -153,6 +160,7 @@ const SignIn1 = () => {
       <View style={{ flexDirection: 'row', alignItems: 'center', borderRadius: 10, marginTop: 6, backgroundColor: '#FAFAFA', paddingVertical: 3, paddingHorizontal: 16 }}>
         <TextInput
           value={password}
+          autoCapitalize='none'
           onChangeText={(text) => setPassword(text)}
           placeholder='********'
           placeholderTextColor={"grey"}

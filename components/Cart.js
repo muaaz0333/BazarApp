@@ -23,7 +23,7 @@ const Cart = () => {
         </View>
         <View>
           <Text style={{ textAlign: 'center', fontSize: 17, color: 'black', fontWeight: '700', marginTop: 24 }}>
-            There is no Products
+            There is no Products 🔥
           </Text>
         </View>
       </View>

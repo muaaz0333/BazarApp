@@ -299,12 +299,12 @@ const Authors = () => {
           <Image source={require("../assets/Icons/Arrow_Left.png")} style={{ tintColor: 'black' }} />
         </TouchableOpacity>
 
-        <Text style={{ fontSize: 20, color: 'black', fontWeight: '800' }}>Authors</Text>
-        <TouchableOpacity>
+        <Text style={{ fontSize: 20, color: 'black', fontWeight: '800',marginRight:113 }}>Authors</Text>
+        {/* <TouchableOpacity>
           <Image source={require("../assets/Icons/Search.png")} />
-        </TouchableOpacity>
-
+        </TouchableOpacity> */}
       </View>
+
 
       <View style={{ marginTop: 20, marginLeft: 24 }}>
         <Text style={{ fontSize: 16, color: 'grey' }}>
@@ -438,12 +438,35 @@ const All = () => {
 }
 
 const Poets = () => {
+  // Poets
+  const [poets, setPoets] = useState([]); // Initial empty array of users
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('Authors')
+      .onSnapshot(querySnapshot => {
+        const poets = [];
+
+        querySnapshot.forEach(documentSnapshot => {
+          poets.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+
+        setPoets(poets);
+        // setLoading(false);
+      });
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
+
   return (
     <View style={{ flex: 1 }}>
 
       <View style={{ marginTop: 16, marginRight: 10 }}>
         <FlatList
-          data={authorObjects}
+          data={poets}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
@@ -452,13 +475,13 @@ const Poets = () => {
             >
               <View style={{ flexDirection: 'row' }}>
                 <View>
-                  <Image style={{ width: 72, height: 72, borderRadius: 36 }} source={item.image} />
+                  <Image style={{ width: 72, height: 72, borderRadius: 36 }} source={{uri:item.Image}} />
                 </View>
                 <View style={{ marginLeft: 10, flex: 1 }}>
                   <Text style={{ fontSize: 19, fontWeight: '800', color: 'black' }}>
-                    {item.name}
+                    {item.Name}
                   </Text>
-                  <Text style={{ fontSize: 16, fontWeight: '500', textAlign: 'justify', color: 'grey' }} >{item.designation}</Text>
+                  <Text style={{ fontSize: 16, fontWeight: '500', textAlign: 'justify', color: 'grey' }} >{item.Designation}</Text>
                 </View>
               </View>
             </View>
@@ -472,12 +495,35 @@ const Poets = () => {
 
 
 const Novelists = () => {
+   // Novelists
+   const [novelists, setNovelists] = useState([]); // Initial empty array of users
+   useEffect(() => {
+     const subscriber = firestore()
+       .collection('Authors')
+       .onSnapshot(querySnapshot => {
+         const novelists = [];
+ 
+         querySnapshot.forEach(documentSnapshot => {
+           novelists.push({
+             ...documentSnapshot.data(),
+             key: documentSnapshot.id,
+           });
+         });
+ 
+         setNovelists(novelists);
+         // setLoading(false);
+       });
+ 
+     // Unsubscribe from events when no longer in use
+     return () => subscriber();
+   }, []);
+
   return (
     <View style={{ flex: 1 }}>
 
       <View style={{ marginTop: 16, marginRight: 10 }}>
         <FlatList
-          data={authorObjects}
+          data={novelists}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
@@ -486,11 +532,11 @@ const Novelists = () => {
             >
               <View style={{ flexDirection: 'row' , alignItems:'center'}}>
                 <View>
-                  <Image style={{ width: 72, height: 72, borderRadius: 36 }} source={item.image} />
+                  <Image style={{ width: 72, height: 72, borderRadius: 36 }} source={{uri:item.Image}} />
                 </View>
                 <View style={{ marginLeft: 10, flex: 1 }}>
                   <Text style={{ fontSize: 19, fontWeight: '800', color: 'black' }}>
-                    {item.name}
+                    {item.Name}
                   </Text>
                   {/* <Text style={{ fontSize: 16, fontWeight: '500', textAlign: 'justify', color: 'grey' }} >{item.designation}</Text> */}
                 </View>

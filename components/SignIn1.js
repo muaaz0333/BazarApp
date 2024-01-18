@@ -38,6 +38,23 @@ const SignIn1 = ({route}) => {
         navigation.navigate("Home")
       })
       .catch(err => {
+        if (err.code === 'auth/email-already-in-use') {
+          // console.log('That email address is already in use!');
+          Alert.alert('That email address is already in use!')
+      }
+
+      if (err.code === 'auth/invalid-email') {
+          // console.log('That email address is invalid!');
+          Alert.alert('That email address is invalid!')
+      }
+      if (err.code === 'auth/invalid-credential') {
+          // console.log('That email address is invalid!');
+          Alert.alert('Invalid Credential!')
+      }
+      if (err.code === 'auth/invalid-password') {
+          // console.log('That email address is invalid!');
+          Alert.alert('Invalid Credential!')
+      }
         console.log(err)
         // Alert.alert('404 Not Found', 'Sorry! User not found. Try Again', [
         //   { text: 'OK', onPress: () => { } },

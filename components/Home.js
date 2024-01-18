@@ -887,6 +887,10 @@ const Home = () => {
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
+            onRequestClose={()=>{
+                setModalVisible(!modalVisible)
+            }}
+                
             >
                 <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.6)' }}>
 

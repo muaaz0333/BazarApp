@@ -1,12 +1,28 @@
 import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import BottomTab from './BottomTab';
 import { NavigationContainer } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const Cart = () => {
+  const [state, setState] = useState()
   const navigation = useNavigation();
+  const route = useRoute();
+  // console.log('----------> ', route.params);
+
+  let cart = route.params?.cart
+  console.log('Route params:---1', cart);
+  // const {cart}=route?.params?.cart || [];
+
+
+  useEffect(() => {
+    if (route.params?.cart == !undefined) {
+      setState(route.params?.cart)
+      console.log('Route params:---2', route.params?.cart);
+    }
+  }, [route.params?.cart])
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ marginBottom: 24, flexDirection: 'row', alignItems: 'center', marginTop: 16, marginHorizontal: 24, justifyContent: 'flex-end' }}>
@@ -17,16 +33,39 @@ const Cart = () => {
 
       </View>
 
-      <View style={{ marginTop: 150 }}>
-        <View style={{ alignItems: 'center' }}>
-          <Image style={{ tintColor: 'silver', }} source={require('../assets/Icons/cartl.png')} />
+      {
+        cart ? <View style={{ marginTop: 150 }}>
+          <View style={{ alignItems: 'center' }}>
+            <Image style={{ tintColor: 'silver', }} source={require('../assets/Icons/cartl.png')} />
+          </View>
+          <View>
+            <Text style={{ textAlign: 'center', fontSize: 17, color: 'black', fontWeight: '700', marginTop: 24 }}>
+              There is no Products 🔥
+            </Text>
+          </View>
         </View>
-        <View>
-          <Text style={{ textAlign: 'center', fontSize: 17, color: 'black', fontWeight: '700', marginTop: 24 }}>
-            There is no Products 🔥
-          </Text>
-        </View>
-      </View>
+          :
+          <View style={{ marginHorizontal: 24 }}>
+            <Text style={{ color: 'black', fontWeight: '800', fontSize: 17 }}>Your Cart</Text>
+            <FlatList
+              data={state}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <View>
+                  <Text style={{ color: 'red' }}>{item.title}</Text>
+                  <Text style={{ color: 'red' }}>${item.price}</Text>
+                  {/* Add more information as needed */}
+                </View>
+              )}
+            />
+          </View>
+
+      }
+
+
+
+
+
 
       <View style={{ position: 'absolute', width: '100%', backgroundColor: 'white', bottom: 0, paddingVertical: 6 }}>
         <BottomTab />

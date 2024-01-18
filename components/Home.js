@@ -610,10 +610,42 @@ const Home = () => {
 
     const [like, setLike] = useState(false)
 
-    const [cartItems, setCartItems] = useState([])
-    const addToCart = (item) => {
-        setCartItems([...cartItems, item])
-    }
+
+
+  
+    const [cart, setCart] = useState([]);
+    // const newItem = {
+    //     title,
+    //     price,
+    //   };
+    //   let cart;
+    // const addToCart = () => {
+       
+    // console.log('this is simple cart---------->', cart);
+    //     // setCart([...cart, newItem]);
+    //     cart = [...cart,newItem]
+    // console.log('this is  cart with new obj---------->', cart);
+
+    //     setModalVisible(false); // Close the modal after adding to cart
+    
+    //     console.log('Cart state before navigation:', cart);
+    //     // Navigate to another screen (replace 'CartScreen' with your actual screen name)
+    //     // navigation.navigate('Cart',{cart: [...cart]});
+    //     navigation.navigate('Cart', { cart });
+    //   };
+
+    const addToCart = () => {
+        const newItem = {
+          title,
+          price,
+        };
+        // setModalVisible(false);
+        // Update the state and navigate with the new cart data
+        setCart(prevCart => [...prevCart, newItem]);
+        // navigation.navigate('Cart', { cart });
+      };
+
+
 
     return (
         <View style={{ flex: 1 }}>
@@ -895,14 +927,14 @@ const Home = () => {
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={{ marginLeft: 9 }}
-                                            onPress={() => setCartItems(!cartItems)}>
-                                            {/* <Image style={{ height: 25, width: 24, marginLeft: 5 }} source={require('../assets/Icons/cartIcon.png')} /> */}
-                                            {
-                                                cartItems ?
-                                                    <Image style={{ width: 24, height: 24, tintColor: '#54408C' }} source={require('../assets/Icons/cartIconFill.png')} />
-                                                    :
+                                            onPress={addToCart}>
+                                            <Image style={{ height: 25, width: 24, marginLeft: 5 }} source={require('../assets/Icons/cartIcon.png')} />
+                                            {/* {
+                                                cart ?
                                                     <Image style={{ width: 24, height: 24 }} source={require('../assets/Icons/cartIcon.png')} />
-                                            }
+                                                    :
+                                                    <Image style={{ width: 24, height: 24, tintColor: '#54408C' }} source={require('../assets/Icons/cartIconFill.png')} />
+                                            } */}
                                         </TouchableOpacity>
                                     </View>
                                 </View>
@@ -1025,7 +1057,7 @@ const Home = () => {
                                 </View>
 
                                 <View style={{ marginLeft: 8, marginTop: 20, }}>
-                                    <TouchableOpacity onPress={() => navigation.navigate("CartConfirmOrder")}>
+                                    <TouchableOpacity onPress={() => navigation.navigate("Cart",{cart})}>
                                         <Text style={styles.btnviewcart}>View Cart</Text>
                                     </TouchableOpacity>
                                 </View>

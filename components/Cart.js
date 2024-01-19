@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 const Cart = () => {
-  const [state, setState] = useState()
+  const [state, setState] = useState([])
   const navigation = useNavigation();
   const route = useRoute();
   // console.log('----------> ', route.params);
@@ -15,13 +15,12 @@ const Cart = () => {
   console.log('Route params:---1', cart);
   // const {cart}=route?.params?.cart || [];
 
-
   useEffect(() => {
-    if (route.params?.cart == !undefined) {
-      setState(route.params?.cart)
-      console.log('Route params:---2', route.params?.cart);
+    if (route.params && route.params.cart !== undefined) {
+      setState(route.params.cart)
+      console.log('Route params:---2', route.params.cart);
     }
-  }, [route.params?.cart])
+  }, [route.params]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -52,9 +51,11 @@ const Cart = () => {
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <View>
+                 <Image style={{height:100, width:100}} source={item.img}/>
                   <Text style={{ color: 'red' }}>{item.title}</Text>
                   <Text style={{ color: 'red' }}>${item.price}</Text>
-                  {/* Add more information as needed */}
+                 
+                  
                 </View>
               )}
             />

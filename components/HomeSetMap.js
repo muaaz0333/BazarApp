@@ -1,11 +1,63 @@
-import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput } from 'react-native'
+import { View, Text, Image, Linking, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput, PermissionsAndroid, Alert } from 'react-native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
-import MapView from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
 
 
 const HomeSetMap = () => {
+
+  const Permission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'BazarApp Location Permission',
+          message:
+            'BazarApp needs access to your Location ',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('You can use the Location');
+        getCurrentLocation()
+      } else {
+        console.log('Location permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+
+  const [currentLocation, setCurrentLocation] = useState(null)
+  const getCurrentLocation = () => {
+    Geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+        setCurrentLocation({ latitude, longitude })
+        console.log(latitude, longitude)
+      },
+      error => Alert.alert(error.message),
+      { enableHighAccuracy: true, timeout: 15000, }
+    )
+  }
+
+  const openMaps = () => {
+    const { latitude, longitude } = currentLocation
+    if (latitude, longitude) {
+      const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`
+      Linking.openURL(url)
+    }
+    else {
+      Alert.alert("Location not Available")
+    }
+  }
+
+
   const navigation = useNavigation();
   const [locationModal, setLocationModal] = useState(true);
 
@@ -15,7 +67,7 @@ const HomeSetMap = () => {
 
       {/* home app bar */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 16, }}>
-        <TouchableOpacity onPress={() => {navigation.navigate("Profile") }}>
+        <TouchableOpacity onPress={() => { navigation.navigate("CartConfirmOrder") }}>
           <Image source={require("../assets/Icons/Arrow_Left.png")} style={{ tintColor: 'black' }} />
         </TouchableOpacity>
 
@@ -28,22 +80,38 @@ const HomeSetMap = () => {
 
       <View style={{ marginTop: 10, borderRadius: 20, width: '100%', height: '30%' }}>
         <MapView
-        onPress={()=>setLocationModal(!locationModal)}
+          provider={PROVIDER_GOOGLE}
+          onPress={() => setLocationModal(!locationModal)}
           style={{ height: '100%', width: '100%', }}
           initialRegion={{
-            latitude: 31.5204,
-            longitude: 74.3587,
-            latitudeDelta: 31.5204,
-            longitudeDelta: 74.3587,
+            latitude: 31.582045,
+            longitude: 74.329376,
+            latitudeDelta: 0.5,
+            longitudeDelta: 0.9,
           }}
-        />
+        >
+          <Marker
+            draggable
+            title='Location'
+            description='Delivery Person 1'
+            coordinate={{
+              latitude: 31.569945,
+              longitude: 74.389376
+            }}
+            onDragEnd={(e) => console.log({ x: e.nativeEvent.coordinate })}
+          />
+        </MapView>
       </View>
 
       <View>
         <Modal
           animationType="slide"
           transparent={true}
-          visible={locationModal}>
+          visible={locationModal}
+          onRequestClose={() => {
+            setLocationModal(!locationModal)
+          }}
+        >
           <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)' }}>
             <View style={{ flex: 1, backgroundColor: 'white', marginTop: 310, elevation: 10, borderTopLeftRadius: 50, borderTopRightRadius: 50, }}>
               <View style={{ marginTop: 16, marginHorizontal: 24 }}>
@@ -57,7 +125,10 @@ const HomeSetMap = () => {
                   <Text style={{ fontSize: 19, color: 'black', fontWeight: '700' }}>
                     Detail Address
                   </Text>
-                  <Image source={require('../assets/Icons/GPS-Fill.png')} />
+                  <TouchableOpacity
+                    onPress={() => { Permission}}>
+                    <Image source={require('../assets/Icons/GPS-Fill.png')} />
+                  </TouchableOpacity>
                 </View>
                 <View style={{ flexDirection: 'row', marginTop: 22, }}>
                   <View style={{ backgroundColor: '#FAF9FD', width: 36, height: 36, alignItems: 'center', justifyContent: 'center', borderRadius: 16 }}>
@@ -65,10 +136,11 @@ const HomeSetMap = () => {
                   </View>
                   <View style={{ marginHorizontal: 16, flex: 1 }}>
                     <Text style={{ fontWeight: '700', color: 'black', fontSize: 16 }}>
-                      Utama Street N.20
+                      Lahore, Pakistan
                     </Text>
-                    <Text style={{ fontSize: 15, fontWeight: '400',color:'grey' }}>
-                      Dumbo Street No.20, Dumbo, New York 10001, United States
+                    <Text style={{ fontSize: 15, fontWeight: '400', color: 'grey' }}>
+                      Timber Market Ravi Road Lahore Street 2, Pakistan
+
                     </Text>
 
                   </View>
@@ -81,22 +153,22 @@ const HomeSetMap = () => {
                   </Text>
                 </View>
 
-                <View style={{flexDirection:'row',marginTop:16 }}>
+                <View style={{ flexDirection: 'row', marginTop: 16 }}>
                   <TouchableOpacity>
-                    <Text style={{color:'#54408C', backgroundColor:'#FAF9FD',paddingVertical:8, paddingHorizontal:16, borderRadius:20, fontSize:15 }}>
+                    <Text style={{ color: '#54408C', backgroundColor: '#FAF9FD', paddingVertical: 8, paddingHorizontal: 16, borderRadius: 20, fontSize: 15 }}>
                       Home
                     </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={{marginLeft:20}}>
-                    <Text style={{color:'silver', backgroundColor:'white',paddingVertical:8, paddingHorizontal:16, borderRadius:20, fontSize:15, borderColor:'silver', borderWidth:1 }}>
+                  <TouchableOpacity style={{ marginLeft: 20 }}>
+                    <Text style={{ color: 'silver', backgroundColor: 'white', paddingVertical: 8, paddingHorizontal: 16, borderRadius: 20, fontSize: 15, borderColor: 'silver', borderWidth: 1 }}>
                       Offices
                     </Text>
                   </TouchableOpacity>
                 </View>
 
-                <View style={{marginTop:92}}>
-                  <TouchableOpacity onPress={()=>navigation.navigate("HomeSetLocation")}>
+                <View style={{ marginTop: 92 }}>
+                  <TouchableOpacity onPress={() => navigation.navigate("HomeSetLocation")}>
                     <Text style={styles.confirmationbtn}>
                       Confirmation
                     </Text>
@@ -109,6 +181,34 @@ const HomeSetMap = () => {
         </Modal>
       </View>
 
+
+
+
+      {/* <View>
+        <Text style={{ color: 'black' }}>Latitude: {currentLocation ? currentLocation.latitude : 'Loading...'}</Text>
+        <Text style={{ color: 'black' }}>Longitude: {currentLocation ? currentLocation.longitude : 'Loading...'}</Text>
+      </View> */}
+
+      {/* {currentLocation
+        ? (
+          <>
+            <TouchableOpacity onPress={openMaps}>
+              <View>
+                <Text style={{ color: 'black' }}>Open Maps</Text>
+              </View>
+            </TouchableOpacity>
+          </>
+        ) : (
+          <>
+            <TouchableOpacity onPress={Permission}>
+              <View>
+                <Text style={{ color: 'black' }}>
+                  Get Location
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </>
+        )} */}
 
     </View>
   )
@@ -125,5 +225,5 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 30,
     fontWeight: '600'
-}
+  }
 })

@@ -28,14 +28,14 @@ const SignIn1 = ({route}) => {
     if (!email || !password) { return; }
     // setVisible(true)
 
-    auth().signInWithEmailAndPassword(email, password)
+   const userCredential= auth().signInWithEmailAndPassword(email, password)
       .then((res) => {
         console.log(res)
         // Alert.alert('Congratulations', [
         //   { text: 'OK', onPress: () => { } },
         // ]);
-        Alert.alert("Login Successful")
-        navigation.navigate("Home")
+        Alert.alert("Login Successful", userCredential.user)
+        navigation.navigate("Home",{userData: userCredential.user})
       })
       .catch(err => {
         if (err.code === 'auth/email-already-in-use') {

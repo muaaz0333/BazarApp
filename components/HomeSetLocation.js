@@ -2,9 +2,54 @@ import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
+import Geolocation from '@react-native-community/geolocation';
 
 const HomeSetLocation = () => {
     const navigation = useNavigation();
+
+
+    const [phone, setPhone] = useState("")
+    const [name, setName] = useState("")
+    const [governorate, setGovernorate] = useState("")
+    const [city, setCity] = useState("")
+    const [block, setBlock] = useState("")
+    const [street, setStreet] = useState("")
+    const [building, setBuilding] = useState("")
+
+    const [phoneError, setPhoneError] = useState(false);
+    const [nameError, setNameError] = useState(false);
+    const [governorateError, setGovernorateError] = useState(false);
+    const [cityError, setCityError] = useState(false);
+    const [blockError, setBlockError] = useState(false);
+    const [streetNumError, setStreetNumError] = useState(false);
+    const [buildingNumError, setBuildingNumError] = useState(false);
+
+    const validDataLogin = () => {
+        { !phone ? setPhoneError(true) : setPhoneError(false) }
+        { !name ? setNameError(true) : setNameError(false) }
+        { !governorate ? setGovernorateError(true) : setGovernorateError(false) }
+        { !city ? setCityError(true) : setCityError(false) }
+        { !block ? setBlockError(true) : setBlockError(false) }
+        { !street ? setStreetNumError(true) : setStreetNumError(false) }
+        { !building ? setBuildingNumError(true) : setBuildingNumError(false) }
+
+        if (!phone || !name || !governorate || !city || !block || !street || !building) { return; }
+
+        navigation.navigate("OrderStatus");
+
+        // You can now use the state variables to get the user's location
+        const location = {
+            phone,
+            name,
+            governorate,
+            city,
+            block,
+            street,
+            building,
+        };
+
+        console.log('User Location:', location);
+    }
 
     return (
         <ScrollView style={{ flex: 1, marginHorizontal: 24, }} showsVerticalScrollIndicator={false}>
@@ -31,13 +76,16 @@ const HomeSetLocation = () => {
                 </View>
                 <View style={{ marginTop: 6 }}>
                     <TextInput
-                    inputMode='numeric'
-                        placeholder='Phone'
+                        inputMode='numeric'
+                        placeholder="Phone"
+                        value={phone}
+                        onChangeText={(text) => setPhone(text)}
                         placeholderTextColor={"grey"}
                         style={{ color: 'black', borderRadius: 10, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
                     />
                 </View>
             </View>
+            {phoneError ? <Text style={styles.error}>Please enter phone number.</Text> : null}
 
             <View style={{ marginTop: 16 }}>
                 <View>
@@ -48,11 +96,14 @@ const HomeSetLocation = () => {
                 <View style={{ marginTop: 6 }}>
                     <TextInput
                         placeholderTextColor={"grey"}
-                        placeholder='Name'
+                        placeholder="Name"
+                        value={name}
+                        onChangeText={(text) => setName(text)}
                         style={{ color: 'black', borderRadius: 10, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
                     />
                 </View>
             </View>
+            {nameError ? <Text style={styles.error}>Please enter name.</Text> : null}
 
             <View style={{ marginTop: 16 }}>
                 <View>
@@ -63,11 +114,14 @@ const HomeSetLocation = () => {
                 <View style={{ marginTop: 6 }}>
                     <TextInput
                         placeholderTextColor={"grey"}
-                        placeholder='Governorate'
+                        placeholder="Governorate"
+                        value={governorate}
+                        onChangeText={(text) => setGovernorate(text)}
                         style={{ color: 'black', borderRadius: 10, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
                     />
                 </View>
             </View>
+            {governorateError ? <Text style={styles.error}>Please provide governorate.</Text> : null}
 
             <View style={{ marginTop: 16 }}>
                 <View>
@@ -79,10 +133,13 @@ const HomeSetLocation = () => {
                     <TextInput
                         placeholderTextColor={"grey"}
                         placeholder='City'
+                        value={city}
+                        onChangeText={(text) => setCity(text)}
                         style={{ color: 'black', borderRadius: 10, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
                     />
                 </View>
             </View>
+            {cityError ? <Text style={styles.error}>Please enter city name.</Text> : null}
 
             <View style={{ marginTop: 16 }}>
                 <View>
@@ -92,42 +149,53 @@ const HomeSetLocation = () => {
                 </View>
                 <View style={{ marginTop: 6 }}>
                     <TextInput
+                        inputMode='numeric'
                         placeholderTextColor={"grey"}
-                        placeholder='Block'
+                        placeholder="Block"
+                        value={block}
+                        onChangeText={(text) => setBlock(text)}
                         style={{ color: 'black', borderRadius: 10, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
                     />
                 </View>
             </View>
+            {blockError ? <Text style={styles.error}>Please enter block number.</Text> : null}
 
             <View style={{ marginTop: 16 }}>
                 <View>
                     <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold' }}>
-                        Street name /number
+                        Street number
                     </Text>
                 </View>
                 <View style={{ marginTop: 6 }}>
                     <TextInput
                         placeholderTextColor={"grey"}
                         placeholder='Street name /number'
+
+                        value={street}
+                        onChangeText={(text) => setStreet(text)}
                         style={{ color: 'black', borderRadius: 10, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
                     />
                 </View>
             </View>
+            {streetNumError ? <Text style={styles.error}>Please enter street name/number.</Text> : null}
 
             <View style={{ marginTop: 16 }}>
                 <View>
                     <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', }}>
-                        Building name /number
+                        Building name
                     </Text>
                 </View>
                 <View style={{ marginTop: 6 }}>
                     <TextInput
                         placeholderTextColor={"grey"}
-                        placeholder='Building name /number'
+                        placeholder="Building Name"
+                        value={building}
+                        onChangeText={(text) => setBuilding(text)}
                         style={{ color: 'black', borderRadius: 10, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
                     />
                 </View>
             </View>
+            {buildingNumError ? <Text style={styles.error}>Please enter building name/number.</Text> : null}
 
             <View style={{ marginTop: 16 }}>
                 <View>
@@ -137,7 +205,7 @@ const HomeSetLocation = () => {
                 </View>
                 <View style={{ marginTop: 6 }}>
                     <TextInput
-                    inputMode='numeric'
+                        inputMode='numeric'
                         placeholderTextColor={"grey"}
                         placeholder='Floor (option)'
                         style={{ color: 'black', borderRadius: 10, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
@@ -177,7 +245,7 @@ const HomeSetLocation = () => {
 
 
             <View style={{ marginVertical: 22 }}>
-                <TouchableOpacity onPress={() => { }}>
+                <TouchableOpacity onPress={validDataLogin}>
                     <Text style={styles.confirmation}>
                         Confirmation
                     </Text>
@@ -200,5 +268,12 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         borderRadius: 30,
         fontWeight: '600'
-    }
+    },
+    error: {
+        color: 'red',
+        marginHorizontal: 0,
+        marginTop: 1,
+        fontFamily: 'AirbnbCereal_M',
+    },
+
 })

@@ -29,8 +29,9 @@ const NewsPromosNotification = () => {
                     <View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <TouchableOpacity
+                            style={{borderWidth:1, paddingVertical:6,paddingHorizontal:9, borderRadius:15, backgroundColor:'#54408C'}}
                                 onPress={() => navigation.navigate("DetailNewsPromos")}>
-                                <Text style={{ color: '#54408C', fontSize: 18, fontWeight: '700' }}>
+                                <Text style={{ color: '#fff', fontSize: 19, fontWeight: '700' }}>
                                     Promotion
                                 </Text>
 

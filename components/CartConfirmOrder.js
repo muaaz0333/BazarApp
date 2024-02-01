@@ -1,10 +1,18 @@
-import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal } from 'react-native'
+import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput, Button } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
+import DatePicker from 'react-native-date-picker'
 
 
 
 const CartConfirmOrder = () => {
+    const [date, setDate] = useState(new Date())
+    const [open, setOpen] = useState(false)
+    // const [selectedDate, setSelectedDate] = useState('');
+    // const handleDateChange = (date) => {
+    //     setSelectedDate(date);
+    // };
+    let today = new Date();
     const navigation = useNavigation();
     const [paymentModalVisible, setPaymentModalVisible] = useState(false);
     const [selectPModalVisible, setSelectPModalVisible] = useState(false);
@@ -15,7 +23,7 @@ const CartConfirmOrder = () => {
 
             {/* Appbar */}
             <View style={{ marginBottom: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20, }}>
-                <TouchableOpacity onPress={() => {navigation.navigate("Home") }}>
+                <TouchableOpacity onPress={() => { navigation.navigate("Cart") }}>
                     <Image source={require("../assets/Icons/Arrow_Left.png")} style={{ tintColor: 'black' }} />
                 </TouchableOpacity>
 
@@ -44,13 +52,13 @@ const CartConfirmOrder = () => {
                         </View>
                         <View style={{ marginHorizontal: 16, flex: 1 }}>
                             <Text style={{ fontWeight: '700', color: 'black', fontSize: 16 }}>
-                                Utama Street N.20
+                                Lahore, Pakistan
                             </Text>
-                            <Text style={{ fontSize: 15, fontWeight: '400', color:'grey'}}>
-                                Dumbo Street No.20, Dumbo, New York 10001, United States
+                            <Text style={{ fontSize: 15, fontWeight: '400', color: 'grey' }}>
+                                Timber Market Ravi Road Lahore Street 2, Pakistan
                             </Text>
                             <View style={{ marginTop: 16 }}>
-                                <TouchableOpacity onPress={()=>navigation.navigate("HomeSetMap")}>
+                                <TouchableOpacity onPress={() => navigation.navigate("HomeSetMap")}>
                                     <Text style={styles.changebtn}>
                                         Change
                                     </Text>
@@ -133,7 +141,7 @@ const CartConfirmOrder = () => {
                                 <Text style={{ fontWeight: '700', color: 'black', fontSize: 16 }}>
                                     Date & time
                                 </Text>
-                                <Text style={{ fontSize: 15, fontWeight: '400', color:'grey'}}>
+                                <Text style={{ fontSize: 15, fontWeight: '400', color: 'grey' }}>
                                     Choose date and time
                                 </Text>
 
@@ -164,7 +172,7 @@ const CartConfirmOrder = () => {
                                 <Text style={{ fontWeight: '700', color: 'black', fontSize: 16 }}>
                                     Payment
                                 </Text>
-                                <Text style={{ fontSize: 15, fontWeight: '400', color:'grey'}}>
+                                <Text style={{ fontSize: 15, fontWeight: '400', color: 'grey' }}>
                                     Choose your payment
                                 </Text>
 
@@ -178,7 +186,7 @@ const CartConfirmOrder = () => {
 
                 {/* Button */}
                 <View style={{ marginVertical: 22 }}>
-                    <TouchableOpacity onPress={() => {navigation.navigate("OrderStatus") }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate("OrderStatus") }}>
                         <Text style={styles.order}>
                             Order
                         </Text>
@@ -190,7 +198,10 @@ const CartConfirmOrder = () => {
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={paymentModalVisible}>
+                visible={paymentModalVisible}
+                onRequestClose={() => {
+                    setPaymentModalVisible(!paymentModalVisible)
+                }}>
                 <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
                     <View style={{ flex: 1, backgroundColor: 'white', marginTop: 340, elevation: 10, borderTopLeftRadius: 50, borderTopRightRadius: 50, }}>
                         <View style={{ marginTop: 16, marginHorizontal: 24 }}>
@@ -214,26 +225,26 @@ const CartConfirmOrder = () => {
                                     </Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 8 }}>
-                                    <Text style={{ fontSize: 15,color:'grey' }}>
+                                    <Text style={{ fontSize: 15, color: 'grey' }}>
                                         Squid Sweet and Sour Salad
                                     </Text>
-                                    <Text style={{ fontSize: 15, color:'grey'}}>
+                                    <Text style={{ fontSize: 15, color: 'grey' }}>
                                         $19.99
                                     </Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 8 }}>
-                                    <Text style={{ fontSize: 15, color:'grey'}}>
+                                    <Text style={{ fontSize: 15, color: 'grey' }}>
                                         Japan Hainanese Sashimi
                                     </Text>
-                                    <Text style={{ fontSize: 15, color:'grey' }}>
+                                    <Text style={{ fontSize: 15, color: 'grey' }}>
                                         $39.99
                                     </Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 8 }}>
-                                    <Text style={{ fontSize: 15, color:'grey'}}>
+                                    <Text style={{ fontSize: 15, color: 'grey' }}>
                                         Black pepper Beef Lumpia
                                     </Text>
-                                    <Text style={{ fontSize: 15, color:'grey' }}>
+                                    <Text style={{ fontSize: 15, color: 'grey' }}>
                                         $27.12
                                     </Text>
                                 </View>
@@ -267,6 +278,9 @@ const CartConfirmOrder = () => {
                 animationType='slide'
                 transparent={true}
                 visible={selectPModalVisible}
+                onRequestClose={() => {
+                    setSelectPModalVisible(!selectPModalVisible)
+                }}
             >
                 <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
                     <View style={{ flex: 1, backgroundColor: 'white', marginTop: 400, elevation: 10, borderTopLeftRadius: 50, borderTopRightRadius: 50, }}>
@@ -283,7 +297,7 @@ const CartConfirmOrder = () => {
                                 </Text>
                             </View>
 
-                            <TouchableOpacity style={{ borderWidth: 1, marginTop: 16, borderRadius: 20, borderColor: '#54408C' }}>
+                            <TouchableOpacity style={{ borderWidth: 2, marginTop: 16, borderRadius: 20, borderColor: '#54408C' }}>
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 25, marginTop: 0, width: '100%', paddingVertical: 20, justifyContent: 'space-between' }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -304,7 +318,7 @@ const CartConfirmOrder = () => {
                             </TouchableOpacity>
 
 
-                            <TouchableOpacity style={{ borderWidth: 1, marginTop: 16, borderRadius: 20, borderColor: 'silver' }}>
+                            <TouchableOpacity style={{ borderWidth: 2, marginTop: 17, borderRadius: 20, borderColor: 'silver' }}>
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 25, marginTop: 0, width: '100%', paddingVertical: 20, justifyContent: 'space-between' }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -335,43 +349,46 @@ const CartConfirmOrder = () => {
                 animationType='slide'
                 transparent={true}
                 visible={dateModalVisible}
+                onRequestClose={() => {
+                    setDateModalVisible(!dateModalVisible)
+                }}
             >
 
                 <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
                     <View style={{ flex: 1, backgroundColor: 'white', marginTop: 300, elevation: 10, borderTopLeftRadius: 50, borderTopRightRadius: 50, }}>
                         <View style={{ marginTop: 16, }}>
-                            <View style={{marginHorizontal: 24}}>
+                            <View style={{ marginHorizontal: 24 }}>
                                 <TouchableOpacity onPress={() => setDateModalVisible(false)}>
                                     <View style={{ height: 5, width: 56, backgroundColor: 'gray', alignSelf: 'center' }}></View>
                                 </TouchableOpacity>
                             </View>
 
-                            <View style={{ marginTop: 16 ,marginHorizontal: 24}}>
+                            <View style={{ marginTop: 16, marginHorizontal: 24 }}>
                                 <Text style={{ fontSize: 19, color: 'black', fontWeight: '700' }}>
                                     Delivery date
                                 </Text>
                             </View>
-                            <View style={{ flexDirection: 'row', marginTop: 16 , justifyContent:'space-between',marginHorizontal: 24,  alignSelf:'center'}}>
+                            <View style={{ flexDirection: 'row', marginTop: 16, justifyContent: 'space-between', marginHorizontal: 24, alignSelf: 'center' }}>
                                 <View style={{ borderWidth: 1, borderColor: '#54408C', paddingVertical: 25, paddingHorizontal: 21, borderRadius: 8 }}>
-                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign:'center' }}>
+                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign: 'center' }}>
                                         Today
                                     </Text>
-                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black' , textAlign:'center'}}>
+                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign: 'center' }}>
                                         12 Jan
                                     </Text>
 
                                 </View>
 
                                 <View style={{ borderWidth: 1, borderColor: 'silver', marginLeft: 7, paddingVertical: 25, paddingHorizontal: 21, borderRadius: 8 }}>
-                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign:'center' }}>
+                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign: 'center' }}>
                                         Tomorrow
                                     </Text>
-                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black' , textAlign:'center'}}>
+                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign: 'center' }}>
                                         12 Jan
                                     </Text>
 
                                 </View>
-
+                                {/* 
                                 <View style={{ borderWidth: 1, borderColor: 'silver', marginLeft: 7, paddingVertical: 25, paddingHorizontal: 21, borderRadius: 8 }}>
                                     <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign:'center' }}>
                                         Pick
@@ -379,18 +396,40 @@ const CartConfirmOrder = () => {
                                     <Text style={{ fontSize: 16, fontWeight: '700', color: 'black' , textAlign:'center'}}>
                                          a date
                                     </Text>
+                                </View> */}
+
+                                <View style={{ borderWidth: 1, borderColor: 'silver', marginLeft: 7, paddingVertical: 25, paddingHorizontal: 21, borderRadius: 8 }}>
+                                    <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold' }}>Select Date</Text>
+                                    <TouchableOpacity
+                                        onPress={() => setOpen(true)}
+                                        style={{ marginTop: 6 }}>
+                                        <Text style={{ backgroundColor: '#54408C', color: 'white', fontSize: 15, fontWeight: '800', padding: 10, borderRadius: 20 }}>Pick a Date</Text>
+                                    </TouchableOpacity>
+                                    <DatePicker
+                                        modal
+                                        open={open}
+                                        date={date}
+                                        onConfirm={(date) => {
+                                            setOpen(false)
+                                            setDate(date)
+                                        }}
+                                        onCancel={() => {
+                                            setOpen(false)
+                                        }}
+                                    />
                                 </View>
+
                             </View>
 
-                            <View style={{ marginTop: 19 ,marginHorizontal:24}}>
+                            <View style={{ marginTop: 19, marginHorizontal: 24 }}>
                                 <Text style={{ fontSize: 19, color: 'black', fontWeight: '700' }}>
                                     Delivery time
                                 </Text>
                             </View>
 
-                            <View style={{ flexDirection: 'row', marginTop: 16 , justifyContent:'space-between',marginHorizontal: 24,  alignSelf:'center'}}>
+                            <View style={{ flexDirection: 'row', marginTop: 16, justifyContent: 'space-between', marginHorizontal: 24, alignSelf: 'center' }}>
                                 <View style={{ borderWidth: 1, borderColor: '#54408C', paddingVertical: 25, paddingHorizontal: 28, borderRadius: 8 }}>
-                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign:'center' }}>
+                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign: 'center' }}>
                                         Between
                                     </Text>
                                     <Text style={{ fontSize: 16, fontWeight: '700', color: 'black' }}>
@@ -400,7 +439,7 @@ const CartConfirmOrder = () => {
                                 </View>
 
                                 <View style={{ borderWidth: 1, borderColor: 'silver', marginLeft: 7, paddingVertical: 25, paddingHorizontal: 28, borderRadius: 8 }}>
-                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign:'center' }}>
+                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign: 'center' }}>
                                         Between
                                     </Text>
                                     <Text style={{ fontSize: 16, fontWeight: '700', color: 'black' }}>
@@ -410,8 +449,8 @@ const CartConfirmOrder = () => {
                                 </View>
                             </View>
 
-                            <View style={{marginTop:25}}>
-                                <TouchableOpacity >
+                            <View style={{ marginTop: 25 }}>
+                                <TouchableOpacity onPress={() => setDateModalVisible(!dateModalVisible)} >
                                     <Text style={styles.order}>
                                         Confirm
                                     </Text>
@@ -450,7 +489,15 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         borderRadius: 30,
         fontWeight: '600',
-        marginHorizontal:0,
-    
-    }
+        marginHorizontal: 0,
+
+    },
+    datePicker: {
+        width: 200,
+        marginBottom: 20,
+    },
+    selectedDate: {
+        fontSize: 16,
+        marginTop: 10,
+    },
 })

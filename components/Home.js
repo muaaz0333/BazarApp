@@ -1,11 +1,13 @@
 import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import BottomTab from './BottomTab';
 import firestore from '@react-native-firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const { height, width } = Dimensions.get('window')
-
+let userId = '';
 const Home = () => {
 
     // TopSliders
@@ -99,7 +101,7 @@ const Home = () => {
             });
 
         // Unsubscribe from events when no longer in use
-        return () => subscriber();
+        // return () => subscriber();
     }, []);
 
 
@@ -131,6 +133,33 @@ const Home = () => {
     const [like, setLike] = useState(false)
 
     const [cart, setCart] = useState([]);
+
+
+
+    const [items, setItems] = useState([]);
+    const isFocused = useIsFocused();
+    useEffect(() => {
+        firestore()
+          .collection('Books')
+          .get()
+          .then(querySnapshot => {
+            console.log('Total Users Books', querySnapshot.size);
+            let tempData = [];
+            querySnapshot.forEach(documentSnapshot => {
+              console.log(
+                'User ID:',
+                documentSnapshot.id,
+                documentSnapshot.data()
+              );
+              tempData.push({
+                id: documentSnapshot.id,
+                data: documentSnapshot.data(),
+              });
+            });
+            setItems(tempData);
+          });
+      }, []);
+
 
     const addToCart = () => {
         const newItem = {
@@ -166,13 +195,13 @@ const Home = () => {
                             const x = e.nativeEvent.contentOffset.x;
                             setCurrentIndex((x / width).toFixed(0));
                         }}
-                        renderItem={({ item }) => (
+                        renderItem={({ item, index }) => (
 
-                            <View style={{ marginBottom: 5, width: width / 1.2, backgroundColor: '#FAF9FD', elevation: 5, borderRadius: 8, flexDirection: 'row', marginTop: 16, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 6 }}>
-                                <View style={{ flex: 1, }}>
+                            <View key={index} style={{ marginBottom: 5, width: width / 1.2, backgroundColor: '#FAF9FD', elevation: 5, borderRadius: 8, flexDirection: 'row', marginTop: 16, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 6 }}>
+                                <View style={{ flex: 1, }} key={index}>
                                     <Text style={{ fontSize: 20, color: 'black', fontWeight: 'bold', paddingLeft: 23 }}>{item.Title}</Text>
                                     <Text style={{ fontSize: 18, color: 'black', paddingLeft: 23 }}>{item.Subtitle}</Text>
-                                    <TouchableOpacity onPress={() => navigation.navigate("OrderStatus")} style={{ paddingLeft: 23, alignSelf: 'flex-start', marginTop: 14, }}>
+                                    <TouchableOpacity onPress={() => navigation.navigate("CartConfirmOrder")} style={{ paddingLeft: 23, alignSelf: 'flex-start', marginTop: 14, }}>
                                         <Text style={[styles.btnordernow, { alignItems: 'center' }]}>Order Now</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -190,7 +219,7 @@ const Home = () => {
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
                         {
                             data.map((item, index) => {
-
+                            
                                 return (
                                     <View style={{ width: 7, height: 7, borderRadius: 4, backgroundColor: currentIndex == index ? '#54408C' : 'gray', marginLeft: 5 }}>
                                     </View>
@@ -217,11 +246,13 @@ const Home = () => {
                         data={books}
                         showsHorizontalScrollIndicator={false}
                         horizontal
-                        renderItem={({ item }) => (
-                            <TouchableOpacity style={{ marginRight: 10, marginTop: 12 }}
+                        renderItem={({ item, index }) => (
+                            <TouchableOpacity
+                                key={index}
+                                style={{ marginRight: 10, marginTop: 12 }}
                                 onPress={() => openModal(item.Image, item.Name, item.VendorImg, item.About, item.Rating, item.Price, item.RatingStars)}
                             >
-                                <View>
+                                <View key={index}>
                                     <Image style={styles.image2} source={{ uri: item.Image }} />
                                     <Text style={{ marginTop: 6, fontSize: 15, color: 'black', fontWeight: '700' }}>{item.Name}</Text>
                                     <Text style={{ color: '#54408C', fontWeight: '700' }}>${item.Price}</Text>
@@ -246,8 +277,8 @@ const Home = () => {
                         data={vendors}
                         showsHorizontalScrollIndicator={false}
                         horizontal
-                        renderItem={({ item }) => (
-                            <View style={{ backgroundColor: 'white', height: 80, width: 80, marginRight: 7, alignContent: 'center', justifyContent: 'center', alignItems: 'center', elevation: 5 }}>
+                        renderItem={({ item, index }) => (
+                            <View key={index} style={{ backgroundColor: 'white', height: 80, width: 80, marginRight: 7, alignContent: 'center', justifyContent: 'center', alignItems: 'center', elevation: 5 }}>
                                 <Image
                                     style={{ width: 67, height: 50, resizeMode: 'contain' }}
                                     source={{ uri: item.Image }} />
@@ -271,8 +302,9 @@ const Home = () => {
                         data={authors}
                         showsHorizontalScrollIndicator={false}
                         horizontal
-                        renderItem={({ item }) => (
+                        renderItem={({ item, index }) => (
                             <TouchableOpacity
+                                key={index}
                                 onPress={() => navigation.navigate("AuthorInnerPage", { item: item })}
                                 style={{ marginRight: 13, marginBottom: 90 }}>
                                 <Image style={{ height: 102, width: 102, borderRadius: 50, resizeMode: 'contain' }} source={{ uri: item.Image }} />

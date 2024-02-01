@@ -2,6 +2,8 @@ import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, 
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 
+
+
 const HelpCenter = () => {
     const navigation = useNavigation();
     return (

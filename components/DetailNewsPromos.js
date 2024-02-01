@@ -26,7 +26,7 @@ const DetailNewsPromos = () => {
                     <Text style={{ fontSize: 22, color: '#54408C', fontWeight: 'bold', paddingLeft: 5, }}>50% Discount On All Desert</Text>
                     <Text style={{ fontSize: 18, color: '#54408C', paddingLeft: 5, fontWeight: '500' }}>Grab itu now!</Text>
                     <TouchableOpacity style={{ paddingLeft: 5, alignSelf: 'flex-start', marginTop: 14, }}
-                    onPress={()=>navigation.navigate("OrderStatus")}>
+                    onPress={()=>navigation.navigate("CartConfirmOrder")}>
                         <Text style={[styles.btnordernow, { alignItems: 'center' }]}>Order Now</Text>
                     </TouchableOpacity>
                 </View>

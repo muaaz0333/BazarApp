@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Alert } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Alert, ScrollView } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
@@ -12,25 +12,25 @@ const Signup = () => {
 
 
 
-    const saveUser = () => {
-        const userId = uuid.v4()
-        firestore()
-            .collection('users')
-            .doc(userId)
-            .set({
-                name: name,
-                email: email,
-                password: password,
-                userId: userId,
-                cart: [],
-            })
-            .then(res => {
-                // navigation.goBack();
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
+    // const saveUser = () => {
+    //     const userId = uuid.v4()
+    //     firestore()
+    //         .collection('users')
+    //         .doc(userId)
+    //         .set({
+    //             name: name,
+    //             email: email,
+    //             password: password,
+    //             userId: userId,
+    //             cart: [],
+    //         })
+    //         .then(res => {
+    //             // navigation.goBack();
+    //         })
+    //         .catch(error => {
+    //             console.log(error)
+    //         })
+    // }
 
 
 
@@ -42,6 +42,7 @@ const Signup = () => {
     const [nameError, setNameError] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+    const [phoneError, setPhoneError] = useState(false);
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -49,10 +50,17 @@ const Signup = () => {
     const [name, setName] = useState("")
 
     async function dataStore() {
+        const userId = uuid.v4();
         firestore()
             .collection('Users_Profile')
-            .add({
-                name,email,phone,password
+            .doc(userId)
+            .set({
+                name: name,
+                email: email,
+                phone: phone,
+                password: password,
+                userId: userId,
+                cart: []
             })
             .then(() => {
                 console.log('User added!');
@@ -68,7 +76,8 @@ const Signup = () => {
 
 
     const validDataLogin = async () => {
-        // { !name ? setNameError(true) : setNameError(false) }
+        { !name ? setNameError(true) : setNameError(false) }
+        { !phone ? setPhoneError(true) : setPhoneError(false) }
         { !email ? setEmailError(true) : setEmailError(false) }
         { !password ? setPasswordError(true) : setPasswordError(false) }
         if (!email || !password) { return; }
@@ -77,14 +86,14 @@ const Signup = () => {
         auth().createUserWithEmailAndPassword(email, password).then((userCredential) => {
             const user = userCredential.user
             if (user) {
-                navigation.navigate("VerificationEmail", { email: email })
+                navigation.navigate("SignIn1", { email: email })
             }
             dataStore()
 
             // Alert.alert("User Created with credentials\n" + email, fPassword + "\n\n Please Login")
             firebase.auth().currentUser.sendEmailVerification()
                 .then(() => {
-                    Alert.alert("Code sent Successfully")
+                    // Alert.alert("Code sent Successfully")
                     // navigation.navigate("VerificationEmail", { email: email })
                 })
                 .catch((error) => {
@@ -164,7 +173,8 @@ const Signup = () => {
     // }
 
     return (
-        <View style={{ flex: 1, margin: 20, padding: 10, }}>
+        <ScrollView style={{ flex: 1, margin: 20, padding: 10, }}
+        showsVerticalScrollIndicator={false}>
             <View style={{ alignSelf: 'flex-start', marginTop: 13 }}>
                 <TouchableOpacity style={styles.skiptxt} onPress={() => { }}>
                     <Image source={require('../assets/Icons/Arrow_Left.png')} />
@@ -181,7 +191,7 @@ const Signup = () => {
             </View>
 
             <View>
-                <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 26 }}>
+                <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 14 }}>
                     Name:
                 </Text>
             </View>
@@ -192,13 +202,13 @@ const Signup = () => {
                     value={name}
                     onChangeText={(text) => setName(text)}
                     placeholderTextColor={"grey"}
-                    style={{ color: 'black', borderRadius: 10, marginTop: 6, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
+                    style={{ color: 'black', borderRadius: 10, marginTop: 5, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
                 />
             </View>
-            {/* {nameError ? <Text style={styles.error}>Please enter name.</Text> : null} */}
+            {nameError ? <Text style={styles.error}>Please enter name.</Text> : null}
 
             <View>
-                <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 16 }}>
+                <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 10 }}>
                     Phone No:
                 </Text>
             </View>
@@ -209,13 +219,13 @@ const Signup = () => {
                     value={phone}
                     onChangeText={(text) => setPhone(text)}
                     placeholderTextColor={"grey"}
-                    style={{ color: 'black', borderRadius: 10, marginTop: 6, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
+                    style={{ color: 'black', borderRadius: 10, marginTop: 5, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
                 />
             </View>
-
+            {phoneError ? <Text style={styles.error}>Please enter valid phone number.</Text> : null}
 
             <View>
-                <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 16 }}>
+                <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 10 }}>
                     Email:
                 </Text>
             </View>
@@ -228,18 +238,18 @@ const Signup = () => {
                     value={email}
                     onChangeText={(text) => setEmail(text)}
                     placeholderTextColor={"grey"}
-                    style={{ color: 'black', borderRadius: 10, marginTop: 6, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
+                    style={{ color: 'black', borderRadius: 10, marginTop: 5, backgroundColor: '#FAFAFA', paddingVertical: 12, paddingHorizontal: 16 }}
                 />
             </View>
             {emailError ? <Text style={styles.error}>Please enter email.</Text> : null}
 
             <View>
-                <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 16 }}>
+                <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 10 }}>
                     Password:
                 </Text>
             </View>
 
-            <View style={{ flexDirection: 'row', alignItems: 'center', borderRadius: 10, marginTop: 6, backgroundColor: '#FAFAFA', paddingVertical: 3, paddingHorizontal: 16 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', borderRadius: 10, marginTop: 5, backgroundColor: '#FAFAFA', paddingVertical: 3, paddingHorizontal: 16 }}>
                 <TextInput
                     autoCapitalize='none'
                     placeholder='Your Password'
@@ -294,14 +304,14 @@ const Signup = () => {
                 <TouchableOpacity onPress={validDataLogin}><Text style={styles.btncontinue} >Register</Text></TouchableOpacity>
             </View>
 
-            <View style={{ marginTop: 22 }}>
+            <View style={{ marginTop: 15 }}>
                 <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
                     <Text style={{ color: 'grey', fontSize: 15, fontWeight: '600' }}>Have an account?</Text>
                     <Text style={{ color: '#54408C', fontSize: 15, fontWeight: '700' }} onPress={() => navigation.navigate('SignIn1')}> Sign In</Text>
                 </View>
             </View>
 
-            <View style={{ marginTop: 35 }}>
+            <View style={{ marginTop: 25 }}>
                 <Text style={{ textAlign: 'center', color: 'grey', fontSize: 14, fontWeight: '500' }}>
                     By clicking Register, you agree to our
                 </Text>
@@ -311,7 +321,7 @@ const Signup = () => {
             </View>
 
 
-        </View>
+        </ScrollView>
     )
 }
 
@@ -348,10 +358,6 @@ const styles = StyleSheet.create({
         marginTop: 1,
         fontFamily: 'AirbnbCereal_M',
     },
-
-
-
-
 
     strengthText: {
         fontWeight: 'bold',

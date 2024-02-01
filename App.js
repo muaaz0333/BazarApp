@@ -3,12 +3,8 @@ import React, { useEffect } from 'react'
 import SplashScreen from 'react-native-splash-screen'
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Onboarding1 from './components/Onboarding1';
-import Onboarding2 from './components/Onboarding2';
-import Onboarding3 from './components/Onboarding3';
 import SignIn1 from './components/SignIn1';
 import Signup from './components/Signup';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Onboard from './components/Onboard';
 import VerificationEmail from './components/VerificationEmail';
 import EnterPhone from './components/EnterPhone';
@@ -46,17 +42,15 @@ const Stack = createNativeStackNavigator();
 
 const App = () => {
   useEffect(() => {
-    setTimeout(()=>{
+    setTimeout(() => {
 
-    }, 2000)
+    }, 1000)
 
     SplashScreen.hide();
   }, []);
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      
-
 
         <Stack.Screen
           name="Onboard"

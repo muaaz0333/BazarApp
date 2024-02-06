@@ -1,12 +1,9 @@
-import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, Animated, ScrollView, Modal, TextInput, TouchableHighlight, StatusBar } from 'react-native'
+import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, Animated, ScrollView, Modal, TextInput, TouchableHighlight, StatusBar, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import BottomTab from './BottomTab';
 import { useNavigation, useRoute, useIsFocused } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Swipeable from 'react-native-swipeable';
-import { Gesture, GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -123,33 +120,6 @@ const Cart = () => {
     const userId = await AsyncStorage.getItem('USERId');
   }
 
-  // const deviceWidth = Dimensions.get('window').width;
-  // const threshold = -deviceWidth * 0.4;
-
-  // const dragX = useSharedValue(0)
-
-  // const gestureHandler = useAnimatedGestureHandler({
-  //   onActive: (e) => {
-  //     dragX.value = e.translationX;
-  //   },
-  //   onEnd: (e) => {
-  //     if (threshold < e.translationX) {
-  //       dragX.value = withTiming(0);
-  //     } else {
-  //       dragX.value = withTiming(-deviceWidth);
-  //     }
-  //   }
-  // })
-
-  // const itemContainerStyle = useAnimatedStyle(() => {
-  //   return {
-  //     transform: [
-  //       {
-  //         translateX: dragX.value
-  //       }
-  //     ]
-  //   }
-  // })
 
   const [listData, setListData] = useState(
     cartItemsObj.map((item, index) => ({
@@ -171,6 +141,7 @@ const Cart = () => {
     const newData = [...listData];
     const prevIndex = listData.findIndex(item => item.key == rowKey);
     newData.splice(prevIndex, 1);
+    Alert.alert("Item Deleted")
     setListData(newData);
   }
 
@@ -180,7 +151,7 @@ const Cart = () => {
       <TouchableHighlight>
         <View style={{
           flexDirection: 'row', alignItems: 'center', marginTop: 15, justifyContent: 'space-between',
-          borderColor: '#54408C', padding: 10, borderRadius: 20, backgroundColor: '#fff',elevation:5
+          borderColor: '#54408C', padding: 10, borderRadius: 20, backgroundColor: '#fff', elevation: 5
         }}>
           <Image style={{ height: 80, width: 80, borderRadius: 10, resizeMode: 'contain' }} source={data.item.image} />
           <View style={{ flexDirection: 'column' }}>
@@ -220,22 +191,21 @@ const Cart = () => {
 
   const HiddenItemWithActions = props => {
     const { onClose, onDelete } = props;
-
+    //         <TouchableOpacity
+    //           style={[styles.backRightBtn, styles.backRightBtnLeft]}
+    //           onPress={onClose}>
+    //           {/* <MaterialCommunityIcons name="close-circle-outline" size={25} color="#fff" /> */}
+    //           <Text style={{ color: '#fff', fontWeight: '900' }}>Close</Text>
+    //         </TouchableOpacity>
     return (
       <View style={styles.rowBack}>
         <Text>Left</Text>
-        <TouchableOpacity
-          style={[styles.backRightBtn, styles.backRightBtnLeft]}
-          onPress={onClose}>
-          {/* <MaterialCommunityIcons name="close-circle-outline" size={25} color="#fff" /> */}
-          <Text style={{ color: '#fff', fontWeight: '900' }}>Close</Text>
-        </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.backRightBtn, styles.backRightBtnRight]}
           onPress={onDelete}>
           {/* <MaterialCommunityIcons name="trash-can-outline" size={25} color="#fff" /> */}
-          <Text style={{ color: '#fff', fontWeight: '900' }}>Delete</Text>
+          <Text style={{ color: '#fff', fontWeight: '900',fontSize:17 }}>Delete</Text>
         </TouchableOpacity>
       </View>
     )
@@ -281,7 +251,7 @@ const Cart = () => {
 
               <View style={{ marginBottom: 280 }}>
                 <SwipeListView
-                showsVerticalScrollIndicator={false}
+                  showsVerticalScrollIndicator={false}
                   data={listData}
                   renderItem={renderItem}
                   renderHiddenItem={renderHiddenItem}
@@ -378,18 +348,6 @@ const Cart = () => {
 
         }
 
-        {/* <View style={{ backgroundColor: '#54408C', flex: 1, justifyContent: 'flex-end', marginTop: 330, marginBottom: 70, alignContent: 'flex-end', alignItems: 'flex-end', alignSelf: 'center', borderRadius: 20 }}>
-        <TouchableOpacity>
-          <Text style={{ textAlign: 'center', paddingBottom: 15, paddingHorizontal: 90, color: 'white', fontSize: 16, fontWeight: 'bold' }}>
-            Check Out
-          </Text>
-        </TouchableOpacity>
-      </View> */}
-
-
-
-
-
 
 
       </View>
@@ -411,13 +369,13 @@ export default Cart
 
 const styles = StyleSheet.create({
   backRightBtn: {
-    alignItems: 'flex-end',
+    alignItems: 'center',
     bottom: 0,
     justifyContent: 'center',
     position: 'absolute',
     top: 0,
-    width: 65,
-    paddingRight: 15
+    width: 160,
+    paddingHorizontal: 15
   },
   backRightBtnLeft: {
     backgroundColor: '#1f65ff',
@@ -426,13 +384,12 @@ const styles = StyleSheet.create({
   backRightBtnRight: {
     backgroundColor: "red",
     right: 0,
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5,
-
+    borderTopRightRadius: 18,
+    borderBottomRightRadius: 18,
   },
   rowBack: {
     alignItems: 'center',
-    backgroundColor: "#ffe",
+    backgroundColor: "#fff",
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',

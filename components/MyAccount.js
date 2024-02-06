@@ -81,8 +81,8 @@ const MyAccount = () => {
 
                 <View>
                     <TextInput
-                        placeholder='Anna'
-                        placeholderTextColor={'black'}
+                        placeholder='Please enter your Name'
+                        // placeholderTextColor={'black'}
                         style={{ color: 'black', borderRadius: 10, marginTop: 6, backgroundColor: '#E5E7E9', paddingVertical: 12, paddingHorizontal: 16, borderWidth: 1, borderColor: 'silver', fontSize: 16, fontWeight: '500' }}
                     />
                 </View>
@@ -97,8 +97,8 @@ const MyAccount = () => {
 
                 <View>
                     <TextInput
-                        placeholder='anna@gmail.com'
-                        placeholderTextColor={'black'}
+                        placeholder='Please enter your Email'
+                        // placeholderTextColor={'black'}
                         style={{ color: 'black', borderRadius: 10, marginTop: 6, backgroundColor: '#E5E7E9', paddingVertical: 12, paddingHorizontal: 16, borderWidth: 1, borderColor: 'silver', fontSize: 16, fontWeight: '500' }}
                     />
                 </View>
@@ -111,7 +111,9 @@ const MyAccount = () => {
                     </Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#E5E7E9', borderRadius: 10, marginTop: 6, borderWidth: 1, borderColor: 'silver' }}>
                         <Image style={{ marginHorizontal: 12, marginVertical: 12, width: 19, height: 19 }} source={require('../assets/Icons/Call.png')} />
-                        <TextInput placeholder='(+92) 333 4246144 ' placeholderTextColor={'black'} style={{ color: 'black', fontSize: 16, fontWeight: '500' }} inputMode='numeric' />
+                        <TextInput placeholder='Please enter your phone number '
+                        //  placeholderTextColor={'black'} 
+                         style={{ color: 'black', fontSize: 16, fontWeight: '500' }} inputMode='numeric' />
                     </View>
                 </View>
 
@@ -123,8 +125,8 @@ const MyAccount = () => {
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', borderRadius: 10, marginTop: 6, backgroundColor: '#E5E7E9', paddingVertical: 3, paddingHorizontal: 16, borderWidth: 1, borderColor: 'silver' }}>
                     <TextInput
-                        placeholder='......'
-                        placeholderTextColor={'black'}
+                        placeholder='******'
+                        // placeholderTextColor={'black'}
                         secureTextEntry={isSecureEntry}
                         style={{ flex: 1, color: 'black', fontSize: 16, fontWeight: '500' }}
 
@@ -139,7 +141,7 @@ const MyAccount = () => {
 
 
                 <View style={{ marginTop: 25 }}>
-                    <TouchableOpacity onPress={() => { }}><Text style={styles.btncontinue} >Save Changes</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={() => {navigation.navigate("Profile") }}><Text style={styles.btncontinue} >Save Changes</Text></TouchableOpacity>
                 </View>
 
 

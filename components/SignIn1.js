@@ -179,7 +179,7 @@ const SignIn1 = ({route}) => {
           value={password}
           autoCapitalize='none'
           onChangeText={(text) => setPassword(text)}
-          placeholder='********'
+          placeholder='******'
           placeholderTextColor={"grey"}
           secureTextEntry={isSecureEntry}
           style={{ flex: 1, color: 'black', }}

@@ -41,7 +41,7 @@ const Profile = () => {
             <Image style={{ width: 75, height: 70, borderRadius: 34 }} source={require('../assets/Images/dummyImg.jpg')} />
           </View>
           <View style={{ marginLeft: 16 }}>
-            <Text style={{ fontSize: 18, color: 'black', fontWeight: '700' }}>Anna Doe</Text>
+            <Text style={{ fontSize: 18, color: 'black', fontWeight: '700' }}>Your Name</Text>
             <Text style={{ fontSize: 16, color: 'grey' }}>(+92) 333 4246144</Text>
           </View>
         </View>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,7 +15,7 @@ const Cart = () => {
       name: 'Zombie Spacesuit',
       price: 30.00,
       quantity: 1
-    },{
+    }, {
       id: 2,
       image: require('../assets/Images/book1.png'),
       name: 'A Million to One',
@@ -61,6 +61,12 @@ const Cart = () => {
 
   const [totalPrice, setTotalPrice] = useState(0);
 
+  useEffect(() => {
+    // Calculate total price when component mounts
+    calculateTotalPrice(cartItems);
+  }, []); // Empty dependency array ensures this effect runs only once on mount
+
+
   const calculateTotalPrice = (items) => {
     let total = 0;
     items.forEach(item => {
@@ -103,7 +109,9 @@ const Cart = () => {
   return (
     <View style={{ flex: 1 }}>
       <Text style={{ marginBottom: 5, fontSize: 20, fontWeight: '800', textAlign: 'center', marginHorizontal: 90, color: 'black', marginTop: 20 }}>My Cart</Text>
+      <View style={{flex:1, marginBottom:101}}>
       <SwipeListView
+        showsVerticalScrollIndicator={false}
         data={cartItems}
         renderItem={({ item }) => (
           <CartItem
@@ -120,14 +128,15 @@ const Cart = () => {
         rightOpenValue={-150}
         disableRightSwipe
       />
+      </View>
       <View style={{ position: 'absolute', width: '100%', backgroundColor: 'white', bottom: 0, paddingVertical: 6 }}>
-        <View style={{ flexDirection:'row',marginHorizontal:15 , justifyContent:'space-between', alignItems:'center'}}>
+        <View style={{ flexDirection: 'row', marginHorizontal: 15, justifyContent: 'space-between', alignItems: 'center' }}>
           <TouchableOpacity onPress={() => navigation.navigate("CartConfirmOrder")}
-          style={{backgroundColor: '#54408C', borderRadius: 20, marginVertical: 8, paddingVertical: 10, alignSelf: 'center',}}
+            style={{ backgroundColor: '#54408C', borderRadius: 20, marginVertical: 0, paddingVertical: 7, alignSelf: 'center', }}
           >
-            <Text style={{ textAlign: 'center', marginHorizontal: 60, color: 'white', fontSize: 16, fontWeight: 'bold' }}>Check Out</Text>
+            <Text style={{ textAlign: 'center', marginHorizontal: 40, color: 'white', fontSize: 17, fontWeight: 'bold' }}>Check Out</Text>
           </TouchableOpacity>
-      <Text style={{ textAlign: 'center', marginVertical: 10, fontSize: 18, fontWeight: 'bold' }}>Total Price: ${totalPrice.toFixed(2)}</Text>
+          <Text style={{ textAlign: 'center', marginVertical: 10, fontSize: 18, fontWeight: 'bold', color: "grey" }}>Total Price: ${totalPrice.toFixed(2)}</Text>
         </View>
         <BottomTab />
       </View>
@@ -136,14 +145,28 @@ const Cart = () => {
 };
 
 const CartItem = ({ item, onInc, onDec, onChange }) => {
+  // Function to calculate item price based on quantity
+  const calculateItemPrice = () => {
+    return (item.price * item.quantity).toFixed(2);
+  };
+
   return (
-    <View style={{ marginHorizontal: 24, flexDirection: 'row', alignItems: 'center', marginTop: 15, justifyContent: 'space-between', borderColor: '#54408C', padding: 10, borderRadius: 20, backgroundColor: '#fff', elevation: 5 }}>
-      <Image style={{ height: 80, width: 80, borderRadius: 10, resizeMode: 'contain' }} source={item.image} />
-      <View style={{ flexDirection: 'column' }}>
-        <Text style={{ fontSize: 18, color: 'black', fontWeight: '600' }} numberOfLines={1}>{item.name}</Text>
-        <Text style={{ fontSize: 17, color: 'black' }} numberOfLines={1}>${item.price}</Text>
+    <View style={{
+      marginHorizontal: 13, flexDirection: 'row', marginVertical:8,
+      borderRadius: 20, backgroundColor: '#fff', elevation: 8,
+      paddingHorizontal:10,flex:1
+    }}>
+      <View style={{
+        flexDirection: 'row', alignItems: 'center',
+          paddingVertical: 10, flex: 1
+      }}>
+        <Image style={{ height: 90, width: 80, borderRadius: 10, resizeMode: 'stretch' }} source={item.image} />
+        <View style={{ flexDirection: 'column', marginLeft: 8 }}>
+          <Text style={{ fontSize: 17, color: 'black', fontWeight: '600' }} numberOfLines={1}>{item.name}</Text>
+          <Text style={{ fontSize: 16, color: 'black' }} numberOfLines={1}>${calculateItemPrice()}</Text>
+        </View>
       </View>
-      <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center', marginLeft: 10 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10, }}>
         <TouchableOpacity onPress={onDec} style={{ backgroundColor: '#E8E8E8', width: 24, height: 24, borderRadius: 6, justifyContent: 'center', alignItems: 'center' }}>
           <Image style={{ tintColor: 'black' }} source={require('../assets/Icons/Minus.png')} />
         </TouchableOpacity>
@@ -198,8 +221,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingLeft: 15,
     margin: 7,
-    marginBottom: 6,
-    marginTop: 17,
+    marginBottom: 10,
+    marginTop: 15,
     borderRadius: 20,
     marginHorizontal: 24
   }

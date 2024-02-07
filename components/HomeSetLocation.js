@@ -1,4 +1,4 @@
-import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput } from 'react-native'
+import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput, Alert } from 'react-native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
@@ -15,6 +15,7 @@ const HomeSetLocation = () => {
     const [block, setBlock] = useState("")
     const [street, setStreet] = useState("")
     const [building, setBuilding] = useState("")
+    const [region, setRegion] = useState(null);
 
     const [phoneError, setPhoneError] = useState(false);
     const [nameError, setNameError] = useState(false);
@@ -50,6 +51,33 @@ const HomeSetLocation = () => {
 
         console.log('User Location:', location);
     }
+
+    const handleSearch = async () => {
+        try {
+            const response = await fetch(
+                `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=AIzaSyAWR5l7qnyXVo7EAW2EhSiUHxt-oZr6mYA`
+            );
+            if (!response.ok) {
+                throw new Error('Failed to fetch data');
+            }
+            const data = await response.json();
+            if (data.status !== 'OK') {
+                throw new Error('Geocoding API request failed');
+            }
+            const { lat, lng } = data.results[0].geometry.location;
+            setRegion({
+                latitude: lat,
+                longitude: lng,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            });
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            Alert.alert('Error', 'Failed to fetch location data. Please try again later.');
+        }
+    };
+    
+
 
     return (
         <ScrollView style={{ flex: 1, marginHorizontal: 24, }} showsVerticalScrollIndicator={false}>
@@ -245,12 +273,20 @@ const HomeSetLocation = () => {
 
 
             <View style={{ marginVertical: 22 }}>
-                <TouchableOpacity onPress={validDataLogin}>
+                <TouchableOpacity
+                    onPress={handleSearch}
+                // onPress={validDataLogin}
+                >
                     <Text style={styles.confirmation}>
                         Confirmation
                     </Text>
                 </TouchableOpacity>
             </View>
+            {region && (
+                <MapView style={{ flex: 1 }} region={region}>
+                    <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }} />
+                </MapView>
+            )}
 
 
         </ScrollView>

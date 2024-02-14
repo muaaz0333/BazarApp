@@ -1,5 +1,5 @@
-import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal, Alert } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal, Alert, TextInput } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import BottomTab from './BottomTab';
 import { NavigationContainer } from '@react-navigation/native';
@@ -8,7 +8,9 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 
-const Profile = () => {
+const Profile = (props) => {
+  const a = props.route.params;
+  console.log('Profile section ---------------',a);
   const navigation = useNavigation();
   const [logout, setLogout] = useState(false);
 
@@ -23,6 +25,30 @@ const Profile = () => {
     navigation.navigate("SignIn1")
   }
 
+
+  const [userData, setUserData] = useState({
+    name: '',
+    phone: ''
+  });
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+  const fetchUserData = async () => {
+    try {
+      const userCollection = firestore().collection('Users_Profile');
+      const userQuerySnapshot = await userCollection.limit(1).get();
+      if (!userQuerySnapshot.empty) {
+        const userData = userQuerySnapshot.docs[0].data();
+        setUserData(userData);
+      } else {
+        Alert.alert('User data not found');
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+
+  // console.log('222222---------------',a);
 
 
 
@@ -40,9 +66,23 @@ const Profile = () => {
           <View>
             <Image style={{ width: 75, height: 70, borderRadius: 34 }} source={require('../assets/Images/dummyImg.jpg')} />
           </View>
-          <View style={{ marginLeft: 16 }}>
-            <Text style={{ fontSize: 18, color: 'black', fontWeight: '700' }}>Your Name</Text>
-            <Text style={{ fontSize: 16, color: 'grey' }}>(+92) 333 4246144</Text>
+          <View style={{ marginLeft: 15 }}>
+            <TextInput
+              style={styles.input}
+              // value={userData.name}
+              value={a?.name || "name"}
+              onChangeText={(text) => setUserData({ ...userData, name: text })}
+              editable={false}
+            />
+            <TextInput
+              style={{ fontSize: 16, color: 'grey' }}
+              // value={userData.phone}
+              value={a?.phone || "phone"}
+              onChangeText={(text) => setUserData({ ...userData, phone: text })}
+              editable={false}
+            />
+            {/* <Text style={{ fontSize: 18, color: 'black', fontWeight: '700' }}>Your Name</Text> */}
+            {/* <Text style={{ fontSize: 16, color: 'grey' }}>(+92) 333 4246144</Text> */}
           </View>
         </View>
         <View>
@@ -57,7 +97,7 @@ const Profile = () => {
 
 
 
-      <TouchableOpacity onPress={() => navigation.navigate("MyAccount")}>
+      <TouchableOpacity onPress={() => navigation.navigate("MyAccount",a)}>
 
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 25, marginTop: 0, width: '100%', paddingVertical: 17, justifyContent: 'space-between' }}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -275,5 +315,10 @@ const styles = StyleSheet.create({
     fontSize: 19,
     paddingVertical: 12,
     fontWeight: '600'
+  },
+  input: {
+    fontSize: 18,
+    color: 'black',
+    fontWeight: '700'
   }
 })

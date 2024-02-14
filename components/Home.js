@@ -8,7 +8,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { height, width } = Dimensions.get('window')
 let userId = '';
-const Home = () => {
+const Home = (props) => {
+   
+    // console.log(name, phone, email, password)
 
     // TopSliders
     const [slider, setSlider] = useState([]); // Initial empty array of users
@@ -140,25 +142,25 @@ const Home = () => {
     const isFocused = useIsFocused();
     useEffect(() => {
         firestore()
-          .collection('Books')
-          .get()
-          .then(querySnapshot => {
-            console.log('Total Users Books', querySnapshot.size);
-            let tempData = [];
-            querySnapshot.forEach(documentSnapshot => {
-              console.log(
-                'User ID:',
-                documentSnapshot.id,
-                documentSnapshot.data()
-              );
-              tempData.push({
-                id: documentSnapshot.id,
-                data: documentSnapshot.data(),
-              });
+            .collection('Books')
+            .get()
+            .then(querySnapshot => {
+                console.log('Total Users Books', querySnapshot.size);
+                let tempData = [];
+                querySnapshot.forEach(documentSnapshot => {
+                    console.log(
+                        'User ID:',
+                        documentSnapshot.id,
+                        documentSnapshot.data()
+                    );
+                    tempData.push({
+                        id: documentSnapshot.id,
+                        data: documentSnapshot.data(),
+                    });
+                });
+                setItems(tempData);
             });
-            setItems(tempData);
-          });
-      }, []);
+    }, []);
 
 
     const addToCart = () => {
@@ -169,10 +171,17 @@ const Home = () => {
         };
         setCart(prevCart => [...prevCart, newItem]);
     };
-
+    const { name, phone, email, password } = props.route.params || {};
+    const userData={
+        name: name,
+        phone: phone,
+        email: email,
+        password: password
+    }
+       
+    
     return (
         <View style={{ flex: 1 }}>
-
             {/* home app bar */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 16, marginHorizontal: 24, paddingBottom: 10 }}>
                 <TouchableOpacity onPress={() => navigation.navigate("Books")}>
@@ -219,7 +228,7 @@ const Home = () => {
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
                         {
                             data.map((item, index) => {
-                            
+
                                 return (
                                     <View style={{ width: 7, height: 7, borderRadius: 4, backgroundColor: currentIndex == index ? '#54408C' : 'gray', marginLeft: 5 }}>
                                     </View>
@@ -286,7 +295,7 @@ const Home = () => {
                         )}
                     />
                 </View>
-
+                
                 {/* Authors */}
                 <View style={{ marginTop: 26, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 24 }}>
                     <Text style={{ fontSize: 18, color: 'black', fontWeight: 'bold' }}>Authors</Text>
@@ -316,9 +325,9 @@ const Home = () => {
                 </View>
             </ScrollView>
             <View style={{ position: 'absolute', width: '100%', backgroundColor: 'white', bottom: 0, paddingVertical: 6 }}>
-                <BottomTab />
+                <BottomTab a={userData}/>
             </View>
-
+           
             <Modal
                 animationType="slide"
                 transparent={true}

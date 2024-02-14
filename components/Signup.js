@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Alert, ScrollView } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import auth, { firebase } from '@react-native-firebase/auth';
@@ -10,7 +10,10 @@ import { doc, setDoc } from "@react-native-firebase/firestore"
 
 const Signup = () => {
 
-
+    const form=(text)=>{
+        setContextData(text)
+        navigation.navigate("SignIn1")
+    }
 
     // const saveUser = () => {
     //     const userId = uuid.v4()
@@ -31,10 +34,6 @@ const Signup = () => {
     //             console.log(error)
     //         })
     // }
-
-
-
-
 
 
     const [visible, setVisible] = useState(false);
@@ -86,7 +85,11 @@ const Signup = () => {
         auth().createUserWithEmailAndPassword(email, password).then((userCredential) => {
             const user = userCredential.user
             if (user) {
-                navigation.navigate("SignIn1", { email: email })
+                // navigation.navigate("SignIn1", { name, phone, email: "", password: "" })
+                console.log("Navigation params:", { name, phone, email: "", password: "" });
+
+                navigation.navigate("SignIn1", { name, phone, email: "", password: "" })
+
             }
             dataStore()
 
@@ -123,6 +126,8 @@ const Signup = () => {
         //     .catch(function (error) {
         //         console.log(error)
         //     })
+        // Update userData context with user details
+       
 
     }
 
@@ -174,7 +179,7 @@ const Signup = () => {
 
     return (
         <ScrollView style={{ flex: 1, margin: 20, padding: 10, }}
-        showsVerticalScrollIndicator={false}>
+            showsVerticalScrollIndicator={false}>
             <View style={{ alignSelf: 'flex-start', marginTop: 13 }}>
                 <TouchableOpacity style={styles.skiptxt} onPress={() => { }}>
                     <Image source={require('../assets/Icons/Arrow_Left.png')} />
@@ -301,7 +306,10 @@ const Signup = () => {
 
 
             <View style={{ marginTop: 12 }}>
-                <TouchableOpacity onPress={validDataLogin}><Text style={styles.btncontinue} >Register</Text></TouchableOpacity>
+                <TouchableOpacity 
+                
+                onPress={validDataLogin}                
+                ><Text style={styles.btncontinue} >Register</Text></TouchableOpacity>
             </View>
 
             <View style={{ marginTop: 15 }}>

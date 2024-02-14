@@ -35,6 +35,7 @@ import HelpCenter from './components/HelpCenter';
 import Offers from './components/Offers';
 import DetailNewsPromos from './components/DetailNewsPromos';
 import Books from './components/Books';
+
 // import SplashScreen from 'react-native-splash-screen'
 
 
@@ -49,266 +50,76 @@ const App = () => {
     SplashScreen.hide();
   }, []);
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-
-        <Stack.Screen
-          name="Onboard"
-          component={Onboard}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="SignIn1"
-          component={SignIn1}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="Signup"
-          component={Signup}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="VerificationEmail"
-          component={VerificationEmail}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="EnterPhone"
-          component={EnterPhone}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="VerificationPhone"
-          component={VerificationPhone}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="SuccessVerification"
-          component={SuccessVerification}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="Vendors"
-          component={Vendors}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="Authors"
-          component={Authors}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="AuthorInnerPage"
-          component={AuthorInnerPage}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="Category"
-          component={Category}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="CategorySearch"
-          component={CategorySearch}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="HomeSearch"
-          component={HomeSearch}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="Cart"
-          component={Cart}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="CartNotification"
-          component={CartNotification}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="HomeNotification"
-          component={HomeNotification}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="CartConfirmOrder"
-          component={CartConfirmOrder}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="HomeSetLocation"
-          component={HomeSetLocation}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="OrderStatus"
-          component={OrderStatus}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="OrderStatusRating"
-          component={OrderStatusRating}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="DeliveryNotification"
-          component={DeliveryNotification}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="NewsPromosNotification"
-          component={NewsPromosNotification}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="DetailNewsPromos"
-          component={DetailNewsPromos}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="Profile"
-          component={Profile}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="MyAccount"
-          component={MyAccount}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="HomeSetMap"
-          component={HomeSetMap}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="YourFavorites"
-          component={YourFavorites}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="OrderHistory"
-          component={OrderHistory}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="HelpCenter"
-          component={HelpCenter}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="Offers"
-          component={Offers}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-
-        <Stack.Screen
-          name="Books"
-          component={Books}
-          options={{ headerShown: false }}
-        >
-        </Stack.Screen>
-
-      </Stack.Navigator>
-    </NavigationContainer>
+      <NavigationContainer>
+        <Stack.Navigator>
+
+          <Stack.Screen name="Onboard" component={Onboard} options={{ headerShown: false }} />
+
+          <Stack.Screen name="SignIn1" component={SignIn1} options={{ headerShown: false }} />
+
+          <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
+
+          <Stack.Screen name="VerificationEmail" component={VerificationEmail} options={{ headerShown: false }} />
+
+          <Stack.Screen name="EnterPhone" component={EnterPhone} options={{ headerShown: false }} />
+
+          <Stack.Screen name="VerificationPhone" component={VerificationPhone} options={{ headerShown: false }} />
+
+          <Stack.Screen name="SuccessVerification" component={SuccessVerification} options={{ headerShown: false }} />
+
+          <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+
+          <Stack.Screen name="Vendors" component={Vendors} options={{ headerShown: false }} />
+
+          <Stack.Screen name="Authors" component={Authors} options={{ headerShown: false }} />
+
+          <Stack.Screen name="AuthorInnerPage" component={AuthorInnerPage} options={{ headerShown: false }} />
+
+          <Stack.Screen name="Category" component={Category} options={{ headerShown: false }} />
+
+          <Stack.Screen name="CategorySearch" component={CategorySearch} options={{ headerShown: false }} />
+
+          <Stack.Screen name="HomeSearch" component={HomeSearch} options={{ headerShown: false }} />
+
+          <Stack.Screen name="Cart" component={Cart} options={{ headerShown: false }} />
+
+          <Stack.Screen name="CartNotification" component={CartNotification} options={{ headerShown: false }} />
+
+          <Stack.Screen name="HomeNotification" component={HomeNotification} options={{ headerShown: false }} />
+
+          <Stack.Screen name="CartConfirmOrder" component={CartConfirmOrder} options={{ headerShown: false }} />
+
+          <Stack.Screen name="HomeSetLocation" component={HomeSetLocation} options={{ headerShown: false }} />
+
+          <Stack.Screen name="OrderStatus" component={OrderStatus} options={{ headerShown: false }} />
+
+          <Stack.Screen name="OrderStatusRating" component={OrderStatusRating} options={{ headerShown: false }} />
+
+          <Stack.Screen name="DeliveryNotification" component={DeliveryNotification} options={{ headerShown: false }} />
+
+          <Stack.Screen name="NewsPromosNotification" component={NewsPromosNotification} options={{ headerShown: false }} />
+
+          <Stack.Screen name="DetailNewsPromos" component={DetailNewsPromos} options={{ headerShown: false }} />
+
+          <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+
+          <Stack.Screen name="MyAccount" component={MyAccount} options={{ headerShown: false }} />
+
+          <Stack.Screen name="HomeSetMap" component={HomeSetMap} options={{ headerShown: false }} />
+
+          <Stack.Screen name="YourFavorites" component={YourFavorites} options={{ headerShown: false }} />
+
+          <Stack.Screen name="OrderHistory" component={OrderHistory} options={{ headerShown: false }} />
+
+          <Stack.Screen name="HelpCenter" component={HelpCenter} options={{ headerShown: false }} />
+
+          <Stack.Screen name="Offers" component={Offers} options={{ headerShown: false }} />
+
+          <Stack.Screen name="Books" component={Books} options={{ headerShown: false }} />
+
+        </Stack.Navigator>
+      </NavigationContainer>
+
   )
 }
 

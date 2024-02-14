@@ -118,7 +118,10 @@ const romantic = [
 
 
 
-const Category = () => {
+const Category = (props) => {
+  const a = props.route.params;
+  console.log('222222---------------',a);
+
   const navigation = useNavigation();
 
   return (
@@ -193,7 +196,6 @@ const All = () => {
   // if (loading) {
   //       return <ActivityIndicator />;
   //   }
-
 
 
   return (

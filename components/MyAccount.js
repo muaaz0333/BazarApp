@@ -1,168 +1,230 @@
-import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, TextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
+import auth, { firebase } from '@react-native-firebase/auth';
+const MyAccount = (props) => {
 
-const MyAccount = () => {
+    const a = props.route.params;
+    console.log('MyAccount---------------',a);
+
     const navigation = useNavigation();
-    const [isSecureEntry, setIsSecureEntry] = useState(true)
+    const [isSecureEntry, setIsSecureEntry] = useState(true);
+    const [selectedImage, setSelectedImage] = useState('');
+    const [userData, setUserData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        password: ''
+    });
+
+    useEffect(() => {
+        fetchUserData();
+        loadSelectedImage();
+    }, []);
+
+    // Firebase
+    const fetchUserData = async () => {
+        try {
+
+            // const currentUser = firebase.auth().currentUser;
+            // if (currentUser) {
+            //     const userId = currentUser.uid;
+            //     console.log('User ID:', userId); 
+            //     const userDoc = await firebase.firestore().collection('Users_Profile').doc(currentUser.uid).get();
+            //     if (userDoc.exists) {
+            //         const userData = userDoc.data();
+            //         setUserData(userData);
+            //     } else {
+            //         Alert.alert('User data not found');
+            //     }
+            // } else {
+                // Alert.alert('User not logged in');
+            // }
 
 
-    // Image
-    const [setImage, setSelectedImage] = useState('');
-    const ImagePicker = async () => {
-
-        let options = {
-            storageOptions: {
-                path: "image"
+            const userCollection = firebase.firestore().collection('Users_Profile');
+            const userQuerySnapshot = await userCollection.get();
+            if (!userQuerySnapshot.empty) {
+                const userData = userQuerySnapshot.docs[0].data();
+                setUserData(userData);
+            } else {
+                Alert.alert('User data not found');
             }
+        } catch (error) {
+            console.error('Error fetching user data:', error);
         }
-        launchImageLibrary(options, Response => {
-            setSelectedImage(Response.assets[0].uri)
-            // console.log(Response.assets[0].uri);
+    };
 
-        })
+    // image with async storage
+    const loadSelectedImage = async () => {
+        try {
+            const value = await AsyncStorage.getItem('selectedImage');
+            if (value !== null) {
+                setSelectedImage(value);
+            }
+        } catch (error) {
+            console.error('Error loading selected image from AsyncStorage:', error);
+        }
+    };
 
-    }
+    const saveSelectedImage = async (imageUri) => {
+        try {
+            await AsyncStorage.setItem('selectedImage', imageUri);
+        } catch (error) {
+            console.error('Error saving selected image to AsyncStorage:', error);
+        }
+    };
+
+    const pickImage = () => {
+        launchImageLibrary({}, (response) => {
+            if (!response.didCancel && !response.errorCode && response.assets.length > 0 && response.assets[0].uri) {
+                setSelectedImage(response.assets[0].uri);
+                saveSelectedImage(response.assets[0].uri);
+            }
+        });
+    };
 
     return (
         <ScrollView>
-            <View style={{ flex: 1, marginHorizontal: 24 }}>
-
-                {/* Appbar */}
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 25 }}>
-                    <TouchableOpacity onPress={() => { navigation.navigate("Profile") }}>
-                        <Image source={require("../assets/Icons/Arrow_Left.png")} style={{ tintColor: 'black' }} />
+    
+            <View style={styles.container}>
+                <View style={styles.appBar}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+                        <Image source={require("../assets/Icons/Arrow_Left.png")} style={styles.icon} />
                     </TouchableOpacity>
-                    <View style={{ marginHorizontal: 87 }}>
-                        <Text style={{ fontSize: 21, color: 'black', fontWeight: '700' }}>My Account</Text>
-                    </View>
+                    <Text style={styles.title}>My Account</Text>
                 </View>
 
-
-
-                {/* Image */}
-
-                <View style={{ width: 110, height: 130, alignItems: 'center', alignSelf: 'center', marginTop: 18 }}>
-                    {/* <Image style={{ width: 100, height: 100, borderRadius: 50 }} source={require('../assets/Images/Author7.png')} /> */}
-
-                    <View style={{ backgroundColor: 'white', width: 120, height: 120, borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
-                        {
-                            setImage === '' ? <Image source={require("../assets/Images/dummyImg.jpg")}
-                                style={{ width: 110, height: 110, borderRadius: 50 }}
-                            />
-                                :
-                                <Image source={{ uri: setImage }}
-                                    // style={{ height: "100%", width: '100%', borderRadius: 100 }}
-                                    style={{ width: 100, height: 100, borderRadius: 50 }}
-                                />
-                        }
-                    </View>
-
-                    <View style={{ marginTop: 16 }}>
-                        <TouchableOpacity onPress={() => { { ImagePicker() } }}>
-                            <Text style={{ color: '#54408C', fontSize: 15, fontWeight: '700' }}>
-                                Set Picture
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-
-
-
-                {/* Input Fields */}
-
-                <View style={{ marginTop: 30 }}>
-                    <Text style={{ color: '#121212', fontSize: 17, fontWeight: 'bold' }}>
-                        Name
-                    </Text>
-                </View>
-
-                <View>
-                    <TextInput
-                        placeholder='Please enter your Name'
-                        // placeholderTextColor={'black'}
-                        style={{ color: 'black', borderRadius: 10, marginTop: 6, backgroundColor: '#E5E7E9', paddingVertical: 12, paddingHorizontal: 16, borderWidth: 1, borderColor: 'silver', fontSize: 16, fontWeight: '500' }}
-                    />
-                </View>
-
-
-
-                <View style={{ marginTop: 16 }}>
-                    <Text style={{ color: '#121212', fontSize: 17, fontWeight: 'bold' }}>
-                        Email
-                    </Text>
-                </View>
-
-                <View>
-                    <TextInput
-                        placeholder='Please enter your Email'
-                        // placeholderTextColor={'black'}
-                        style={{ color: 'black', borderRadius: 10, marginTop: 6, backgroundColor: '#E5E7E9', paddingVertical: 12, paddingHorizontal: 16, borderWidth: 1, borderColor: 'silver', fontSize: 16, fontWeight: '500' }}
-                    />
-                </View>
-
-
-
-                <View style={{ marginTop: 16, }}>
-                    <Text style={{ color: '#121212', fontSize: 17, fontWeight: 'bold', }}>
-                        Phone Number
-                    </Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#E5E7E9', borderRadius: 10, marginTop: 6, borderWidth: 1, borderColor: 'silver' }}>
-                        <Image style={{ marginHorizontal: 12, marginVertical: 12, width: 19, height: 19 }} source={require('../assets/Icons/Call.png')} />
-                        <TextInput placeholder='Please enter your phone number '
-                        //  placeholderTextColor={'black'} 
-                         style={{ color: 'black', fontSize: 16, fontWeight: '500' }} inputMode='numeric' />
-                    </View>
-                </View>
-
-                <View style={{ marginTop: 16 }}>
-                    <Text style={{ color: '#121212', fontSize: 17, fontWeight: 'bold' }}>
-                        Password
-                    </Text>
-                </View>
-
-                <View style={{ flexDirection: 'row', alignItems: 'center', borderRadius: 10, marginTop: 6, backgroundColor: '#E5E7E9', paddingVertical: 3, paddingHorizontal: 16, borderWidth: 1, borderColor: 'silver' }}>
-                    <TextInput
-                        placeholder='******'
-                        // placeholderTextColor={'black'}
-                        secureTextEntry={isSecureEntry}
-                        style={{ flex: 1, color: 'black', fontSize: 16, fontWeight: '500' }}
-
-                    />
-                    <TouchableOpacity onPress={() => setIsSecureEntry((prev) => !prev)}>
-                        {
-                            isSecureEntry ? <Image source={require('../assets/Icons/Phide.png')} /> : <Image source={require('../assets/Icons/Pshow.png')} />
-                        }
+                <View style={styles.imageContainer}>
+                    <TouchableOpacity onPress={pickImage}>
+                        <Image source={selectedImage ? { uri: selectedImage } : require("../assets/Images/dummyImg.jpg")} style={styles.image} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={pickImage}>
+                        <Text style={styles.changePictureText}>Set Picture</Text>
                     </TouchableOpacity>
                 </View>
 
-
-
-                <View style={{ marginTop: 25 }}>
-                    <TouchableOpacity onPress={() => {navigation.navigate("Profile") }}><Text style={styles.btncontinue} >Save Changes</Text></TouchableOpacity>
+                <View style={styles.userDataContainer}>
+                    <Text style={styles.label}>Name:</Text>
+                    
+                    {/* <Text>User Data: {JSON.stringify(userData)}</Text> */}
+                    <TextInput
+                        style={styles.input}
+                        // value={userData.name}
+                        value={a.name}
+                        // placeholder='name'
+                        placeholderTextColor={"grey"}
+                        onChangeText={(text) => setUserData({ ...userData, name: text })}
+                    />
+                    <Text style={styles.label}>Email:</Text>
+                    <TextInput
+                        style={styles.input}
+                        // value={userData.email}
+                        value={a.email}
+                        placeholderTextColor={"grey"}
+                        // placeholder='email'
+                        editable={false}
+                        onChangeText={(text) => setUserData({ ...userData, email: text })}
+                    />
+                    <Text style={styles.label}>Phone Number:</Text>
+                    <TextInput
+                        style={styles.input}
+                        // value={userData.phone}
+                        value={a.phone}
+                        placeholderTextColor={"grey"}
+                        // placeholder='phone'
+                        onChangeText={(text) => setUserData({ ...userData, phone: text })}
+                    />
+                    <Text style={styles.label}>Password:</Text>
+                    <TextInput
+                        style={styles.input}
+                        // secureTextEntry={isSecureEntry}
+                        // value={userData.password}
+                        value={a.password}
+                        placeholderTextColor={"grey"}
+                        // placeholder='password'
+                        onChangeText={(text) => setUserData({ ...userData, password: text })}
+                    />
                 </View>
 
-
+                <TouchableOpacity style={styles.saveButton} onPress={() => navigation.navigate("Profile")}>
+                    <Text style={styles.saveButtonText}>Save Changes</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
-    )
-}
+    );
+};
 
-export default MyAccount
+export default MyAccount;
 
 const styles = StyleSheet.create({
-    btncontinue: {
-        backgroundColor: '#54408C',
-        textAlign: 'center',
-        // marginLeft: 24,
-        // marginRight: 24,
-        color: 'white',
-        borderRadius: 35,
-        fontSize: 19,
-        paddingVertical: 12,
-        fontWeight: '600',
-        marginBottom: 28
+    container: {
+        flex: 1,
+        marginHorizontal: 24
     },
-})
+    appBar: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 25
+    },
+    icon: {
+        tintColor: 'black'
+    },
+    title: {
+        fontSize: 21,
+        color: 'black',
+        fontWeight: '700',
+        marginHorizontal: 87
+    },
+    imageContainer: {
+        width: 110,
+        height: 130,
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginTop: 18
+    },
+    image: {
+        width: 110,
+        height: 110,
+        borderRadius: 55
+    },
+    changePictureText: {
+        color: '#54408C',
+        fontSize: 15,
+        fontWeight: '700',
+        marginTop: 5
+    },
+    userDataContainer: {
+        marginTop: 30
+    },
+    label: {
+        fontSize: 17,
+        fontWeight: 'bold',
+        marginBottom: 5,
+        color: 'black'
+    },
+    input: {
+        backgroundColor: '#f8f8f8',
+        padding: 10,
+        borderRadius: 5,
+        marginBottom: 15,
+        color: 'black',
+        fontSize: 15
+    },
+    saveButton: {
+        backgroundColor: '#54408C',
+        alignItems: 'center',
+        borderRadius: 35,
+        marginTop: 25
+    },
+    saveButtonText: {
+        color: 'white',
+        fontSize: 18,
+        paddingVertical: 12,
+        fontWeight: '600'
+    }
+});

@@ -2,37 +2,31 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, KeyboardAvoidingView, 
 import React, { useState,useEffect } from 'react'
 import { useNavigation , useIsFocused} from '@react-navigation/native';
 
-
-
-
-
-
-
-const BottomTab = () => {
-
+const BottomTab = ({a}) => {
+console.log('---------------',a);
   const isFocused = useIsFocused();
 
     useEffect(() => {
         const routeName = navigation?.getState()?.routes[navigation?.getState()?.index]?.name;
         switch (routeName) {
             case "Category":
-                handleTabPress("Category");
+              navigation.navigate("Category",a);
                 break;
             case "Cart":
-                handleTabPress("Cart");
+              navigation.navigate("Cart",a);
                 break;
             case "Profile":
-                handleTabPress("Profile");
+              navigation.navigate("Profile",a);
                 break;
             default:
                 // Handle default case if needed
                 break;
         }
     }, [isFocused, navigation]);
-    const handleTabPress = (tab) => {
-      // Navigate to the selected tab
-      navigation.navigate(tab);
-  };
+  //   const handleTabPress = (tab) => {
+  //     // Navigate to the selected tab
+  //     navigation.navigate(tab,a);
+  // };
 
   const handleColorChange = (tab) => {
       const routeName = navigation?.getState()?.routes[navigation?.getState()?.index]?.name;
@@ -40,34 +34,11 @@ const BottomTab = () => {
   };
 
 
-
-
-  
-//   const [home, setHome]=useState(true)
-//   const [category, setCategory]=useState(false)
-//   const [cart, setCart]=useState(false)
-//   const [profile, setProfile]=useState(false)
-//   const homefun=()=>{
-
-//   }
-//   const categoryfun=()=>{
-//     setHome(false)
-//     setCategory(true)
-//     navigation.navigate('Category')
-//   }
-//   const cartfun=()=>{
-
-//   }
-//   const profilefun=()=>{
-
-//   }
-
   const navigation = useNavigation();
+
+
   return (
     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly',paddingVertical:2 }}>
-
-
-
 
       <TouchableOpacity onPress={()=>navigation.navigate('Home')}>
         <View style={{ alignItems: 'center' }}>
@@ -97,7 +68,6 @@ const BottomTab = () => {
           <Text style={{color:'grey', marginTop:3,  fontSize:12}}>Profile</Text>
         </View>
       </TouchableOpacity>
-
 
     </View>
   )

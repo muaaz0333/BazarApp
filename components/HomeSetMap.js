@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 
 const HomeSetMap = () => {
@@ -70,19 +71,35 @@ const HomeSetMap = () => {
         <TouchableOpacity onPress={() => { navigation.navigate("CartConfirmOrder") }}>
           <Image source={require("../assets/Icons/Arrow_Left.png")} style={{ tintColor: 'black' }} />
         </TouchableOpacity>
-
-
         <Text style={{ fontSize: 20, color: 'black', fontWeight: '700' }}>Location</Text>
         <TouchableOpacity onPress={() => { }}>
           <Image source={require("../assets/Icons/Notification.png")} />
         </TouchableOpacity>
       </View>
 
+
+      {/* Map */}
       <View style={{ marginTop: 10, borderRadius: 20, width: '100%', height: '30%' }}>
+      <View style={{zIndex:1, flex:0.5,}}>
+      <GooglePlacesAutocomplete
+      fetchDetails={true}
+        placeholder='Search'
+        onPress={(data,details =null)=>{
+          // 'details' is provided when fetchDetails = true
+          
+          console.log(data,details);
+        }}
+        query={{
+          key:"AIzaSyAWR5l7qnyXVo7EAW2EhSiUHxt-oZr6mYA",
+          language:'en',
+        }}
+      />
+      </View>
         <MapView
+        
           provider={PROVIDER_GOOGLE}
           onPress={() => setLocationModal(!locationModal)}
-          style={{ height: '100%', width: '100%', }}
+          style={{ height: '100%', width: '100%', marginTop:50,zIndex:0}}
           initialRegion={{
             latitude: 31.582045,
             longitude: 74.329376,
@@ -103,6 +120,9 @@ const HomeSetMap = () => {
         </MapView>
       </View>
 
+
+
+      {/* Map Modal */}
       <View>
         <Modal
           animationType="slide"
@@ -113,7 +133,7 @@ const HomeSetMap = () => {
           }}
         >
           <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)' }}>
-            <View style={{ flex: 1, backgroundColor: 'white', marginTop: 310, elevation: 10, borderTopLeftRadius: 50, borderTopRightRadius: 50, }}>
+            <View style={{ flex: 1, backgroundColor: 'white', marginTop: 335, elevation: 10, borderTopLeftRadius: 50, borderTopRightRadius: 50, }}>
               <View style={{ marginTop: 16, marginHorizontal: 24 }}>
                 <View>
                   <TouchableOpacity onPress={() => { setLocationModal(!locationModal) }}>
@@ -126,7 +146,7 @@ const HomeSetMap = () => {
                     Detail Address
                   </Text>
                   <TouchableOpacity
-                    onPress={() => { Permission}}>
+                    onPress={() => { Permission }}>
                     <Image source={require('../assets/Icons/GPS-Fill.png')} />
                   </TouchableOpacity>
                 </View>
@@ -167,7 +187,7 @@ const HomeSetMap = () => {
                   </TouchableOpacity>
                 </View>
 
-                <View style={{ marginTop: 92 }}>
+                <View style={{ marginTop: 80 }}>
                   <TouchableOpacity onPress={() => navigation.navigate("HomeSetLocation")}>
                     <Text style={styles.confirmationbtn}>
                       Confirmation

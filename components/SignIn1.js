@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Alert, TouchableHighlight } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import { Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
-import auth from '@react-native-firebase/auth';
+import auth, { firebase } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Switch } from 'react-native-switch'
@@ -11,14 +11,18 @@ import { Switch } from 'react-native-switch'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 
-const SignIn1 = ({route}) => {
+const SignIn1 = (props) => {
+  const { name, phone, email: passedEmail, password: passedPassword } = props.route.params || {};
+  // console.log(name,passedEmail,passedPassword,phone)
+
+  // console.log(name, password, phone, email)
 
   const [visible, setVisible] = useState(false);
   //remember me switch
   const [isEnabled, setIsEnabled] = useState(true);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  
-  
+
+
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
@@ -28,44 +32,39 @@ const SignIn1 = ({route}) => {
     if (!email || !password) { return; }
     // setVisible(true)
 
-   const userCredential= auth().signInWithEmailAndPassword(email, password)
+    const userCredential =  auth().signInWithEmailAndPassword(email, password)
       .then((res) => {
         console.log(res)
         // Alert.alert('Congratulations', [
         //   { text: 'OK', onPress: () => { } },
         // ]);
         Alert.alert("Login Successful", userCredential.user)
-        navigation.navigate("Home",{userData: userCredential.user})
+        navigation.navigate("Home", {userData: userCredential.user,name,email,password,phone})
+        
       })
       .catch(err => {
         if (err.code === 'auth/email-already-in-use') {
           // console.log('That email address is already in use!');
           Alert.alert('That email address is already in use!')
-      }
+        }
 
-      if (err.code === 'auth/invalid-email') {
+        if (err.code === 'auth/invalid-email') {
           // console.log('That email address is invalid!');
           Alert.alert('That email address is invalid!')
-      }
-      if (err.code === 'auth/invalid-credential') {
+        }
+        if (err.code === 'auth/invalid-credential') {
           // console.log('That email address is invalid!');
           Alert.alert('Invalid Credential!')
-      }
-      if (err.code === 'auth/invalid-password') {
+        }
+        if (err.code === 'auth/invalid-password') {
           // console.log('That email address is invalid!');
           Alert.alert('Invalid Credential!')
-      }
+        }
         console.log(err)
         // Alert.alert('404 Not Found', 'Sorry! User not found. Try Again', [
         //   { text: 'OK', onPress: () => { } },
         // ]);
       })
-
-
-
-
-
-
 
 
     //firebase
@@ -103,9 +102,6 @@ const SignIn1 = ({route}) => {
   // }
 
 
-
-
-
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -127,8 +123,6 @@ const SignIn1 = ({route}) => {
 
   const navigation = useNavigation();
   const [isSecureEntry, setIsSecureEntry] = useState(true)
-
-  
 
   return (
     <View style={{ flex: 1, margin: 20, padding: 10, }}>
@@ -227,7 +221,7 @@ const SignIn1 = ({route}) => {
 
 
 
-        {/* <View>
+      {/* <View>
           <TouchableHighlight
             // onPress={() => props.navigation.navigate("ResetPassword")}
             underlayColor={'transparent'}>

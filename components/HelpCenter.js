@@ -25,10 +25,10 @@ const HelpCenter = () => {
                     Help Center
                 </Text>
                 <View style={{ marginTop: 8 }}>
-                    <Text style={{ textAlign: 'center', fontSize: 17, fontWeight: '600', color:'grey', marginHorizontal:24 }}>
+                    <Text style={{ textAlign: 'center', fontSize: 17, fontWeight: '600', color: 'grey', marginHorizontal: 24 }}>
                         Tell us how we can help <Image source={require('../assets/Icons/hand.png')} />
                     </Text>
-                    <Text style={{ textAlign: 'center', fontSize: 17, fontWeight: '600', color:'grey', marginHorizontal:24 }}>
+                    <Text style={{ textAlign: 'center', fontSize: 17, fontWeight: '600', color: 'grey', marginHorizontal: 24 }}>
                         Chapter are standing by for service & support!
                     </Text>
                 </View>
@@ -36,7 +36,7 @@ const HelpCenter = () => {
 
 
 
-            <View style={{ flexDirection: 'row',  marginTop: 40, justifyContent:'space-between',marginHorizontal:15 }}>
+            <View style={{ flexDirection: 'row', marginTop: 40, justifyContent: 'space-between', marginHorizontal: 15 }}>
 
                 <View style={{ backgroundColor: '#D7DBDD', width: 160, height: 170, borderRadius: 10, justifyContent: 'center', paddingLeft: 10 }}>
                     <View style={{ width: 50, height: 50, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderRadius: 40 }}>
@@ -46,8 +46,8 @@ const HelpCenter = () => {
                         <Text style={{ fontSize: 17, color: 'black', fontWeight: '700' }}>
                             Email
                         </Text>
-                        <Text style={{ fontSize: 16 , color:'grey'}}>
-                            Send to your email
+                        <Text style={{ fontSize: 16, color: 'grey' }}>
+                            muaazahmad001@gmail.com
                         </Text>
                     </View>
 
@@ -63,8 +63,8 @@ const HelpCenter = () => {
                         <Text style={{ fontSize: 17, color: 'black', fontWeight: '700' }}>
                             Phone Number
                         </Text>
-                        <Text style={{ fontSize: 16, color:'grey'}}>
-                            Send to your phone
+                        <Text style={{ fontSize: 16, color: 'grey' }}>
+                            +92 333 4246144
                         </Text>
                     </View>
 

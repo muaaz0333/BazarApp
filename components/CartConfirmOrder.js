@@ -7,7 +7,7 @@ import DatePicker from 'react-native-date-picker'
 
 const CartConfirmOrder = (props) => {
 
-    const [click,setClick]=useState()
+    const [click, setClick] = useState()
 
     const totalPrice = props.route.params;
     console.log(totalPrice);
@@ -43,9 +43,9 @@ const CartConfirmOrder = (props) => {
 
                 <Text style={{ fontSize: 20, color: 'black', fontWeight: '700' }}>Confirm Order</Text>
                 <TouchableOpacity
-                onPress={()=>{
-                    Alert.alert("There is no Notification")
-                }}>
+                    onPress={() => {
+                        Alert.alert("There is no Notification")
+                    }}>
                     <Image source={require("../assets/Icons/Notification.png")} />
                 </TouchableOpacity>
 
@@ -203,7 +203,7 @@ const CartConfirmOrder = (props) => {
 
                 {/* Button */}
                 <View style={{ marginVertical: 22 }}>
-                    <TouchableOpacity onPress={() => { navigation.navigate("OrderStatus") }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate("HomeSetLocation") }}>
                         <Text style={styles.order}>
                             Order
                         </Text>
@@ -238,10 +238,10 @@ const CartConfirmOrder = (props) => {
                                         Price
                                     </Text>
                                     <Text style={{ fontSize: 15, color: 'black', fontWeight: '700' }}>
-                                        $87.10
+                                        {totalPrice}
                                     </Text>
                                 </View>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 8 }}>
+                                {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 8 }}>
                                     <Text style={{ fontSize: 15, color: 'grey' }}>
                                         Squid Sweet and Sour Salad
                                     </Text>
@@ -264,7 +264,7 @@ const CartConfirmOrder = (props) => {
                                     <Text style={{ fontSize: 15, color: 'grey' }}>
                                         $27.12
                                     </Text>
-                                </View>
+                                </View> */}
                                 <View style={{ height: 1, width: 295, backgroundColor: 'silver', marginVertical: 16 }}></View>
 
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -281,7 +281,8 @@ const CartConfirmOrder = (props) => {
                                         Total Payment
                                     </Text>
                                     <Text style={{ fontSize: 15, color: 'black', fontWeight: '800' }}>
-                                        $89.10
+                                        {/* $89.10 */}
+                                        {total()}
                                     </Text>
                                 </View>
                             </View>

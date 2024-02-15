@@ -1,6 +1,6 @@
 import { View, Text, Image, Linking, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput, PermissionsAndroid, Alert } from 'react-native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
@@ -8,6 +8,13 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 
 
 const HomeSetMap = () => {
+
+  const [mLat, setMLat] = useState(0);
+  const [mLong, setMLong] = useState(0);
+
+  useEffect(() => {
+    Permission()
+  }, [])
 
   const Permission = async () => {
     try {
@@ -24,7 +31,7 @@ const HomeSetMap = () => {
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         console.log('You can use the Location');
-        getCurrentLocation()
+        // getCurrentLocation()
       } else {
         console.log('Location permission denied');
       }
@@ -38,9 +45,12 @@ const HomeSetMap = () => {
   const getCurrentLocation = () => {
     Geolocation.getCurrentPosition(
       position => {
-        const { latitude, longitude } = position.coords;
-        setCurrentLocation({ latitude, longitude })
-        console.log(latitude, longitude)
+        // const { latitude, longitude } = position.coords;
+        // setCurrentLocation({ latitude, longitude })
+        console.log(position)
+        setMLat(position.coords.latitude);
+        setMLong(position.coords.longitude);
+
       },
       error => Alert.alert(error.message),
       { enableHighAccuracy: true, timeout: 15000, }
@@ -80,40 +90,40 @@ const HomeSetMap = () => {
 
       {/* Map */}
       <View style={{ marginTop: 10, borderRadius: 20, width: '100%', height: '30%' }}>
-      <View style={{zIndex:1, flex:0.5,}}>
-      <GooglePlacesAutocomplete
-      fetchDetails={true}
-        placeholder='Search'
-        onPress={(data,details =null)=>{
-          // 'details' is provided when fetchDetails = true
-          
-          console.log(data,details);
-        }}
-        query={{
-          key:"AIzaSyAWR5l7qnyXVo7EAW2EhSiUHxt-oZr6mYA",
-          language:'en',
-        }}
-      />
-      </View>
+        {/* <View style={{ zIndex: 1, flex: 0.5, }}>
+          <GooglePlacesAutocomplete
+            fetchDetails={true}
+            placeholder='Search'
+            styles={{color:'grey',backgroundColor:'grey'}}
+            style={{color:'grey',backgroundColor:'grey'}}
+            onPress={(data, details = null) => {
+              // 'details' is provided when fetchDetails = true
+              console.log(data, details);
+            }}
+            query={{
+              key: "AIzaSyAWR5l7qnyXVo7EAW2EhSiUHxt-oZr6mYA",
+              language: 'en',
+            }}
+          />
+        </View> */}
         <MapView
-        
           provider={PROVIDER_GOOGLE}
           onPress={() => setLocationModal(!locationModal)}
-          style={{ height: '100%', width: '100%', marginTop:50,zIndex:0}}
+          style={{ height: '100%', width: '100%', marginTop: 10, zIndex: 0 }}
           initialRegion={{
-            latitude: 31.582045,
-            longitude: 74.329376,
-            latitudeDelta: 0.5,
-            longitudeDelta: 0.9,
+              latitude: 30.3753,
+              longitude: 69.3451,
+            latitudeDelta: 7.61,
+            longitudeDelta: 7.61,
           }}
         >
           <Marker
             draggable
             title='Location'
-            description='Delivery Person 1'
+            description='Your Current Location'
             coordinate={{
-              latitude: 31.569945,
-              longitude: 74.389376
+              latitude: mLat,
+              longitude: mLong
             }}
             onDragEnd={(e) => console.log({ x: e.nativeEvent.coordinate })}
           />
@@ -133,7 +143,7 @@ const HomeSetMap = () => {
           }}
         >
           <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)' }}>
-            <View style={{ flex: 1, backgroundColor: 'white', marginTop: 335, elevation: 10, borderTopLeftRadius: 50, borderTopRightRadius: 50, }}>
+            <View style={{ flex: 1, backgroundColor: 'white', marginTop: 355, elevation: 10, borderTopLeftRadius: 50, borderTopRightRadius: 50, }}>
               <View style={{ marginTop: 16, marginHorizontal: 24 }}>
                 <View>
                   <TouchableOpacity onPress={() => { setLocationModal(!locationModal) }}>
@@ -145,8 +155,9 @@ const HomeSetMap = () => {
                   <Text style={{ fontSize: 19, color: 'black', fontWeight: '700' }}>
                     Detail Address
                   </Text>
+                  {/* icon for get current location */}
                   <TouchableOpacity
-                    onPress={() => { Permission }}>
+                    onPress={() => { getCurrentLocation() }}>
                     <Image source={require('../assets/Icons/GPS-Fill.png')} />
                   </TouchableOpacity>
                 </View>
@@ -156,13 +167,16 @@ const HomeSetMap = () => {
                   </View>
                   <View style={{ marginHorizontal: 16, flex: 1 }}>
                     <Text style={{ fontWeight: '700', color: 'black', fontSize: 16 }}>
-                      Lahore, Pakistan
+                      {/* Lahore, Pakistan */}
+                      {mLat ? <Text>Latitude: {mLat}</Text> : <Text>Nothing to display</Text>}
                     </Text>
-                    <Text style={{ fontSize: 15, fontWeight: '400', color: 'grey' }}>
+                    <Text style={{ fontWeight: '700', color: 'black', fontSize: 16 }}>
+                      {/* Lahore, Pakistan */}
+                      {mLat ? <Text>Longitude: {mLong}</Text> : <Text>Nothing to display</Text>}
+                    </Text>
+                    {/* <Text style={{ fontSize: 15, fontWeight: '400', color: 'grey' }}>
                       Timber Market Ravi Road Lahore Street 2, Pakistan
-
-                    </Text>
-
+                    </Text> */}
                   </View>
                 </View>
 
@@ -187,7 +201,7 @@ const HomeSetMap = () => {
                   </TouchableOpacity>
                 </View>
 
-                <View style={{ marginTop: 80 }}>
+                <View style={{ marginTop: 40 }}>
                   <TouchableOpacity onPress={() => navigation.navigate("HomeSetLocation")}>
                     <Text style={styles.confirmationbtn}>
                       Confirmation

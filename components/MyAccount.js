@@ -114,7 +114,7 @@ const MyAccount = (props) => {
                     <TextInput
                         style={styles.input}
                         // value={userData.name}
-                        value={a.name}
+                        value={a?.name || "name"}
                         // placeholder='name'
                         placeholderTextColor={"grey"}
                         onChangeText={(text) => setUserData({ ...userData, name: text })}
@@ -123,7 +123,7 @@ const MyAccount = (props) => {
                     <TextInput
                         style={styles.input}
                         // value={userData.email}
-                        value={a.email}
+                        value={a?.email || "Email"}
                         placeholderTextColor={"grey"}
                         // placeholder='email'
                         editable={false}
@@ -133,7 +133,7 @@ const MyAccount = (props) => {
                     <TextInput
                         style={styles.input}
                         // value={userData.phone}
-                        value={a.phone}
+                        value={a?.phone || "phone"}
                         placeholderTextColor={"grey"}
                         // placeholder='phone'
                         onChangeText={(text) => setUserData({ ...userData, phone: text })}
@@ -143,7 +143,7 @@ const MyAccount = (props) => {
                         style={styles.input}
                         // secureTextEntry={isSecureEntry}
                         // value={userData.password}
-                        value={a.password}
+                        value={a?.password || "******"}
                         placeholderTextColor={"grey"}
                         // placeholder='password'
                         onChangeText={(text) => setUserData({ ...userData, password: text })}

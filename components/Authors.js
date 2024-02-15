@@ -26,7 +26,7 @@ const authorObjects = [
     Product2:
 
     {
-      productImg: require('../assets/Images/book1.png'),
+      productImg: require('../assets/Images/book3.jpg'),
       productTitle: 'Carrie Fisher',
       productPrice: '27.12'
     },
@@ -66,7 +66,7 @@ const authorObjects = [
     Product2:
 
     {
-      productImg: require('../assets/Images/book1.png'),
+      productImg: require('../assets/Images/book3.jpg'),
       productTitle: 'Carrie Fisher',
       productPrice: '27.12'
     },
@@ -106,7 +106,7 @@ const authorObjects = [
     Product2:
 
     {
-      productImg: require('../assets/Images/book1.png'),
+      productImg: require('../assets/Images/book3.jpg'),
       productTitle: 'Carrie Fisher',
       productPrice: '27.12'
     },
@@ -146,7 +146,7 @@ const authorObjects = [
     Product2:
 
     {
-      productImg: require('../assets/Images/book1.png'),
+      productImg: require('../assets/Images/book3.jpg'),
       productTitle: 'Carrie Fisher',
       productPrice: '27.12'
     },
@@ -186,7 +186,7 @@ const authorObjects = [
     Product2:
 
     {
-      productImg: require('../assets/Images/book1.png'),
+      productImg: require('../assets/Images/book3.jpg'),
       productTitle: 'Carrie Fisher',
       productPrice: '27.12'
     },
@@ -226,7 +226,7 @@ const authorObjects = [
     Product2:
 
     {
-      productImg: require('../assets/Images/book1.png'),
+      productImg: require('../assets/Images/book3.jpg'),
       productTitle: 'Carrie Fisher',
       productPrice: '27.12'
     },
@@ -266,7 +266,7 @@ const authorObjects = [
     Product2:
 
     {
-      productImg: require('../assets/Images/book1.png'),
+      productImg: require('../assets/Images/book3.jpg'),
       productTitle: 'Carrie Fisher',
       productPrice: '27.12'
     },

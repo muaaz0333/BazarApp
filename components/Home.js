@@ -133,6 +133,7 @@ const Home = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const [like, setLike] = useState(false)
+    const [likeCart, setLikeCart] = useState(false)
 
     const [cart, setCart] = useState([]);
 
@@ -370,13 +371,16 @@ const Home = (props) => {
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={{ marginLeft: 9 }}
-                                            onPress={addToCart}>
+                                            onPress={()=>{
+                                                setLikeCart(!likeCart)
+                                            }}>
                                             {/* <Image style={{ height: 25, width: 24, marginLeft: 5 }} source={require('../assets/Icons/cartIcon.png')} /> */}
                                             {
-                                                cart ?
-                                                    <Image style={{ width: 24, height: 24 }} source={require('../assets/Icons/cartIcon.png')} />
-                                                    :
+                                                likeCart ?
                                                     <Image style={{ width: 24, height: 24, tintColor: '#54408C' }} source={require('../assets/Icons/cartIconFill.png')} />
+                                                    :
+                                                    <Image style={{ width: 24, height: 24 }} source={require('../assets/Icons/cartIcon.png')} />
+                                                    
 
                                             }
                                         </TouchableOpacity>

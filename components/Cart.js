@@ -17,7 +17,7 @@ const Cart = () => {
       quantity: 1
     }, {
       id: 2,
-      image: require('../assets/Images/book1.png'),
+      image: require('../assets/Images/book3.jpg'),
       name: 'A Million to One',
       price: 32.00,
       quantity: 1

@@ -50,62 +50,7 @@ const DeliveryNotification = () => {
             </View>
 
 
-            {/* October 2021 */}
-
-            {/* <View style={{ marginTop: 24 }}>
-                <View>
-                    <Text style={{ fontSize: 18, color: 'black', fontWeight: 'bold' }}>
-                        October 2021
-                    </Text>
-                </View>
-                <View style={{ borderWidth: 1, borderColor: 'silver', marginTop: 16, borderRadius: 20, padding: 16, }}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <View>
-                            <Image style={{ width: 50, height: 50, borderRadius: 12 }} source={require('../assets/Images/book1.png')} />
-                        </View>
-                        <View style={{ marginLeft: 16 }}>
-                            <Text style={{ fontSize: 17, color: 'black', fontWeight: '700' }}>
-                                A Million To One
-                            </Text>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
-                                <Text style={{ fontSize: 15, color: '#18A057', fontWeight: '500' }}>
-                                    Delivered
-                                </Text>
-                                <View style={{ width: 7, height: 7, backgroundColor: 'silver', borderRadius: 10, marginHorizontal: 8 }}></View>
-                                <Text style={{ fontWeight: '600' }}>
-                                    1 items
-                                </Text>
-                            </View>
-                        </View>
-                    </View>
-
-
-<View style={{width:300, height:1, color:'black', marginHorizontal:10 }}></View>
-
-
-                    <View style={{ flexDirection: 'row' , marginTop:20}}>
-                        <View>
-                            <Image style={{ width: 50, height: 50, borderRadius: 12 }} source={require('../assets/Images/book1.png')} />
-                        </View>
-                        <View style={{ marginLeft: 16 }}>
-                            <Text style={{ fontSize: 17, color: 'black', fontWeight: '700' }}>
-                                A Million To One
-                            </Text>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
-                                <Text style={{ fontSize: 15, color: '#18A057', fontWeight: '500' }}>
-                                    Delivered
-                                </Text>
-                                <View style={{ width: 7, height: 7, backgroundColor: 'silver', borderRadius: 10, marginHorizontal: 8 }}></View>
-                                <Text style={{ fontWeight: '600' }}>
-                                    1 items
-                                </Text>
-                            </View>
-                        </View>
-                    </View>
-                </View>
-
-
-            </View> */}
+           
 
             <View style={{ marginTop: 24 }}>
                 <View>
@@ -117,7 +62,7 @@ const DeliveryNotification = () => {
 
                     <View style={{ flexDirection: 'row', paddingVertical: 10 }}>
                         <View>
-                            <Image style={{ width: 50, height: 50, borderRadius: 12 }} source={require('../assets/Images/book1.png')} />
+                            <Image style={{ width: 50, height: 50, borderRadius: 12 }} source={require('../assets/Images/book3.jpg')} />
                         </View>
                         <View style={{ marginLeft: 16 }}>
                             <Text style={{ fontSize: 17, color: 'black', fontWeight: '700' }}>

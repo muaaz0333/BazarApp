@@ -47,6 +47,7 @@ const App = () => {
 
     }, 1000)
 
+
     SplashScreen.hide();
   }, []);
   return (

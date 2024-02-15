@@ -11,6 +11,7 @@
 
 @end
 
+
 @implementation BazarAppTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL (^)(UIView *view))test

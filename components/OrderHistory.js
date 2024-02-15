@@ -28,7 +28,7 @@ const OrderHistory = () => {
                     <View style={{}}>
                         <View style={{ flexDirection: 'row', borderBottomWidth: 1, paddingBottom: 18, borderColor: 'silver' }}>
                             <View>
-                                <Image style={{ width: 50, height: 50, borderRadius: 12 }} source={require('../assets/Images/book1.png')} />
+                                <Image style={{ width: 50, height: 50, borderRadius: 12 }} source={require('../assets/Images/book3.jpg')} />
                             </View>
                             <View style={{ marginLeft: 16 }}>
                                 <Text style={{ fontSize: 17, color: 'black', fontWeight: '700' }}>

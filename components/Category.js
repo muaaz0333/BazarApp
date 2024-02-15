@@ -118,9 +118,7 @@ const romantic = [
 
 
 
-const Category = (props) => {
-  const a = props.route.params;
-  console.log('222222---------------',a);
+const Category = () => {
 
   const navigation = useNavigation();
 
@@ -193,13 +191,8 @@ const All = () => {
     return () => subscriber();
   }, []);
 
-  // if (loading) {
-  //       return <ActivityIndicator />;
-  //   }
-
 
   return (
-    // <View style={{ flex: 1 }}>
 
     <View style={{ marginTop: 10, marginBottom: 60, marginHorizontal: 24, alignItems: 'center', flex: 1 }}>
       <FlatList
@@ -226,55 +219,6 @@ const All = () => {
 
         )}
       />
-      {/* <FlatList
-          data={categoryBooks}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={item => item.id}
-          numColumns={2}
-          renderItem={({ item, index }) => {
-            return (
-              // <View style={{ marginLeft: 0, marginTop: 0 }}>
-              <View style={{ marginRight: 9, marginTop: 40, }}>
-                <View>
-                  <Image style={{ width: 150, height: 160, resizeMode: 'contain', borderRadius: 10 }} source={item.pic} />
-                </View>
-                <View>
-                  <Text style={{ color: 'black', fontSize: 17, fontWeight: '700', marginTop: 8 }}>
-                    {item.title}
-                  </Text>
-                </View>
-                <View>
-                  <Text style={{ color: '#54408C', fontSize: 16, fontWeight: '700', marginTop: 4 }}>
-                    ${item.price}
-                  </Text>
-                </View>
-              </View>
-              // </View> 
-            )
-          }}
-        /> */}
-
-
-
-
-      {/* <View style={{ marginLeft: 24, marginTop: 40 }}>
-        <View>
-          <Image style={{ width: 165, height: 175, resizeMode: 'center', borderRadius: 10 }} source={require('../assets/Images/categoryBook1.png')} />
-        </View>
-        <View>
-          <Text style={{ color: 'black', fontSize: 17, fontWeight: '700' }}>
-            The Da vinci Code
-          </Text>
-        </View>
-        <View>
-          <Text style={{ color: '#54408C', fontSize: 16, fontWeight: '700' }}>
-            $19.99
-          </Text>
-        </View>
-      </View> */}
-
-      {/*  </View> */}
     </View>
   )
 }

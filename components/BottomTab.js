@@ -10,10 +10,10 @@ console.log('---------------',a);
         const routeName = navigation?.getState()?.routes[navigation?.getState()?.index]?.name;
         switch (routeName) {
             case "Category":
-              navigation.navigate("Category",a);
+              navigation.navigate("Category");
                 break;
             case "Cart":
-              navigation.navigate("Cart",a);
+              navigation.navigate("Cart");
                 break;
             case "Profile":
               navigation.navigate("Profile",a);

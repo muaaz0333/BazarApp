@@ -76,7 +76,7 @@ const HomeSetLocation = () => {
             Alert.alert('Error', 'Failed to fetch location data. Please try again later.');
         }
     };
-    
+
 
 
     return (
@@ -274,19 +274,19 @@ const HomeSetLocation = () => {
 
             <View style={{ marginVertical: 22 }}>
                 <TouchableOpacity
-                    onPress={handleSearch}
-                // onPress={validDataLogin}
+                    // onPress={handleSearch}
+                    onPress={validDataLogin}
                 >
                     <Text style={styles.confirmation}>
                         Confirmation
                     </Text>
                 </TouchableOpacity>
             </View>
-            {region && (
+            {/* {region && (
                 <MapView style={{ flex: 1 }} region={region}>
                     <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }} />
                 </MapView>
-            )}
+            )} */}
 
 
         </ScrollView>

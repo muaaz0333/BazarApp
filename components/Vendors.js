@@ -6,63 +6,6 @@ import firestore from '@react-native-firebase/firestore';
 
 const Tab = createMaterialTopTabNavigator();
 
-const vendorObjects = [
-    {
-        id: '1',
-        image: require('../assets/Images/VFrame1.png'),
-        title: 'Haymarket',
-        ratingStars: 4,
-    },
-    {
-        id: '2',
-        image: require('../assets/Images/VFrame2.png'),
-        title: 'Peloton',
-        ratingStars: 4,
-    },
-    {
-        id: '3',
-        image: require('../assets/Images/VFrame3.png'),
-        title: 'Jstor',
-        ratingStars: 4,
-    },
-    {
-        id: '4',
-        image: require('../assets/Images/VFrame4.png'),
-        title: 'Peppa Pig',
-        ratingStars: 4,
-    },
-    {
-        id: '5',
-        image: require('../assets/Images/VFrame5.png'),
-        title: 'Warehouse',
-        ratingStars: 2,
-    },
-    {
-        id: '6',
-        image: require('../assets/Images/VFrame6.png'),
-        title: 'GooDay',
-        ratingStars: 4,
-    },
-    {
-        id: '7',
-        image: require('../assets/Images/VFrame7.png'),
-        title: 'Crane & Co',
-        ratingStars: 4,
-    },
-    {
-        id: '8',
-        image: require('../assets/Images/VFrame8.png'),
-        title: 'Kuromi',
-        ratingStars: 5,
-    },
-    {
-        id: '9',
-        image: require('../assets/Images/VFrame9.png'),
-        title: 'Wattpad',
-        ratingStars: 3,
-    },
-]
-
 const Vendors = () => {
     const navigation = useNavigation();
 
@@ -142,8 +85,6 @@ const All = () => {
         // Unsubscribe from events when no longer in use
         return () => subscriber();
     }, []);
-
-
 
     return (
         <View style={{ flex: 1, marginHorizontal: 24 }}>
@@ -228,166 +169,8 @@ const All = () => {
                         </View>
                     )}
                 />
-                {/* <FlatList
-                    data={vendorObjects}
-                    numColumns={3}
-                    showsHorizontalScrollIndicator={false}
-                    keyExtractor={itemsss => itemsss.id}
-
-                    renderItem={({ item, index }) => {
-                        return (
-                            <View style={{ marginRight: 8, marginBottom: 10,marginVertical:15 }}>
-                                <View style={{ backgroundColor: '#fff' }}>
-                                    <Image
-                                        style={{ width: 99, height: 100, resizeMode: 'contain' }}
-                                        source={item.image} />
-                                </View>
-                                <View style={{ marginTop: 5, marginBottom:3 }}>
-                                    <Text style={{ fontSize: 17, fontWeight: '600', color: 'black' }}>{item.title}</Text>
-                                </View>
-                                <View style={{marginTop:5}}>
-                                    {
-                                        item.ratingStars == 1 ?
-                                            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                                                <Image source={require('../assets/Icons/StarYellow.png')} />
-                                                <Image source={require('../assets/Icons/Star.png')} />
-                                                <Image source={require('../assets/Icons/Star.png')} />
-                                                <Image source={require('../assets/Icons/Star.png')} />
-                                                <Image source={require('../assets/Icons/Star.png')} />
-                                            </View>
-                                            :
-                                            null
-                                    }
-                                    {
-                                        item.ratingStars == 2 ?
-                                            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                                                <Image source={require('../assets/Icons/StarYellow.png')} />
-                                                <Image source={require('../assets/Icons/StarYellow.png')} />
-                                                <Image source={require('../assets/Icons/Star.png')} />
-                                                <Image source={require('../assets/Icons/Star.png')} />
-                                                <Image source={require('../assets/Icons/Star.png')} />
-                                            </View>
-                                            :
-                                            null
-                                    }
-                                    {
-                                        item.ratingStars == 3 ?
-                                            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                                                <Image source={require('../assets/Icons/StarYellow.png')} />
-                                                <Image source={require('../assets/Icons/StarYellow.png')} />
-                                                <Image source={require('../assets/Icons/StarYellow.png')} />
-                                                <Image source={require('../assets/Icons/Star.png')} />
-                                                <Image source={require('../assets/Icons/Star.png')} />
-                                            </View>
-                                            :
-                                            null
-                                    }
-                                    {
-                                        item.ratingStars == 4 ?
-                                            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                                                <Image source={require('../assets/Icons/StarYellow.png')} />
-                                                <Image source={require('../assets/Icons/StarYellow.png')} />
-                                                <Image source={require('../assets/Icons/StarYellow.png')} />
-                                                <Image source={require('../assets/Icons/StarYellow.png')} />
-                                                <Image source={require('../assets/Icons/Star.png')} />
-                                            </View>
-                                            :
-                                            null
-                                    }
-                                    {
-                                        item.ratingStars == 5 ?
-                                            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                                                <Image source={require('../assets/Icons/StarYellow.png')} />
-                                                <Image source={require('../assets/Icons/StarYellow.png')} />
-                                                <Image source={require('../assets/Icons/StarYellow.png')} />
-                                                <Image source={require('../assets/Icons/StarYellow.png')} />
-                                                <Image source={require('../assets/Icons/StarYellow.png')} />
-                                            </View>
-                                            :
-                                            null
-                                    }
-                                </View>
-                            </View>
-                        )
-                    }}
-                /> */}
+               
             </View>
-
-
-            {/* <View>
-            <View style={{ backgroundColor: '#E5E7E9', height: 101, width: 101, marginRight: 15, alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
-                <Image
-                    style={{ width: 90, height: 68, resizeMode: 'contain' }}
-                    source={require('../assets/Images/Frame1.png')} />
-            </View>
-            <View style={{ marginTop: 8 }}>
-                <Text style={{ fontSize: 17, fontWeight:'600', color:'black' }}>Crane & Co</Text>
-            </View>
-            <View style={{flexDirection:'row', alignItems:'center'}}>
-                {
-                    ratingStars == 1 ? 
-                    <View>
-                        <Image source={require('../assets/Icons/StarYellow.png')}/>
-                        <Image source={require('../assets/Icons/Star.png')}/>
-                        <Image source={require('../assets/Icons/Star.png')}/>
-                        <Image source={require('../assets/Icons/Star.png')}/>
-                        <Image source={require('../assets/Icons/Star.png')}/>
-                    </View>
-                    :
-                    null
-                }
-                {
-                    ratingStars == 2 ? 
-                    <View>
-                        <Image source={require('../assets/Icons/StarYellow.png')}/>
-                        <Image source={require('../assets/Icons/StarYellow.png')}/>
-                        <Image source={require('../assets/Icons/Star.png')}/>
-                        <Image source={require('../assets/Icons/Star.png')}/>
-                        <Image source={require('../assets/Icons/Star.png')}/>
-                    </View>
-                    :
-                    null
-                }
-                {
-                    ratingStars == 3 ? 
-                    <View>
-                        <Image source={require('../assets/Icons/StarYellow.png')}/>
-                        <Image source={require('../assets/Icons/StarYellow.png')}/>
-                        <Image source={require('../assets/Icons/StarYellow.png')}/>
-                        <Image source={require('../assets/Icons/Star.png')}/>
-                        <Image source={require('../assets/Icons/Star.png')}/>
-                    </View>
-                    :
-                    null
-                }
-                {
-                    ratingStars == 4 ? 
-                    <View>
-                        <Image source={require('../assets/Icons/StarYellow.png')}/>
-                        <Image source={require('../assets/Icons/StarYellow.png')}/>
-                        <Image source={require('../assets/Icons/StarYellow.png')}/>
-                        <Image source={require('../assets/Icons/StarYellow.png')}/>
-                        <Image source={require('../assets/Icons/Star.png')}/>
-                    </View>
-                    :
-                    null
-                }
-                {
-                    ratingStars == 5 ? 
-                    <View>
-                        <Image source={require('../assets/Icons/StarYellow.png')}/>
-                        <Image source={require('../assets/Icons/StarYellow.png')}/>
-                        <Image source={require('../assets/Icons/StarYellow.png')}/>
-                        <Image source={require('../assets/Icons/StarYellow.png')}/>
-                        <Image source={require('../assets/Icons/StarYellow.png')}/>
-                    </View>
-                    :
-                    null
-                }
-            </View>
-            </View>         */}
-
-
         </View>
     )
 }
@@ -521,9 +304,6 @@ const Poems = () => {
         </View>
     )
 }
-
-
-
 
 export default Vendors
 

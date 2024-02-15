@@ -131,9 +131,12 @@ const Cart = () => {
       </View>
       <View style={{ position: 'absolute', width: '100%', backgroundColor: 'white', bottom: 0, paddingVertical: 6 }}>
         <View style={{ flexDirection: 'row', marginHorizontal: 15, justifyContent: 'space-between', alignItems: 'center' }}>
-          <TouchableOpacity onPress={() => navigation.navigate("CartConfirmOrder")}
+          <TouchableOpacity onPress={() => navigation.navigate("CartConfirmOrder",[totalPrice])}
             style={{ backgroundColor: '#54408C', borderRadius: 20, marginVertical: 0, paddingVertical: 7, alignSelf: 'center', }}
           >
+          {/* <Text>
+            {totalPrice}
+          </Text> */}
             <Text style={{ textAlign: 'center', marginHorizontal: 40, color: 'white', fontSize: 17, fontWeight: 'bold' }}>Check Out</Text>
           </TouchableOpacity>
           <Text style={{ textAlign: 'center', marginVertical: 10, fontSize: 18, fontWeight: 'bold', color: "grey" }}>Total Price: ${totalPrice.toFixed(2)}</Text>

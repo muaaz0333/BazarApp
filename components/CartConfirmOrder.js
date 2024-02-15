@@ -1,13 +1,26 @@
-import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput, Button } from 'react-native'
+import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput, Button, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker'
 
 
 
-const CartConfirmOrder = () => {
+const CartConfirmOrder = (props) => {
+
+    const [click,setClick]=useState()
+
+    const totalPrice = props.route.params;
+    console.log(totalPrice);
+
     const [date, setDate] = useState(new Date())
     const [open, setOpen] = useState(false)
+
+    const total = () => {
+        // const shipping = 2;
+        const totalPayment = 2 + Number(totalPrice);
+        return totalPayment
+    }
+
     // const [selectedDate, setSelectedDate] = useState('');
     // const handleDateChange = (date) => {
     //     setSelectedDate(date);
@@ -29,7 +42,10 @@ const CartConfirmOrder = () => {
 
 
                 <Text style={{ fontSize: 20, color: 'black', fontWeight: '700' }}>Confirm Order</Text>
-                <TouchableOpacity>
+                <TouchableOpacity
+                onPress={()=>{
+                    Alert.alert("There is no Notification")
+                }}>
                     <Image source={require("../assets/Icons/Notification.png")} />
                 </TouchableOpacity>
 
@@ -52,10 +68,10 @@ const CartConfirmOrder = () => {
                         </View>
                         <View style={{ marginHorizontal: 16, flex: 1 }}>
                             <Text style={{ fontWeight: '700', color: 'black', fontSize: 16 }}>
-                                Lahore, Pakistan
+                                Pakistan
                             </Text>
                             <Text style={{ fontSize: 15, fontWeight: '400', color: 'grey' }}>
-                                Timber Market Ravi Road Lahore Street 2, Pakistan
+                                Select your Delivery Location by clicking Change button
                             </Text>
                             <View style={{ marginTop: 16 }}>
                                 <TouchableOpacity onPress={() => navigation.navigate("HomeSetMap")}>
@@ -85,7 +101,7 @@ const CartConfirmOrder = () => {
                             Price
                         </Text>
                         <Text style={{ fontSize: 15, color: 'black' }}>
-                            $87.10
+                            ${totalPrice}
                         </Text>
                     </View>
 
@@ -105,7 +121,8 @@ const CartConfirmOrder = () => {
                             Total Payment
                         </Text>
                         <Text style={{ fontSize: 15, color: 'black', fontWeight: '800' }}>
-                            $89.10
+                            {/* $89.10 */}
+                            {total()}
                         </Text>
                     </View>
 
@@ -369,7 +386,7 @@ const CartConfirmOrder = () => {
                                 </Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 16, justifyContent: 'space-between', marginHorizontal: 24, alignSelf: 'center' }}>
-                                <View style={{ borderWidth: 1, borderColor: '#54408C', paddingVertical: 25, paddingHorizontal: 21, borderRadius: 8 }}>
+                                {/* <View style={{ borderWidth: 1, borderColor: '#54408C', paddingVertical: 25, paddingHorizontal: 21, borderRadius: 8 }}>
                                     <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign: 'center' }}>
                                         Today
                                     </Text>
@@ -377,28 +394,16 @@ const CartConfirmOrder = () => {
                                         12 Jan
                                     </Text>
 
-                                </View>
-
-                                <View style={{ borderWidth: 1, borderColor: 'silver', marginLeft: 7, paddingVertical: 25, paddingHorizontal: 21, borderRadius: 8 }}>
-                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign: 'center' }}>
-                                        Tomorrow
-                                    </Text>
-                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign: 'center' }}>
-                                        12 Jan
-                                    </Text>
-
-                                </View>
-                                {/* 
-                                <View style={{ borderWidth: 1, borderColor: 'silver', marginLeft: 7, paddingVertical: 25, paddingHorizontal: 21, borderRadius: 8 }}>
-                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign:'center' }}>
-                                        Pick
-                                    </Text>
-                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black' , textAlign:'center'}}>
-                                         a date
-                                    </Text>
                                 </View> */}
 
-                                <View style={{ borderWidth: 1, borderColor: 'silver', marginLeft: 7, paddingVertical: 25, paddingHorizontal: 21, borderRadius: 8 }}>
+                                <View style={{ borderWidth: 1, borderColor: 'silver', marginLeft: 7, paddingHorizontal: 21, borderRadius: 8, alignSelf: 'center', paddingVertical: 50 }}>
+                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign: 'center' }}>
+                                        {/* 12 Jan */}
+                                        {date.toDateString()}
+                                    </Text>
+                                </View>
+
+                                <View style={{ borderWidth: 1, borderColor: 'silver', marginLeft: 20, paddingVertical: 25, paddingHorizontal: 21, borderRadius: 8 }}>
                                     <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold' }}>Select Date</Text>
                                     <TouchableOpacity
                                         onPress={() => setOpen(true)}
@@ -428,25 +433,30 @@ const CartConfirmOrder = () => {
                             </View>
 
                             <View style={{ flexDirection: 'row', marginTop: 16, justifyContent: 'space-between', marginHorizontal: 24, alignSelf: 'center' }}>
-                                <View style={{ borderWidth: 1, borderColor: '#54408C', paddingVertical: 25, paddingHorizontal: 28, borderRadius: 8 }}>
-                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign: 'center' }}>
-                                        Between
-                                    </Text>
-                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black' }}>
-                                        10PM : 11PM
-                                    </Text>
 
-                                </View>
 
-                                <View style={{ borderWidth: 1, borderColor: 'silver', marginLeft: 7, paddingVertical: 25, paddingHorizontal: 28, borderRadius: 8 }}>
-                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign: 'center' }}>
-                                        Between
-                                    </Text>
-                                    <Text style={{ fontSize: 16, fontWeight: '700', color: 'black' }}>
-                                        10PM : 11PM
-                                    </Text>
+                                <TouchableOpacity>
+                                    <View style={{ borderWidth: 1, borderColor: '#54408C', paddingVertical: 25, paddingHorizontal: 28, borderRadius: 8 }}>
+                                        <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign: 'center' }}>
+                                            Between
+                                        </Text>
+                                        <Text style={{ fontSize: 16, fontWeight: '700', color: 'black' }}>
+                                            6:00PM : 11:00PM
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
 
-                                </View>
+                                <TouchableOpacity>
+                                    <View style={{ borderWidth: 1, borderColor: 'silver', marginLeft: 7, paddingVertical: 25, paddingHorizontal: 28, borderRadius: 8 }}>
+                                        <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign: 'center' }}>
+                                            Between
+                                        </Text>
+                                        <Text style={{ fontSize: 16, fontWeight: '700', color: 'black' }}>
+                                            6:00AM : 12:00AM
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+
                             </View>
 
                             <View style={{ marginTop: 25 }}>
@@ -489,7 +499,7 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         borderRadius: 30,
         fontWeight: '600',
-        marginHorizontal: 0,
+        marginHorizontal: 3,
 
     },
     datePicker: {

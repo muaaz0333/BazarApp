@@ -109,40 +109,41 @@ const Cart = () => {
   return (
     <View style={{ flex: 1 }}>
       <Text style={{ marginBottom: 5, fontSize: 20, fontWeight: '800', textAlign: 'center', marginHorizontal: 90, color: 'black', marginTop: 20 }}>My Cart</Text>
-      <View style={{flex:1, marginBottom:101}}>
-      <SwipeListView
-        showsVerticalScrollIndicator={false}
-        data={cartItems}
-        renderItem={({ item }) => (
-          <CartItem
-            item={item}
-            onInc={() => incNum(item.id)}
-            onDec={() => decNum(item.id)}
-            onChange={(quantity) => handleChange(quantity, item.id)}
-          />
-        )}
-        renderHiddenItem={({ item }) => (
-          <HiddenItem onDelete={() => deleteItem(item.id)} />
-        )}
-        leftOpenValue={75}
-        rightOpenValue={-150}
-        disableRightSwipe
-      />
+      <View style={{ flex: 1, marginBottom: 143 }}>
+        <SwipeListView
+          showsVerticalScrollIndicator={false}
+          data={cartItems}
+          renderItem={({ item }) => (
+            <CartItem
+              item={item}
+              onInc={() => incNum(item.id)}
+              onDec={() => decNum(item.id)}
+              onChange={(quantity) => handleChange(quantity, item.id)}
+            />
+          )}
+          renderHiddenItem={({ item }) => (
+            <HiddenItem onDelete={() => deleteItem(item.id)} />
+          )}
+          leftOpenValue={75}
+          rightOpenValue={-150}
+          disableRightSwipe
+        />
       </View>
+
+
       <View style={{ position: 'absolute', width: '100%', backgroundColor: 'white', bottom: 0, paddingVertical: 6 }}>
-        <View style={{ flexDirection: 'row', marginHorizontal: 15, justifyContent: 'space-between', alignItems: 'center' }}>
-          <TouchableOpacity onPress={() => navigation.navigate("CartConfirmOrder",[totalPrice])}
-            style={{ backgroundColor: '#54408C', borderRadius: 20, marginVertical: 0, paddingVertical: 7, alignSelf: 'center', }}
+        <View style={{ flexDirection: 'column', marginHorizontal: 15, justifyContent: 'space-between', alignItems: 'center' }}>
+          <Text style={{ textAlign: 'center', marginVertical: 7, fontSize: 18, fontWeight: 'bold', color: "grey" }}>Total Price: ${totalPrice.toFixed(2)}</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("CartConfirmOrder", [totalPrice])}
+            style={{ backgroundColor: '#54408C', borderRadius: 20, marginVertical: 0, paddingVertical: 10, alignSelf: 'center',marginBottom:6 }}
           >
-          {/* <Text>
-            {totalPrice}
-          </Text> */}
-            <Text style={{ textAlign: 'center', marginHorizontal: 40, color: 'white', fontSize: 17, fontWeight: 'bold' }}>Check Out</Text>
+            <Text style={{ textAlign: 'center', marginHorizontal: 110, color: 'white', fontSize: 17, fontWeight: 'bold' }}>Check Out</Text>
           </TouchableOpacity>
-          <Text style={{ textAlign: 'center', marginVertical: 10, fontSize: 18, fontWeight: 'bold', color: "grey" }}>Total Price: ${totalPrice.toFixed(2)}</Text>
         </View>
         <BottomTab />
       </View>
+
+
     </View>
   );
 };
@@ -155,13 +156,13 @@ const CartItem = ({ item, onInc, onDec, onChange }) => {
 
   return (
     <View style={{
-      marginHorizontal: 13, flexDirection: 'row', marginVertical:8,
+      marginHorizontal: 13, flexDirection: 'row', marginVertical: 8,
       borderRadius: 20, backgroundColor: '#fff', elevation: 8,
-      paddingHorizontal:10,flex:1
+      paddingHorizontal: 10, flex: 1
     }}>
       <View style={{
         flexDirection: 'row', alignItems: 'center',
-          paddingVertical: 10, flex: 1
+        paddingVertical: 10, flex: 1
       }}>
         <Image style={{ height: 90, width: 80, borderRadius: 10, resizeMode: 'stretch' }} source={item.image} />
         <View style={{ flexDirection: 'column', marginLeft: 8 }}>

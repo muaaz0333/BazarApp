@@ -23,7 +23,7 @@ const ProfileLocation = () => {
             <View View style={{ position: 'absolute', width: '100%', backgroundColor: 'white', bottom: 5, paddingVertical: 6 }}>
                 <TouchableOpacity onPress={() => { navigation.navigate("HomeSetLocation") }}>
                     <Text style={styles.order}>
-                        Add Payment Method
+                        Add Address
                     </Text>
                 </TouchableOpacity>
             </View>

@@ -1,17 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, TextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import firestore from '@react-native-firebase/firestore';
-import auth, { firebase } from '@react-native-firebase/auth';
+
 const MyAccount = (props) => {
-
-    const a = props.route.params;
-    console.log('MyAccount---------------',a);
-
     const navigation = useNavigation();
-    const [isSecureEntry, setIsSecureEntry] = useState(true);
     const [selectedImage, setSelectedImage] = useState('');
     const [userData, setUserData] = useState({
         name: '',
@@ -21,44 +15,35 @@ const MyAccount = (props) => {
     });
 
     useEffect(() => {
-        fetchUserData();
-        loadSelectedImage();
+        if (props.route.params) {
+            const { name, email, phone, password } = props.route.params;
+            storeData({ name, email, phone, password }); // Store data from props in AsyncStorage
+            setUserData({ name, email, phone, password }); // Set data from props to state
+        }
+        loadData(); // Load data from AsyncStorage
+        loadSelectedImage(); // Load selected image from AsyncStorage
     }, []);
 
-    // Firebase
-    const fetchUserData = async () => {
+    const storeData = async (data) => {
         try {
-
-            // const currentUser = firebase.auth().currentUser;
-            // if (currentUser) {
-            //     const userId = currentUser.uid;
-            //     console.log('User ID:', userId); 
-            //     const userDoc = await firebase.firestore().collection('Users_Profile').doc(currentUser.uid).get();
-            //     if (userDoc.exists) {
-            //         const userData = userDoc.data();
-            //         setUserData(userData);
-            //     } else {
-            //         Alert.alert('User data not found');
-            //     }
-            // } else {
-                // Alert.alert('User not logged in');
-            // }
-
-
-            const userCollection = firebase.firestore().collection('Users_Profile');
-            const userQuerySnapshot = await userCollection.get();
-            if (!userQuerySnapshot.empty) {
-                const userData = userQuerySnapshot.docs[0].data();
-                setUserData(userData);
-            } else {
-                Alert.alert('User data not found');
-            }
+            await AsyncStorage.setItem('userData', JSON.stringify(data));
         } catch (error) {
-            console.error('Error fetching user data:', error);
+            console.error('Error storing data in AsyncStorage:', error);
         }
     };
 
-    // image with async storage
+    const loadData = async () => {
+        try {
+            const userDataJSON = await AsyncStorage.getItem('userData');
+            if (userDataJSON) {
+                const userData = JSON.parse(userDataJSON);
+                setUserData(userData);
+            }
+        } catch (error) {
+            console.error('Error loading data from AsyncStorage:', error);
+        }
+    };
+
     const loadSelectedImage = async () => {
         try {
             const value = await AsyncStorage.getItem('selectedImage');
@@ -67,14 +52,6 @@ const MyAccount = (props) => {
             }
         } catch (error) {
             console.error('Error loading selected image from AsyncStorage:', error);
-        }
-    };
-
-    const saveSelectedImage = async (imageUri) => {
-        try {
-            await AsyncStorage.setItem('selectedImage', imageUri);
-        } catch (error) {
-            console.error('Error saving selected image to AsyncStorage:', error);
         }
     };
 
@@ -87,9 +64,16 @@ const MyAccount = (props) => {
         });
     };
 
+    const saveSelectedImage = async (imageUri) => {
+        try {
+            await AsyncStorage.setItem('selectedImage', imageUri);
+        } catch (error) {
+            console.error('Error saving selected image to AsyncStorage:', error);
+        }
+    };
+
     return (
         <ScrollView>
-    
             <View style={styles.container}>
                 <View style={styles.appBar}>
                     <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
@@ -109,43 +93,32 @@ const MyAccount = (props) => {
 
                 <View style={styles.userDataContainer}>
                     <Text style={styles.label}>Name:</Text>
-                    
-                    {/* <Text>User Data: {JSON.stringify(userData)}</Text> */}
                     <TextInput
                         style={styles.input}
-                        // value={userData.name}
-                        value={a?.name || "name"}
-                        // placeholder='name'
+                        value={userData?.name || "name"}
                         placeholderTextColor={"grey"}
                         onChangeText={(text) => setUserData({ ...userData, name: text })}
                     />
                     <Text style={styles.label}>Email:</Text>
                     <TextInput
                         style={styles.input}
-                        // value={userData.email}
-                        value={a?.email || "Email"}
+                        value={userData?.email || "email"}
                         placeholderTextColor={"grey"}
-                        // placeholder='email'
                         editable={false}
                         onChangeText={(text) => setUserData({ ...userData, email: text })}
                     />
                     <Text style={styles.label}>Phone Number:</Text>
                     <TextInput
                         style={styles.input}
-                        // value={userData.phone}
-                        value={a?.phone || "phone"}
+                        value={userData?.phone || "phone"}
                         placeholderTextColor={"grey"}
-                        // placeholder='phone'
                         onChangeText={(text) => setUserData({ ...userData, phone: text })}
                     />
                     <Text style={styles.label}>Password:</Text>
                     <TextInput
                         style={styles.input}
-                        // secureTextEntry={isSecureEntry}
-                        // value={userData.password}
-                        value={a?.password || "******"}
+                        value={userData?.password || "password"}
                         placeholderTextColor={"grey"}
-                        // placeholder='password'
                         onChangeText={(text) => setUserData({ ...userData, password: text })}
                     />
                 </View>

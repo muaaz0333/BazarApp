@@ -1,60 +1,63 @@
-import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, ScrollView, Modal, Alert, TextInput } from 'react-native'
-import React, { useState, useEffect } from 'react'
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Modal, Alert, TextInput } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomTab from './BottomTab';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { NavigationContainer } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
-
 const Profile = (props) => {
-  const a = props.route.params;
-  console.log('Profile section ---------------',a);
   const navigation = useNavigation();
+  const a = props.route.params;
+  console.log('Profile section ---------------', a);
   const [logout, setLogout] = useState(false);
-
-  const validDataLogin = async () => {
-    auth().signOut()
-      .then(() => {
-        Alert.alert("User Signed Out")
-      })
-      .catch((error) => {
-        Alert.alert(error)
-      })
-    navigation.navigate("SignIn1")
-  }
-
-
   const [userData, setUserData] = useState({
     name: '',
     phone: ''
   });
+
   useEffect(() => {
-    fetchUserData();
-  }, []);
-  const fetchUserData = async () => {
+    if (a) {
+      storeData(a);
+    }
+    fetchData();
+  }, [a]);
+
+  const storeData = async (data) => {
     try {
-      const userCollection = firestore().collection('Users_Profile');
-      const userQuerySnapshot = await userCollection.limit(1).get();
-      if (!userQuerySnapshot.empty) {
-        const userData = userQuerySnapshot.docs[0].data();
-        setUserData(userData);
-      } else {
-        Alert.alert('User data not found');
-      }
+      await AsyncStorage.setItem('userData', JSON.stringify(data));
     } catch (error) {
-      console.error('Error fetching user data:', error);
+      console.error('Error storing data in AsyncStorage:', error);
     }
   };
 
-  // console.log('222222---------------',a);
+  const fetchData = async () => {
+    try {
+      const userDataJSON = await AsyncStorage.getItem('userData');
+      if (userDataJSON) {
+        const userData = JSON.parse(userDataJSON);
+        setUserData(userData);
+      }
+    } catch (error) {
+      console.error('Error fetching data from AsyncStorage:', error);
+    }
+  };
 
-
+  const validDataLogin = async () => {
+    auth().signOut()
+    .then(() => {
+      Alert.alert("User Signed Out")
+    })
+    .catch((error) => {
+      Alert.alert(error)
+    })
+  navigation.navigate("SignIn1")
+  };
 
   return (
     <View style={{ flex: 1 }}>
-
       <View style={{ marginTop: 30 }}>
         <Text style={{ fontSize: 21, textAlign: 'center', fontWeight: '700', color: 'black' }}>
           Profile
@@ -69,20 +72,14 @@ const Profile = (props) => {
           <View style={{ marginLeft: 15 }}>
             <TextInput
               style={styles.input}
-              // value={userData.name}
-              value={a?.name || "name"}
-              onChangeText={(text) => setUserData({ ...userData, name: text })}
+              value={userData.name || "name"}
               editable={false}
             />
             <TextInput
               style={{ fontSize: 16, color: 'grey' }}
-              // value={userData.phone}
-              value={a?.phone || "phone"}
-              onChangeText={(text) => setUserData({ ...userData, phone: text })}
+              value={userData.phone || "phone"}
               editable={false}
             />
-            {/* <Text style={{ fontSize: 18, color: 'black', fontWeight: '700' }}>Your Name</Text> */}
-            {/* <Text style={{ fontSize: 16, color: 'grey' }}>(+92) 333 4246144</Text> */}
           </View>
         </View>
         <View>
@@ -94,10 +91,9 @@ const Profile = (props) => {
         </View>
       </View>
 
+      {/* Rest of your JSX */}
 
-
-
-      <TouchableOpacity onPress={() => navigation.navigate("MyAccount",a)}>
+      <TouchableOpacity onPress={() => navigation.navigate("MyAccount", a)}>
 
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 25, marginTop: 0, width: '100%', paddingVertical: 17, justifyContent: 'space-between' }}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -116,8 +112,6 @@ const Profile = (props) => {
           </View>
         </View>
       </TouchableOpacity>
-
-
 
 
       <TouchableOpacity onPress={() => navigation.navigate("ProfileLocation")}>
@@ -212,6 +206,7 @@ const Profile = (props) => {
 
 
 
+
       <TouchableOpacity onPress={() => navigation.navigate("HelpCenter")}>
 
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 25, marginTop: 0, width: '100%', paddingVertical: 17, justifyContent: 'space-between', marginBottom: 100 }}>
@@ -233,6 +228,8 @@ const Profile = (props) => {
       </TouchableOpacity>
 
 
+
+      {/* Modal */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -276,29 +273,25 @@ const Profile = (props) => {
                   </TouchableOpacity>
                 </View>
               </View>
-
             </View>
           </View>
         </View>
       </Modal>
 
-
-
       <View style={{ position: 'absolute', width: '100%', backgroundColor: 'white', bottom: 0, paddingVertical: 6 }}>
         <BottomTab />
       </View>
-    </View>
-  )
-}
 
-export default Profile
+    </View>
+  );
+};
+
+export default Profile;
 
 const styles = StyleSheet.create({
   btnlogout: {
     backgroundColor: '#54408C',
     textAlign: 'center',
-    // marginLeft: 24,
-    // marginRight: 24,
     color: 'white',
     borderRadius: 35,
     fontSize: 19,
@@ -308,8 +301,6 @@ const styles = StyleSheet.create({
   btncancel: {
     backgroundColor: 'white',
     textAlign: 'center',
-    // marginLeft: 24,
-    // marginRight: 24,
     color: '#54408C',
     borderRadius: 35,
     fontSize: 19,
@@ -321,4 +312,4 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '700'
   }
-})
+});

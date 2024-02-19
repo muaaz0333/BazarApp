@@ -9,12 +9,52 @@ const ProfileLocation = () => {
     return (
         <View style={{ flex: 1 }}>
             {/* Appbar */}
-            <View style={{ alignItems: 'center',marginTop:10 }}>
+            <View style={{ alignItems: 'center', marginTop: 10 }}>
                 <Text style={{ fontSize: 20, color: 'black', fontWeight: '800' }}>Add</Text>
             </View>
 
 
+            <View style={{ marginHorizontal: 24, marginTop: 15 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text style={{ color: '#54408c', fontWeight: '700', fontSize: 18 }}>🏠 Home</Text>
+                    <TouchableOpacity
+                    onPress={()=>{
+                        navigation.navigate("HomeSetLocation")
+                    }}>
+                        <Image style={{ tintColor: 'black', height: 20, width: 20 }} source={require('../assets/Icons/Plus.png')} />
+                    </TouchableOpacity>
+                </View>
+            </View>
 
+            <View style={{marginHorizontal:24, marginTop:16,borderWidth:1.5,padding:10,borderRadius:10,flexDirection:'row', justifyContent:'space-between'}}>
+                <View style={{flexDirection:'row'}}>
+                    <Text style={{fontSize:16, color:'black', fontWeight:'700'}}>City:  </Text>
+                    <Text style={{fontSize:16, color:'black', fontWeight:'400'}}>Lahore</Text>
+                </View>
+                <TouchableOpacity>
+                    <Text style={{color:'red'}}>🗑</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={{marginHorizontal:24, marginTop:16,borderWidth:1.5,padding:10,borderRadius:10,flexDirection:'row', justifyContent:'space-between'}}>
+                <View style={{flexDirection:'row'}}>
+                    <Text style={{fontSize:16, color:'black', fontWeight:'700'}}>City:  </Text>
+                    <Text style={{fontSize:16, color:'black', fontWeight:'400'}}>AJK</Text>
+                </View>
+                <TouchableOpacity>
+                    <Text style={{color:'red'}}>🗑</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={{marginHorizontal:24, marginTop:16,borderWidth:1.5,padding:10,borderRadius:10,flexDirection:'row', justifyContent:'space-between'}}>
+                <View style={{flexDirection:'row'}}>
+                    <Text style={{fontSize:16, color:'black', fontWeight:'700'}}>City:  </Text>
+                    <Text style={{fontSize:16, color:'black', fontWeight:'400'}}>Mirpur</Text>
+                </View>
+                <TouchableOpacity>
+                    <Text style={{color:'red'}}>🗑</Text>
+                </TouchableOpacity>
+            </View>
 
 
 

@@ -2,10 +2,14 @@ import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, StyleSheet, 
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker'
+import SelectDropdown from 'react-native-select-dropdown'
 
 
 
 const CartConfirmOrder = (props) => {
+
+    const countries = ["Pakistan", "Palestine", "Canada", "Australia", "Ireland"]
+
 
     const [click, setClick] = useState()
 
@@ -30,6 +34,7 @@ const CartConfirmOrder = (props) => {
     const [paymentModalVisible, setPaymentModalVisible] = useState(false);
     const [selectPModalVisible, setSelectPModalVisible] = useState(false);
     const [dateModalVisible, setDateModalVisible] = useState(false);
+    const [addPayment, setAddPayment] = useState(false);
 
     return (
         <View style={{ flex: 1, marginHorizontal: 24 }}>
@@ -71,7 +76,7 @@ const CartConfirmOrder = (props) => {
                                 Pakistan
                             </Text>
                             <Text style={{ fontSize: 15, fontWeight: '400', color: 'grey' }}>
-                                Select your Delivery Location by clicking Change button
+                                Select your Delivery Location by click Change button
                             </Text>
                             <View style={{ marginTop: 16 }}>
                                 <TouchableOpacity onPress={() => navigation.navigate("HomeSetMap")}>
@@ -205,7 +210,7 @@ const CartConfirmOrder = (props) => {
                 <View style={{ marginVertical: 22 }}>
                     <TouchableOpacity onPress={() => { navigation.navigate("HomeSetLocation") }}>
                         <Text style={styles.order}>
-                            Order
+                            Proceed
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -311,7 +316,7 @@ const CartConfirmOrder = (props) => {
 
                             <View style={{ marginTop: 16 }}>
                                 <Text style={{ fontSize: 19, color: 'black', fontWeight: '700' }}>
-                                    Your Payments
+                                    Select Payment Methods
                                 </Text>
                             </View>
 
@@ -336,7 +341,7 @@ const CartConfirmOrder = (props) => {
                             </TouchableOpacity>
 
 
-                            <TouchableOpacity style={{ borderWidth: 2, marginTop: 17, borderRadius: 20, borderColor: 'silver' }}>
+                            {/* <TouchableOpacity style={{ borderWidth: 2, marginTop: 17, borderRadius: 20, borderColor: 'silver' }}>
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 25, marginTop: 0, width: '100%', paddingVertical: 20, justifyContent: 'space-between' }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -349,18 +354,162 @@ const CartConfirmOrder = (props) => {
                                     </View>
 
                                     <View style={{}}>
-                                        <View>
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                navigation.navigate("CreditCard")
+                                            }}>
                                             <Image source={require('../assets/Icons/nextarrow.png')} />
-                                        </View>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
 
+                            <ScrollView
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                style={{ marginTop: 17 }}>
+                                <View style={{ flexDirection: "row" }}>
+
+                                    <View style={{ height: 75, width: 110, backgroundColor: '#F0F3F4', justifyContent: 'center', marginRight: 13, elevation: 10 }}>
+                                        <TouchableOpacity style={{ height: 30, width: 30, borderWidth: 2, borderRadius: 15, alignItems: 'center', alignSelf: 'center', justifyContent: 'center', borderColor: 'grey' }}
+                                            onPress={() => {
+                                                setAddPayment(!addPayment)
+                                            }}>
+                                            <Image style={{ tintColor: 'grey' }} source={require("../assets/Icons/Plus.png")} />
+                                        </TouchableOpacity>
+                                    </View>
+
+                                    <TouchableOpacity style={{ height: 75, width: 110, backgroundColor: '#F4F6F7', justifyContent: 'center', marginRight: 10, elevation: 10 ,
+                                    borderWidth:2.2,borderColor:"green",borderRadius:5}}>
+                                        <View style={{ height: 30, width: 30, borderWidth: 2, borderRadius: 15, alignItems: 'center', alignSelf: 'center', justifyContent: 'center' }}>
+                                            <Image style={{ height: 50, width: 50 }} source={require("../assets/Icons/visa.png")} />
+                                        </View>
+                                    </TouchableOpacity>
+
+                                </View>
+                            </ScrollView>
+
+                            <TouchableOpacity style={{ marginTop: 30 }} onPress={() => { setSelectPModalVisible(!selectPModalVisible) }}>
+                                <Text style={styles.order}>
+                                    OK
+                                </Text>
+                            </TouchableOpacity>
 
                         </View>
                     </View>
                 </View>
             </Modal>
+
+
+            {/* Add Payment Modal */}
+            <Modal
+                animationType='slide'
+                transparent={true}
+                visible={addPayment}
+                onRequestClose={() => {
+                    setAddPayment(!addPayment)
+                }}>
+                <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                    <View style={{ flex: 1, backgroundColor: 'white', marginTop: 285, elevation: 10, borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
+                        <ScrollView 
+                        showsVerticalScrollIndicator={false}
+                        style={{ marginTop: 16, marginHorizontal: 15 }}>
+
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setAddPayment(!addPayment)
+                                }}>
+                                <Image style={{ height: 25, width: 25 }} source={require("../assets/Icons/cross.png")} />
+                            </TouchableOpacity>
+
+                            <View style={{ marginTop: 8 }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 21, color: 'black' }}>Add your payment information</Text>
+                            </View>
+
+                            <View style={{ marginTop: 15 }}>
+                                <Text style={{ fontWeight: '700', color: 'grey' }}>Card information</Text>
+                            </View>
+
+                            <View style={{ marginTop: 4, flexDirection: 'row', alignItems: 'center', borderWidth: 1.5, borderTopLeftRadius: 7, borderTopRightRadius: 7, borderColor: 'grey' }}>
+                                <TextInput
+                                    placeholder='Card number'
+                                    placeholderTextColor={"grey"}
+                                    inputMode='numeric'
+                                    style={{ color: 'grey', padding: 8, flex: 1 }}
+                                />
+                                <View>
+                                    <Image style={{ width: 25, height: 25 }} source={require("../assets/Icons/card.png")} />
+                                </View>
+                            </View>
+
+                            <View style={{ marginTop: 0 }}>
+                                <TextInput
+                                    placeholder='MM/YY'
+                                    placeholderTextColor={"grey"}
+                                    inputMode='numeric'
+                                    style={{ borderWidth: 1.5, color: 'grey', padding: 8, borderColor: 'grey' }}
+                                />
+                            </View>
+
+                            <View style={{ marginTop: 0, alignItems: 'center', flexDirection: 'row', borderColor: 'grey', borderBottomLeftRadius: 7, borderBottomRightRadius: 7, borderWidth: 1.5, }}>
+                                <TextInput
+                                    placeholder='CVC'
+                                    inputMode='numeric'
+                                    placeholderTextColor={"grey"}
+                                    style={{ color: 'grey', padding: 8, flex: 1 }}
+                                />
+                                <View>
+                                    <Image style={{ width: 25, height: 25, }} source={require("../assets/Icons/card.png")} />
+                                </View>
+                            </View>
+
+                            <View style={{ marginTop: 18 }}>
+                                <Text style={{ fontWeight: '700', color: 'grey' }}>
+                                    Country or region
+                                </Text>
+                            </View>
+
+                            <View style={{ borderWidth: 1, flexDirection: "row", alignItems: 'center', backgroundColor: '#F0F3F4', borderTopLeftRadius: 7, borderTopRightRadius: 7 }}>
+                                <SelectDropdown
+                                    style={{ flex: 1 }}
+                                    data={countries}
+                                    onSelect={(selectedItem, index) => {
+                                        console.log(selectedItem, index)
+                                    }}
+                                    buttonTextAfterSelection={(selectedItem, index) => {
+                                        return selectedItem
+                                    }}
+                                    rowTextForSelection={(item, index) => {
+                                        return item
+                                    }}
+                                />
+                                <View>
+                                    <Image style={{ width: 20, height: 20, }} source={require("../assets/Icons/downArrow.png")} />
+                                </View>
+                            </View>
+
+                            <View style={{ marginTop: 0 }}>
+                                <TextInput
+                                    placeholder='ZIP'
+                                    placeholderTextColor={"grey"}
+                                    inputMode='numeric'
+                                    style={{ borderWidth: 1.5, color: 'grey', padding: 8, borderColor: 'grey', borderBottomLeftRadius: 7, borderBottomRightRadius: 7, }}
+                                />
+                            </View>
+
+                            <View style={{ marginVertical: 22 }}>
+                                <TouchableOpacity onPress={() => { setAddPayment(!addPayment) }}>
+                                    <Text style={styles.order}>
+                                        Add Payment Method
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+
+                        </ScrollView>
+                    </View>
+                </View>
+            </Modal>
+
 
             {/* Date Modal */}
             <Modal
@@ -427,7 +576,7 @@ const CartConfirmOrder = (props) => {
 
                             </View>
 
-                            <View style={{ marginTop: 19, marginHorizontal: 24 }}>
+                            <View style={{ marginTop: 16, marginHorizontal: 24 }}>
                                 <Text style={{ fontSize: 19, color: 'black', fontWeight: '700' }}>
                                     Delivery time
                                 </Text>
@@ -437,7 +586,7 @@ const CartConfirmOrder = (props) => {
 
 
                                 <TouchableOpacity>
-                                    <View style={{ borderWidth: 1, borderColor: '#54408C', paddingVertical: 25, paddingHorizontal: 28, borderRadius: 8 }}>
+                                    <View style={{ borderWidth: 1, borderColor: '#54408C', paddingVertical: 25, paddingHorizontal: 15, borderRadius: 8 }}>
                                         <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign: 'center' }}>
                                             Between
                                         </Text>
@@ -448,7 +597,7 @@ const CartConfirmOrder = (props) => {
                                 </TouchableOpacity>
 
                                 <TouchableOpacity>
-                                    <View style={{ borderWidth: 1, borderColor: 'silver', marginLeft: 7, paddingVertical: 25, paddingHorizontal: 28, borderRadius: 8 }}>
+                                    <View style={{ borderWidth: 1, borderColor: 'silver', marginLeft: 7, paddingVertical: 25, paddingHorizontal: 15, borderRadius: 8 }}>
                                         <Text style={{ fontSize: 16, fontWeight: '700', color: 'black', textAlign: 'center' }}>
                                             Between
                                         </Text>
@@ -460,7 +609,7 @@ const CartConfirmOrder = (props) => {
 
                             </View>
 
-                            <View style={{ marginTop: 25 }}>
+                            <View style={{ marginTop: 20 }}>
                                 <TouchableOpacity onPress={() => setDateModalVisible(!dateModalVisible)} >
                                     <Text style={styles.order}>
                                         Confirm
@@ -500,7 +649,7 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         borderRadius: 30,
         fontWeight: '600',
-        marginHorizontal: 3,
+        marginHorizontal: 13,
 
     },
     datePicker: {

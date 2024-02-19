@@ -120,7 +120,7 @@ const Profile = (props) => {
 
 
 
-      <TouchableOpacity onPress={() => navigation.navigate("HomeSetMap")}>
+      <TouchableOpacity onPress={() => navigation.navigate("ProfileLocation")}>
 
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 25, marginTop: 0, width: '100%', paddingVertical: 17, justifyContent: 'space-between' }}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>

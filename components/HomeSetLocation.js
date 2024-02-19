@@ -90,7 +90,7 @@ const HomeSetLocation = () => {
 
 
                 <Text style={{ fontSize: 20, color: 'black', fontWeight: '700' }}>Location</Text>
-                <TouchableOpacity onPress={() => { }}>
+                <TouchableOpacity onPress={() => {navigation.navigate("HomeSetMap") }}>
                     <Image source={require("../assets/Icons/GPS-Fill.png")} />
                 </TouchableOpacity>
             </View>

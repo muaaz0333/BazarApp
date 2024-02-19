@@ -10,7 +10,7 @@ const CartNotification = () => {
     return (
         <View style={{ flex: 1 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 23, marginHorizontal: 24 }}>
-                <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
+                <TouchableOpacity onPress={() => navigation.navigate("Category")}>
                     <Image source={require("../assets/Icons/Arrow_Left.png")} style={{ tintColor: 'black' }} />
                 </TouchableOpacity>
                 <View style={{ marginRight: 120 }}>

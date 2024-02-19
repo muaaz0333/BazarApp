@@ -35,6 +35,8 @@ import HelpCenter from './components/HelpCenter';
 import Offers from './components/Offers';
 import DetailNewsPromos from './components/DetailNewsPromos';
 import Books from './components/Books';
+import CreditCard from './components/CreditCard';
+import ProfileLocation from './components/ProfileLocation';
 
 // import SplashScreen from 'react-native-splash-screen'
 
@@ -117,6 +119,10 @@ const App = () => {
           <Stack.Screen name="Offers" component={Offers} options={{ headerShown: false }} />
 
           <Stack.Screen name="Books" component={Books} options={{ headerShown: false }} />
+
+          <Stack.Screen name="CreditCard" component={CreditCard} options={{ headerShown: false }} />
+
+          <Stack.Screen name="ProfileLocation" component={ProfileLocation} options={{ headerShown: false }} />
 
         </Stack.Navigator>
       </NavigationContainer>

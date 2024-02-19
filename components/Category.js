@@ -131,7 +131,10 @@ const Category = () => {
 
 
         <Text style={{ fontSize: 20, color: 'black', fontWeight: '800' }}>Category</Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+        onPress={()=>{
+          navigation.navigate("CartNotification")
+        }}>
           <Image source={require("../assets/Icons/Notification.png")} />
         </TouchableOpacity>
 

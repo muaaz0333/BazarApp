@@ -11,7 +11,6 @@ const Books = () => {
 
     const navigation = useNavigation();
 
-
     // Books
     // const [loading, setLoading] = useState(true); // Set loading to true on component mount
     const [books, setBooks] = useState([]); // Initial empty array of users
@@ -165,30 +164,9 @@ const Books = () => {
                     numColumns={2}
                     renderItem={({ item }) => (
                         filterData(item)
-                        // <TouchableOpacity
-                        //     style={{ marginHorizontal: 5 }}
-                        //     onPress={() => openModal(item.Image, item.Name, item.VendorImg, item.About, item.Rating, item.Price, item.RatingStars)}>
-                        //     <View style={{ marginRight: 9, marginTop: 10, }}>
-                        //         <View>
-                        //             <Image style={styles.image2} source={{ uri: item.Image }} />
-                        //         </View>
-                        //         <View>
-                        //             <Text style={{ color: 'black', fontSize: 17, fontWeight: '700', marginTop: 4 }}>
-                        //                 {item.Name}
-                        //             </Text>
-                        //         </View>
-                        //         <View>
-                        //             <Text style={{ color: '#54408C', fontSize: 16, fontWeight: '700', marginTop: 2 }}>
-                        //                 ${item.Price}
-                        //             </Text>
-                        //         </View>
-                        //     </View>
-                        // </TouchableOpacity>
-
                     )}
                 />
             </View>
-
 
             <Modal
                 animationType="slide"

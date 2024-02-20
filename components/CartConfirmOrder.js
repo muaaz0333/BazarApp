@@ -591,7 +591,7 @@ const CartConfirmOrder = (props) => {
                                             Between
                                         </Text>
                                         <Text style={{ fontSize: 16, fontWeight: '700', color: 'black' }}>
-                                            6:00PM : 11:00PM
+                                            1:00PM : 8:00PM
                                         </Text>
                                     </View>
                                 </TouchableOpacity>
@@ -602,7 +602,7 @@ const CartConfirmOrder = (props) => {
                                             Between
                                         </Text>
                                         <Text style={{ fontSize: 16, fontWeight: '700', color: 'black' }}>
-                                            6:00AM : 12:00AM
+                                            10:00AM : 12:00PM
                                         </Text>
                                     </View>
                                 </TouchableOpacity>

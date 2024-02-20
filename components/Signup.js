@@ -10,32 +10,6 @@ import { doc, setDoc } from "@react-native-firebase/firestore"
 
 const Signup = () => {
 
-    const form=(text)=>{
-        setContextData(text)
-        navigation.navigate("SignIn1")
-    }
-
-    // const saveUser = () => {
-    //     const userId = uuid.v4()
-    //     firestore()
-    //         .collection('users')
-    //         .doc(userId)
-    //         .set({
-    //             name: name,
-    //             email: email,
-    //             password: password,
-    //             userId: userId,
-    //             cart: [],
-    //         })
-    //         .then(res => {
-    //             // navigation.goBack();
-    //         })
-    //         .catch(error => {
-    //             console.log(error)
-    //         })
-    // }
-
-
     const [visible, setVisible] = useState(false);
 
     const [nameError, setNameError] = useState(false);
@@ -64,13 +38,6 @@ const Signup = () => {
             .then(() => {
                 console.log('User added!');
             });
-        // const UserRef = doc(db, "User_Profile", auth.currentUser.userId)
-        // await setDoc(UserRef, {
-        //     name,
-        //     phone,
-        //     email,
-        //     password
-        // });
     }
 
 
@@ -93,11 +60,8 @@ const Signup = () => {
             }
             dataStore()
 
-            // Alert.alert("User Created with credentials\n" + email, fPassword + "\n\n Please Login")
             firebase.auth().currentUser.sendEmailVerification()
                 .then(() => {
-                    // Alert.alert("Code sent Successfully")
-                    // navigation.navigate("VerificationEmail", { email: email })
                 })
                 .catch((error) => {
                     Alert.alert(error)
@@ -117,68 +81,13 @@ const Signup = () => {
 
                 console.error(error);
             })
-
-        // var user = firebase.auth().currentUser;
-        // user.sendEmailVerification()
-        //     .then(function () {
-        //         Alert.alert("Code Sent Successfully", "Check your Mail Box")
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error)
-        //     })
-        // Update userData context with user details
-       
-
     }
-
-
-
-
 
     const navigation = useNavigation();
     const [isSecureEntry, setIsSecureEntry] = useState(true)
-    // const [password, setPassword] = useState('');
-    // const [suggestions, setSuggestions] = useState([]);
-    // const [strength, setStrength] = useState('');
-    // const validatePassword = (input) => {
-    //     let newSuggestions = [];
-    //     if (input.length < 8) {
-    //         newSuggestions.push('Minimum 8 Characters')
-    //     }
-    //     if (!/\d/.test(input)) {
-    //         newSuggestions.push('Atleast 1 number (1-9)')
-    //     }
-
-    //     if (!/[A-Z]/.test(input) || !/[a-z]/.test(input)) {
-    //         newSuggestions.push('Atleast lowercase or uppercase letters')
-    //     }
-
-    //     // if (!/[^A-Za-z0-9]/.test(input)) {
-    //     //     newSuggestions.push('Include at least one special character')
-
-
-    //     setSuggestions(newSuggestions);
-
-    //     // Determine password strength based on suggestions 
-    //     if (newSuggestions.length === 0) {
-    //         setStrength('Very Strong');
-    //     }
-    //     else if (newSuggestions.length <= 1) {
-    //         setStrength('Strong')
-    //     }
-    //     else if (newSuggestions.length <= 2) {
-    //         setStrength('Moderate')
-    //     }
-    //     else if (newSuggestions.length <= 3) {
-    //         setStrength('Weak')
-    //     }
-    //     else {
-    //         setStrength('Too Weak')
-    //     }
-    // }
 
     return (
-        <ScrollView style={{ flex: 1, margin: 20, padding: 10, }}
+        <ScrollView style={{ flex: 1, marginHorizontal: 20, padding: 10,marginTop:10 }}
             showsVerticalScrollIndicator={false}>
             <View style={{ alignSelf: 'flex-start', marginTop: 13 }}>
                 <TouchableOpacity style={styles.skiptxt} onPress={() => { }}>
@@ -187,7 +96,7 @@ const Signup = () => {
             </View>
 
             <View>
-                <Text style={{ fontSize: 23, color: "#121212", fontWeight: 'bold', marginTop: 25, lineHeight: 27 }}>
+                <Text style={{ fontSize: 23, color: "#121212", fontWeight: 'bold', marginTop: 18, lineHeight: 27 }}>
                     Sign Up
                 </Text>
             </View>
@@ -213,7 +122,7 @@ const Signup = () => {
             {nameError ? <Text style={styles.error}>Please enter name.</Text> : null}
 
             <View>
-                <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 10 }}>
+                <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 7 }}>
                     Phone No:
                 </Text>
             </View>
@@ -230,7 +139,7 @@ const Signup = () => {
             {phoneError ? <Text style={styles.error}>Please enter valid phone number.</Text> : null}
 
             <View>
-                <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 10 }}>
+                <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 7 }}>
                     Email:
                 </Text>
             </View>
@@ -249,7 +158,7 @@ const Signup = () => {
             {emailError ? <Text style={styles.error}>Please enter email.</Text> : null}
 
             <View>
-                <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 10 }}>
+                <Text style={{ color: '#121212', fontSize: 15, fontWeight: 'bold', marginTop: 7 }}>
                     Password:
                 </Text>
             </View>
@@ -278,33 +187,6 @@ const Signup = () => {
             </View>
             {passwordError ? <Text style={styles.error}>Please enter password.</Text> : null}
 
-            {/* <View style={{ marginTop: 12 }}> */}
-            {/* <Text style={styles.strengthText}>
-                    Password Strength: {strength}
-                </Text> */}
-            {/* <Text style={styles.suggestionsText}>
-                    {suggestions.map((suggestion, index) => (
-                        <Text key={index}>
-                            {suggestion}{'\n'}
-                        </Text>))}
-                </Text> */}
-            {/* <View style={styles.strengthMeter}> */}
-            {/* <View style={{
-                        width: `${(strength === 'Very Strong' ? 100 :
-                            (strength === 'Strong' ? 75 :
-                                (strength === 'Moderate' ? 50 :
-                                    (strength === 'Weak' ? 25 : 0))))}%`,
-                        height: 20,
-                        backgroundColor: strength === 'Too Weak' ? 'red' :
-                            (strength === 'Weak' ? 'orange' :
-                                (strength === 'Moderate' ? 'yellow' :
-                                    (strength === 'Strong' ? 'green' : 'limegreen')))
-                    }}>
-                    </View> */}
-            {/* </View> */}
-            {/* </View> */}
-
-
             <View style={{ marginTop: 12 }}>
                 <TouchableOpacity 
                 
@@ -319,7 +201,7 @@ const Signup = () => {
                 </View>
             </View>
 
-            <View style={{ marginTop: 25 }}>
+            <View style={{ marginTop: 20 }}>
                 <Text style={{ textAlign: 'center', color: 'grey', fontSize: 14, fontWeight: '500' }}>
                     By clicking Register, you agree to our
                 </Text>

@@ -10,6 +10,17 @@ const { height, width } = Dimensions.get('window')
 let userId = '';
 const Home = (props) => {
 
+    // increase or decrease the quantity
+    const [quantity, setQuantity] = useState(1);
+    const handleIncrement = () => {
+        setQuantity(prevQuantity => prevQuantity + 1);
+    };
+    const handleDecrement = () => {
+        if (quantity > 1) {
+            setQuantity(prevQuantity => prevQuantity - 1);
+        }
+    };
+
     // console.log(name, phone, email, password)
 
     // TopSliders
@@ -471,21 +482,25 @@ const Home = (props) => {
                             </View>
 
                             <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-                                <View style={{ backgroundColor: '#E8E8E8', width: 24, height: 24, borderRadius: 12, justifyContent: 'center', alignItems: 'center' }}>
+                                <TouchableOpacity style={{ backgroundColor: '#E8E8E8', width: 24, height: 24, borderRadius: 12, justifyContent: 'center', alignItems: 'center' }}
+                                    onPress={handleDecrement}
+                                >
                                     <Image style={{ tintColor: 'black' }} source={require('../assets/Icons/Minus.png')} />
-                                </View>
+                                </TouchableOpacity>
 
                                 <View>
-                                    <Text style={{ fontSize: 18, color: 'black', fontWeight: '700', marginHorizontal: 13 }}> 1 </Text>
+                                    <Text style={{ fontSize: 18, color: 'black', fontWeight: '700', marginHorizontal: 13 }}> {quantity} </Text>
                                 </View>
 
-                                <View style={{ backgroundColor: '#54408C', width: 24, height: 24, borderRadius: 12, justifyContent: 'center', alignItems: 'center' }}>
+                                <TouchableOpacity style={{ backgroundColor: '#54408C', width: 24, height: 24, borderRadius: 12, justifyContent: 'center', alignItems: 'center' }}
+                                    onPress={handleIncrement}
+                                >
                                     <Image source={require('../assets/Icons/Plus.png')} />
-                                </View>
+                                </TouchableOpacity>
 
                                 <View>
                                     <Text style={{ color: '#54408C', fontSize: 15, fontWeight: '700', marginLeft: 17 }}>
-                                        $ {price}
+                                        $ {price * quantity}
                                     </Text>
                                 </View>
                             </View>

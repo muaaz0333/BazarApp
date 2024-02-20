@@ -14,7 +14,6 @@ const ProfileLocation = () => {
                 <Text style={{ fontSize: 20, color: 'black', fontWeight: '800' }}>Address</Text>
             </View>
 
-
             <View style={{ marginHorizontal: 24, marginTop: 15, borderWidth: 1.5, padding: 10, borderRadius: 10, borderColor: 'silver' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text style={{ color: '#54408c', fontWeight: '700', fontSize: 18 }}>🏠 Home</Text>

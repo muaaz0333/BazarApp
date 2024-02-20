@@ -306,7 +306,7 @@ const CartConfirmOrder = (props) => {
                 }}
             >
                 <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
-                    <View style={{ flex: 1, backgroundColor: 'white', marginTop: 400, elevation: 10, borderTopLeftRadius: 50, borderTopRightRadius: 50, }}>
+                    <View style={{ flex: 1, backgroundColor: 'white', marginTop: 380, elevation: 10, borderTopLeftRadius: 50, borderTopRightRadius: 50, }}>
                         <View style={{ marginTop: 16, marginHorizontal: 24 }}>
                             <View>
                                 <TouchableOpacity onPress={() => setSelectPModalVisible(false)}>
@@ -410,7 +410,7 @@ const CartConfirmOrder = (props) => {
                     setAddPayment(!addPayment)
                 }}>
                 <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
-                    <View style={{ flex: 1, backgroundColor: 'white', marginTop: 285, elevation: 10, borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
+                    <View style={{ flex: 1, backgroundColor: 'white', marginTop: 255, elevation: 10, borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
                         <ScrollView 
                         showsVerticalScrollIndicator={false}
                         style={{ marginTop: 16, marginHorizontal: 15 }}>

@@ -13,7 +13,7 @@ const CartNotification = () => {
                 <TouchableOpacity onPress={() => navigation.navigate("Category")}>
                     <Image source={require("../assets/Icons/Arrow_Left.png")} style={{ tintColor: 'black' }} />
                 </TouchableOpacity>
-                <View style={{ marginRight: 120 }}>
+                <View style={{ marginHorizontal: 86 }}>
                     <Text style={{ fontSize: 20, color: 'black', fontWeight: '800' }}>Notifications</Text>
                 </View>
             </View>
